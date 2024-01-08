@@ -1,0 +1,34 @@
+{
+    "cards": [
+        {
+            "codigo": 1,
+            "nome": "Empresarial RE",
+            "somatorio": 89,
+            "mediaDia": 70,
+            "mediaHora": 70,
+            "porcentagemDia": 28,
+            "porcentagemHora": 29,
+            "dataAtualizacao": "12/07/2023 15:15"
+        },
+        {
+            "codigo": 2,
+            "nome": "Residencial RE",
+            "somatorio": 89,
+            "mediaDia": 70,
+            "mediaHora": 70,
+            "porcentagemDia": 28,
+            "porcentagemHora": 29,
+            "dataAtualizacao": "12/07/2023 15:15"
+        },
+        {
+            "codigo": 3,
+            "nome": "Residencial MDU",
+            "somatorio": 89,
+            "mediaDia": 70,
+            "mediaHora": 70,
+            "porcentagemDia": 28,
+            "porcentagemHora": 29,
+            "dataAtualizacao": "12/07/2023 15:15"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+  "port"       : 1433,
+  "server"    : "35.247.231.34",
+  "user"      : "neosyx",
+  "password"  : "@g0r@0ununc@",
+  "database"  : "BDRechamadasGeral",
+  "stream"    : false,
+  "options": {
+    "trustedConnection"       : true,
+    "encrypt"                 : true,
+    "enableArithAbort"        : true,
+    "trustServerCertificate"  : true    
+  }
+} 

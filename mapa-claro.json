@@ -1,0 +1,103 @@
+{
+    "conteudo": [
+        {
+            "codigo": 1,
+            "name": "União_26",
+            "fill": "#b62c2c",
+            "x": "55%",
+            "y": "88%",
+            "label": 0,
+            "isMassivo": "true"
+        },
+        {
+            "codigo": 2,
+            "name": "União_26",
+            "fill": "#b62c2c",
+            "x": "40%",
+            "y": "20%",
+            "label": 0,
+            "isMassivo": "true"
+        },
+        {
+            "codigo": 3,
+            "name": "União_26",
+            "fill": "##2cb638",
+            "x": "90%",
+            "y": "28%",
+            "label": 0,
+            "isMassivo": "true"
+        },
+        {
+            "codigo": 4,
+            "name": "União_26",
+            "fill": "#b62c2c",
+            "x": "53%",
+            "y": "48%",
+            "label": 0,
+            "isMassivo": "true"
+        },
+        {
+            "codigo": 5,
+            "name": "União_26",
+            "fill": "##2cb638",
+            "x": "82%",
+            "y": "67%",
+            "label": 0,
+            "isMassivo": "true"
+        },
+        {
+            "codigo": 6,
+            "name": "União_26",
+            "fill": "##2cb638",
+            "x": "77%",
+            "y": "57%",
+            "label": 0,
+            "isMassivo": "true"
+        },
+        {
+            "codigo": 7,
+            "name": "União_26",
+            "fill": "#b62c2c",
+            "x": "59%",
+            "y": "74%",
+            "label": 0,
+            "isMassivo": "true"
+        },
+        {
+            "codigo": 8,
+            "name": "União_26",
+            "fill": "##2cb638",
+            "x": "85%",
+            "y": "42%",
+            "label": 0,
+            "isMassivo": "true"
+        },
+        {
+            "codigo": 9,
+            "name": "União_26",
+            "fill": "#b62c2c",
+            "x": "62%",
+            "y": "80%",
+            "label": 0,
+            "isMassivo": "true"
+        },
+        {
+            "codigo": 10,
+            "name": "União_26",
+            "fill": "##2cb638",
+            "x": "65%",
+            "y": "66%",
+            "label": 0,
+            "isMassivo": "true"
+        },
+        {
+            "codigo": 11,
+            "name": "União_26",
+            "fill": "#b62c2c",
+            "x": "70%",
+            "y": "71%",
+            "label": 0,
+            "isMassivo": "true"
+        }
+    ]
+}

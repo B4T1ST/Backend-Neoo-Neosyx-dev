@@ -1,0 +1,16 @@
+{
+    "ponteiro": [
+        {
+            "id": 5,
+            "cMercado": 3,
+            "indice": 96,
+            "produto": "ESRT5"
+        },
+        {
+            "id": 6,
+            "cMercado": 3,
+            "indice": 87,
+            "produto": "ESRT4"
+        }
+    ]
+}

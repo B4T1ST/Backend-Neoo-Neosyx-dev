@@ -1,0 +1,14 @@
+{
+  "port"       : 1433,
+  "server"    : "172.16.201.130",
+  "user"      : "usr_coletores",
+  "password"  : "Neosyx@2023",
+  "database"  : "BDRechamadasGeral",
+  "stream"    : false,
+  "options": {
+    "trustedConnection"       : true,
+    "encrypt"                 : true,
+    "enableArithAbort"        : true,
+    "trustServerCertificate"  : true    
+  }
+} 
