@@ -43,13 +43,13 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
         console.log('procedura retorna cards orimeira request')
 
         // Requisição do banco
-        let resultCards = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Sup_Digital_Retorna_Cards')
+        // let resultCards = await pool.request()
+        //     //define os parametros
+        //     .input('almope', sql.VarChar, almope)
+        //     .input('dataInicial', sql.DateTime, dataInicial)
+        //     .input('dataFinal', sql.DateTime, dataFinal)
+        //     .input('cComparativo', sql.Int, cComparativo)
+        //     .execute('s_Sup_Digital_Retorna_Cards')
 
         console.log(resultCards)
 
@@ -112,7 +112,7 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
 
 
         let retorno = {
-            cards: resultCards?.recordset,
+            //cards: resultCards?.recordset,
             dias: resultDia?.recordset,
             tabela: agruparTabela(resultTabela?.recordset),
             tabelaAgrupada: agruparGrafico(resultTabelaAgrup?.recordset),
