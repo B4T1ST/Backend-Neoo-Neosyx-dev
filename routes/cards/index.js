@@ -82,13 +82,13 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
             .input('cComparativo', sql.Int, cComparativo)
             .execute('s_Sup_Digital_Retorna_Grafico_Torta')
 
-        let resultTermometro = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Sup_Digital_Retorna_KPI')
+        // let resultTermometro = await pool.request()
+        //     //define os parametros
+        //     .input('almope', sql.VarChar, almope)
+        //     .input('dataInicial', sql.DateTime, dataInicial)
+        //     .input('dataFinal', sql.DateTime, dataFinal)
+        //     .input('cComparativo', sql.Int, cComparativo)
+        //     .execute('s_Monitoramento_Agentes_Retorna_Termometro')
 
         let resultGrafico = await pool.request()
             //define os parametros
@@ -118,7 +118,7 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
             tabelaAgrupada: agruparGrafico(resultTabelaAgrup?.recordset),
             torta: resultTorta?.recordset,
             grafico: resultGrafico?.recordset,
-            termometro: resultTermometro?.recordset[0],
+            //termometro: resultTermometro?.recordset[0],
             usuario: resultUsuario?.recordset[0],
             dataAtualizacao: resultDataAtualizacao.recordset
         };

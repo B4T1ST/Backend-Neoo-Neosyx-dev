@@ -82,14 +82,14 @@ app.use(`${nginsxTag}/fileView`, fileView);
 app.use(`${nginsxTag}/avatar`, avatarRouter);
 
 //rota de cards
-app.use(`${nginsxTag}/gestaoPerfomace`, cardsRouter);
+app.use(`${nginsxTag}/gestaoPerformace`, cardsRouter);
 
 //rota do grafico torta
 // app.use('/graficoTorta', tortaRouter );
 
 -//app.use(`${nginsxTag}/supervisaoDigital/feedbackHistorico`, feedbackHistoricoRouter)
 
-app.use(`${nginsxTag}/gestaoPerfomace/feedback`, feedbackRouter)
+app.use(`${nginsxTag}/gestaoPerformace/feedback`, feedbackRouter)
 
 //carrega as rotas
 // app.get(`${nginsxTag}/lagin`, (req, res) => res.send('Hallo World!'));
