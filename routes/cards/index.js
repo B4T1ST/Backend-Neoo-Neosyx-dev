@@ -51,7 +51,6 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
         //     .input('cComparativo', sql.Int, cComparativo)
         //     .execute('s_Sup_Digital_Retorna_Cards')
 
-        console.log(resultCards)
 
         let resultDia = await pool.request()
             //define os parametros
