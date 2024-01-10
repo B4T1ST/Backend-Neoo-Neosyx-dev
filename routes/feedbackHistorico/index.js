@@ -67,9 +67,7 @@ async function retornaDados(almope, dataInicial, dataFinal, res){
         let resultFeedBackHistorico = await pool.request()
             // Define os parâmetros
             .input('almope', sql.VarChar, almope)
-            .input('dataInicial', sql.VarChar(10), dataInicial)
-            .input('dataFinal', sql.VarChar(10), dataFinal)
-            .execute('s_Sup_Digital_Retorna_Feedback_Historico_V5')
+            .execute('s_Sup_Digital_Retorna_Feedback_Historico_V6')
         
         // Retorna o primeiro conjunto de resultados (index 0)
         let retorno = {

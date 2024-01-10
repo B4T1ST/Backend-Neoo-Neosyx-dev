@@ -73,13 +73,10 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
             .input('cComparativo', sql.Int, cComparativo)
             .execute('s_Sup_Digital_Retorna_Tabela')
 
-        // let resultTorta = await pool.request()
-        //     //define os parametros
-        //     .input('almope', sql.VarChar, almope)
-        //     .input('dataInicial', sql.DateTime, dataInicial)
-        //     .input('dataFinal', sql.DateTime, dataFinal)
-        //     .input('cComparativo', sql.Int, cComparativo)
-        //     .execute('s_Sup_Digital_Retorna_Grafico_Torta')
+        let resultFeedBackHistorico = await pool.request()
+            // Define os parâmetros
+            .input('almope', sql.VarChar, almope)
+            .execute('s_Sup_Digital_Retorna_Feedback_Historico_V6')
 
         let resultTermometro = await pool.request()
             //define os parametros
@@ -113,6 +110,7 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
         let retorno = {
             //cards: resultCards?.recordset,
             torta: resultCards?.recordset,
+            feedbackHistorico: resultFeedBackHistorico.recordset,
             dias: resultDia?.recordset,
             tabela: agruparTabela(resultTabela?.recordset),
             tabelaAgrupada: agruparGrafico(resultTabelaAgrup?.recordset),
