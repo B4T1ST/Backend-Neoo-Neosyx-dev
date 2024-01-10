@@ -43,13 +43,13 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
         console.log('procedura retorna cards orimeira request')
 
         // Requisição do banco
-        // let resultCards = await pool.request()
-        //     //define os parametros
-        //     .input('almope', sql.VarChar, almope)
-        //     .input('dataInicial', sql.DateTime, dataInicial)
-        //     .input('dataFinal', sql.DateTime, dataFinal)
-        //     .input('cComparativo', sql.Int, cComparativo)
-        //     .execute('s_Sup_Digital_Retorna_Cards')
+        let resultCards = await pool.request()
+            //define os parametros
+            .input('almope', sql.VarChar, almope)
+            .input('dataInicial', sql.DateTime, dataInicial)
+            .input('dataFinal', sql.DateTime, dataFinal)
+            .input('cComparativo', sql.Int, cComparativo)
+            .execute('s_Sup_Digital_Retorna_Indicador_V2')
 
 
         let resultDia = await pool.request()
@@ -73,13 +73,13 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
             .input('cComparativo', sql.Int, cComparativo)
             .execute('s_Sup_Digital_Retorna_Tabela')
 
-        let resultTorta = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Sup_Digital_Retorna_Grafico_Torta')
+        // let resultTorta = await pool.request()
+        //     //define os parametros
+        //     .input('almope', sql.VarChar, almope)
+        //     .input('dataInicial', sql.DateTime, dataInicial)
+        //     .input('dataFinal', sql.DateTime, dataFinal)
+        //     .input('cComparativo', sql.Int, cComparativo)
+        //     .execute('s_Sup_Digital_Retorna_Grafico_Torta')
 
         let resultTermometro = await pool.request()
             //define os parametros
@@ -112,10 +112,10 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
 
         let retorno = {
             //cards: resultCards?.recordset,
+            torta: resultCards?.recordset,
             dias: resultDia?.recordset,
             tabela: agruparTabela(resultTabela?.recordset),
             tabelaAgrupada: agruparGrafico(resultTabelaAgrup?.recordset),
-            torta: resultTorta?.recordset,
             grafico: resultGrafico?.recordset,
             termometro: resultTermometro?.recordset[0],
             usuario: resultUsuario?.recordset[0],
