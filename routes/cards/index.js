@@ -95,7 +95,7 @@ async function retornaDiretor(id, res){
         res.status(500).json(error)
     }
 }
-
+//Rota para exibição dos superintendente no filtro
 router.get('/superintendente', function (req, res){
 
     retornaSuperintendente(res);
@@ -239,7 +239,7 @@ async function retornaOperador(almope, res){
 }
 
 
-
+//Rota principal
 router.get('/', function (req, res) {
 
     const {
@@ -305,6 +305,8 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
         let resultFeedBackHistorico = await pool.request()
             // Define os parâmetros
             .input('almope', sql.VarChar, almope)
+            .input('dataInicial', sql.DateTime, dataInicial)
+            .input('dataFinal', sql.DateTime, dataFinal)
             .execute('s_Sup_Digital_Retorna_Feedback_Historico_V6')
 
         let resultTermometro = await pool.request()
@@ -330,6 +332,11 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
             .input('almope', sql.VarChar, almope)
             .execute('s_Sup_Digital_Retorna_Dados_Colaborador')
 
+        // let resultRocoins = await pool.request()
+        //     //define os parametros
+        //     .input('almope', sql.VarChar, almope)
+        //     .execute('s_Sup_Digital_Retorna_Dados_Rocoins')
+
         let resultDataAtualizacao = await pool.request()
             .input('dataInicial', sql.DateTime, dataInicial)
             .input('dataFinal', sql.DateTime, dataFinal)
@@ -337,7 +344,7 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
 
 
         let retorno = {
-            //cards: resultCards?.recordset,
+            //rocoins:resultRocoins?.recordset,
             torta: resultCards?.recordset,
             feedbackHistorico: resultFeedBackHistorico.recordset,
             dias: resultDia?.recordset,
