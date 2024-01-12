@@ -14,8 +14,6 @@ router.use('/comparativos', require('./comparativos'))
 //Rota para exibição dos clientes no filtro
 router.get('/cliente', function (req, res){
 
-    //const {id} = req.query
-
     retornaCliente(res);
 
 })
@@ -24,7 +22,6 @@ async function retornaCliente(res){
 
         let pool = await get('BDRechamadasGeral', connection)
         let result = await pool.request()
-            //.input('id', sql.VarChar, id)
             .execute('s_Gestao_Performance_Retorna_Dados_Cliente')
 
         if (!result?.recordset) {
@@ -93,6 +90,32 @@ async function retornaDiretor(id, res){
         let diretor = result.recordset
 
         res.json(diretor)
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+router.get('/superintendente', function (req, res){
+
+    retornaSuperintendente(res);
+
+})
+async function retornaSuperintendente(res){
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
+        let result = await pool.request()
+            .execute('s_Gestao_Performance_Retorna_Dados_Superintendente')
+
+        if (!result?.recordset) {
+            res.status(500).json('Não foi possível retornar os dados.')
+            return;
+        }
+
+        let superintendente = result.recordset
+
+        res.json(superintendente)
 
     } catch (error) {
         res.status(500).json(error)
