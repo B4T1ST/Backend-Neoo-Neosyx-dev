@@ -11,6 +11,212 @@ router.use('/agentes', require('./agentes'))
 router.use('/comparativos', require('./comparativos'))
 
 
+//Rota para exibição dos clientes no filtro
+router.get('/cliente', function (req, res){
+
+    //const {id} = req.query
+
+    retornaCliente(res);
+
+})
+async function retornaCliente(res){
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
+        let result = await pool.request()
+            //.input('id', sql.VarChar, id)
+            .execute('s_Gestao_Performance_Retorna_Dados_Cliente')
+
+        if (!result?.recordset) {
+            res.status(500).json('Não foi possível retornar os dados.')
+            return;
+        }
+
+        let cliente = result.recordset
+
+        res.json(cliente)
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+//Rota para exibição das operações no filtro
+router.get('/operacao', function (req, res){
+
+    const {id} = req.query
+
+    retornaOperacao(id, res);
+
+})
+async function retornaOperacao(id, res){
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
+        let result = await pool.request()
+            .input('id', sql.VarChar, id)
+            .execute('s_Gestao_Performance_Retorna_Dados_Operacao')
+
+        if (!result?.recordset) {
+            res.status(500).json('Não foi possível retornar os dados.')
+            return;
+        }
+
+        let operacao = result.recordset
+
+        res.json(operacao)
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+//Rota para exibição dos diretores no filtro
+router.get('/diretor', function (req, res){
+
+    const {id} = req.query
+
+    retornaDiretor(id, res);
+
+})
+async function retornaDiretor(id, res){
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
+        let result = await pool.request()
+            .input('id', sql.VarChar, id)
+            .execute('s_Gestao_Performance_Retorna_Dados_Diretor')
+
+        if (!result?.recordset) {
+            res.status(500).json('Não foi possível retornar os dados.')
+            return;
+        }
+
+        let diretor = result.recordset
+
+        res.json(diretor)
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+//Rota para exibição dos gerentes no filtro
+router.get('/gerente', function (req, res){
+
+    const {id} = req.query
+
+    retornaGerente(id, res);
+
+})
+async function retornaGerente(id, res){
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
+        let result = await pool.request()
+            .input('id', sql.VarChar, id)
+            .execute('s_Gestao_Performance_Retorna_Dados_Gerente')
+
+        if (!result?.recordset) {
+            res.status(500).json('Não foi possível retornar os dados.')
+            return;
+        }
+
+        let gerente = result.recordset
+
+        res.json(gerente)
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+//Rota para exibição dos coordenadores no filtro
+router.get('/coordenador', function (req, res){
+
+    const {almope} = req.query
+
+    retornaCoordenador(almope, res);
+
+})
+async function retornaCoordenador(almope, res){
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
+        let result = await pool.request()
+            .input('almope', sql.VarChar, almope)
+            .execute('s_Gestao_Performance_Retorna_Dados_Coordenador')
+
+        if (!result?.recordset) {
+            res.status(500).json('Não foi possível retornar os dados.')
+            return;
+        }
+
+        let coordenador = result.recordset
+
+        res.json(coordenador)
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+//Rota para exibição dos supervisores no filtro
+router.get('/supervisor', function (req, res){
+
+    const {almope} = req.query
+
+    retornaSupervisor(almope, res);
+
+})
+async function retornaSupervisor(almope, res){
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
+        let result = await pool.request()
+            .input('almope', sql.VarChar, almope)
+            .execute('s_Gestao_Performance_Retorna_Dados_Supervisor')
+
+        if (!result?.recordset) {
+            res.status(500).json('Não foi possível retornar os dados.')
+            return;
+        }
+
+        let supervisor = result.recordset
+
+        res.json(supervisor)
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+//Rota para exibição de operadores no filtro
+router.get('/operador', function (req, res){
+
+    const {almope} = req.query
+
+    retornaOperador(almope, res);
+
+})
+async function retornaOperador(almope, res){
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
+        let result = await pool.request()
+            .input('almope', sql.VarChar, almope)
+            .execute('s_Gestao_Performance_Retorna_Dados_Operador')
+
+        if (!result?.recordset) {
+            res.status(500).json('Não foi possível retornar os dados.')
+            return;
+        }
+
+        let operador = result.recordset
+
+        res.json(operador)
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+
+
 router.get('/', function (req, res) {
 
     const {
