@@ -366,10 +366,10 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
             .input('almope', sql.VarChar, almope)
             .execute('s_Sup_Digital_Retorna_Dados_Colaborador')
 
-        // let resultRocoins = await pool.request()
-        //     //define os parametros
-        //     .input('almope', sql.VarChar, almope)
-        //     .execute('s_Sup_Digital_Retorna_Dados_Rocoins')
+        let resultRocoins = await pool.request()
+            //define os parametros
+            .input('almope', sql.VarChar, almope)
+            .execute('s_Gestao_Performance_Retorna_Dados_Rocoins')
 
         let resultDataAtualizacao = await pool.request()
             .input('dataInicial', sql.DateTime, dataInicial)
@@ -378,8 +378,8 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
 
 
         let retorno = {
-            //rocoins:resultRocoins?.recordset,
             torta: resultCards?.recordset,
+            rocoins:resultRocoins?.recordset,
             feedbackHistorico: resultFeedBackHistorico.recordset,
             dias: resultDia?.recordset,
             tabela: agruparTabela(resultTabela?.recordset),
