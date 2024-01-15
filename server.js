@@ -87,7 +87,7 @@ app.use(`${nginsxTag}/gestaoPerformace`, cardsRouter);
 //rota do grafico torta
 // app.use('/graficoTorta', tortaRouter );
 
-//app.use(`${nginsxTag}/gestaoPerformace/feedbackHistorico`, feedbackHistoricoRouter)
+app.use(`${nginsxTag}/gestaoPerformace/feedbackHistorico`, feedbackHistoricoRouter)
 
 app.use(`${nginsxTag}/gestaoPerformace/feedback`, feedbackRouter)
 

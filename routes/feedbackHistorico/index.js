@@ -54,11 +54,13 @@ router.get('/', function (req, res) {
         dataFinal,
     } = req.query
 
+    const dataInicialParam = dataInicial === '' ? null : dataInicial;
+    const dataFinalParam = dataFinal === '' ? null : dataFinal;
 
-    retornaDados(almope, dataInicial, dataFinal, res)
+    retornaDados(almope, dataInicialParam, dataFinalParam, res)
 });
 
-async function retornaDados(almope, dataInicial, dataFinal, res){
+async function retornaDados(almope, dataInicialParam, dataFinalParam, res){
     try {
         let pool = await get('BDGamification', connection);
         console.log('Procedura retorna historico primeira request');
@@ -67,6 +69,8 @@ async function retornaDados(almope, dataInicial, dataFinal, res){
         let resultFeedBackHistorico = await pool.request()
             // Define os parâmetros
             .input('almope', sql.VarChar, almope)
+            .input('dataInicial', sql.VarChar, dataInicialParam)
+            .input('dataFinal', sql.VarChar, dataFinalParam)
             .execute('s_Sup_Digital_Retorna_Feedback_Historico_V6')
         
         // Retorna o primeiro conjunto de resultados (index 0)

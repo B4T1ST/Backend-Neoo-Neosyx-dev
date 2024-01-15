@@ -53,6 +53,22 @@ async function retornaOperacao(idCliente, res){
             .input('idCliente', sql.Int, idCliente)
             .execute('s_Gestao_Performance_Retorna_Dados_Operacao')
 
+        let resultDiretor = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .execute('s_Gestao_Performance_Retorna_Dados_Diretor')
+
+        let resultGerente = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .execute('s_Gestao_Performance_Retorna_Dados_Gerente')
+        
+        let resultCoordenador = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .execute('s_Gestao_Performance_Retorna_Dados_Coordenador')
+
+        let resultSupervisor = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .execute('s_Gestao_Performance_Retorna_Dados_Supervisor')
+
         let resultOperador = await pool.request()
             .input('idCliente', sql.Int, idCliente)
             .execute('s_Gestao_Performance_Retorna_Dados_Operador')
@@ -60,6 +76,10 @@ async function retornaOperacao(idCliente, res){
         
         let retorno = {
             operacao: resultOperacao?.recordset,
+            diretor: resultDiretor?.recordset,
+            gerente: resultGerente?.recordset,
+            coordenador: resultCoordenador?.recordset,
+            supervisor: resultSupervisor?.recordset,
             operador: resultOperador?.recordset
         }
         res.json(retorno)
