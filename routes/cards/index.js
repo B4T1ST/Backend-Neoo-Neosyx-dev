@@ -105,13 +105,31 @@ async function retornaDiretor(idCliente, idOperacao, res){
             .input('idOperacao', sql.Int, idOperacao)
             .execute('s_Gestao_Performance_Retorna_Dados_Diretor')
 
+        let resultGerente = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .execute('s_Gestao_Performance_Retorna_Dados_Gerente')
+
+        let resultCoordenador = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .execute('s_Gestao_Performance_Retorna_Dados_Coordenador')
+
+        let resultSupervisor = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .execute('s_Gestao_Performance_Retorna_Dados_Supervisor')
+
         let resultOperador = await pool.request()
             .input('idCliente', sql.Int, idCliente)
             .input('idOperacao', sql.Int, idOperacao)
             .execute('s_Gestao_Performance_Retorna_Dados_Operador')
 
         let retorno = {
-            diretor:resultDiretor?.recordset,
+            diretor: resultDiretor?.recordset,
+            gerente: resultGerente?.recordset,
+            coordenador: resultCoordenador?.recordset,
+            supervisor: resultSupervisor?.recordset,
             operador: resultOperador?.recordset
         }
         res.json(retorno)
@@ -164,6 +182,18 @@ async function retornaGerente(idCliente, idOperacao, idDiretor, res){
             .input('idDiretor', sql.Int, idDiretor)
             .execute('s_Gestao_Performance_Retorna_Dados_Gerente')
 
+        let resultCoordenador = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .input('idDiretor', sql.Int, idDiretor)
+            .execute('s_Gestao_Performance_Retorna_Dados_Coordenador')
+
+        let resultSupervisor = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .input('idDiretor', sql.Int, idDiretor)
+            .execute('s_Gestao_Performance_Retorna_Dados_Supervisor')
+
         let resultOperador = await pool.request()
             .input('idCliente', sql.Int, idCliente)
             .input('idOperacao', sql.Int, idOperacao)
@@ -172,9 +202,10 @@ async function retornaGerente(idCliente, idOperacao, idDiretor, res){
 
         let retorno = {
             gerente: resultGerente?.recordset,
+            coordenador: resultCoordenador?.recordset,
+            supervisor: resultSupervisor?.recordset,
             operador: resultOperador?.recordset
         }
-
         res.json(retorno)
 
     } catch (error) {
@@ -200,6 +231,15 @@ async function retornaCoordenador(idCliente, idOperacao, idDiretor, idGerente, r
             .input('idGerente', sql.Int, idGerente)
             .execute('s_Gestao_Performance_Retorna_Dados_Coordenador')
 
+
+        let resultSupervisor = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .input('idDiretor', sql.Int, idDiretor)
+            .input('idGerente', sql.Int, idGerente)
+            .execute('s_Gestao_Performance_Retorna_Dados_Supervisor')
+        
+
         let resultOperador = await pool.request()
             .input('idCliente', sql.Int, idCliente)
             .input('idOperacao', sql.Int, idOperacao)
@@ -210,6 +250,7 @@ async function retornaCoordenador(idCliente, idOperacao, idDiretor, idGerente, r
 
         let retorno = {
             coordenador: resultCoordenador?.recordset,
+            supervisor: resultSupervisor?.recordset,
             operador: resultOperador?.recordset
         }
 
