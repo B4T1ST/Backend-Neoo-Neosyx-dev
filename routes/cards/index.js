@@ -40,27 +40,29 @@ async function retornaCliente(res){
 //Rota para exibição das operações no filtro
 router.get('/operacao', function (req, res){
 
-    const {id} = req.query
+    const {idCliente} = req.query
 
-    retornaOperacao(id, res);
+    retornaOperacao(idCliente, res);
 
 })
-async function retornaOperacao(id, res){
+async function retornaOperacao(idCliente, res){
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-        let result = await pool.request()
-            .input('id', sql.VarChar, id)
+        let resultOperacao = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
             .execute('s_Gestao_Performance_Retorna_Dados_Operacao')
 
-        if (!result?.recordset) {
-            res.status(500).json('Não foi possível retornar os dados.')
-            return;
+        let resultOperador = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .execute('s_Gestao_Performance_Retorna_Dados_Operador')
+
+        
+        let retorno = {
+            operacao: resultOperacao?.recordset,
+            operador: resultOperador?.recordset
         }
-
-        let operacao = result.recordset
-
-        res.json(operacao)
+        res.json(retorno)
 
     } catch (error) {
         res.status(500).json(error)
@@ -69,27 +71,30 @@ async function retornaOperacao(id, res){
 //Rota para exibição dos diretores no filtro
 router.get('/diretor', function (req, res){
 
-    const {id} = req.query
+    const {idCliente, idOperacao} = req.query
 
-    retornaDiretor(id, res);
+    retornaDiretor(idCliente, idOperacao, res);
 
 })
-async function retornaDiretor(id, res){
+async function retornaDiretor(idCliente, idOperacao, res){
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-        let result = await pool.request()
-            .input('id', sql.VarChar, id)
+        let resultDiretor = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
             .execute('s_Gestao_Performance_Retorna_Dados_Diretor')
 
-        if (!result?.recordset) {
-            res.status(500).json('Não foi possível retornar os dados.')
-            return;
+        let resultOperador = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .execute('s_Gestao_Performance_Retorna_Dados_Operador')
+
+        let retorno = {
+            diretor:resultDiretor?.recordset,
+            operador: resultOperador?.recordset
         }
-
-        let diretor = result.recordset
-
-        res.json(diretor)
+        res.json(retorno)
 
     } catch (error) {
         res.status(500).json(error)
@@ -124,27 +129,33 @@ async function retornaSuperintendente(res){
 //Rota para exibição dos gerentes no filtro
 router.get('/gerente', function (req, res){
 
-    const {id} = req.query
+    const {idCliente, idOperacao, idDiretor} = req.query
 
-    retornaGerente(id, res);
+    retornaGerente(idCliente, idOperacao, idDiretor, res);
 
 })
-async function retornaGerente(id, res){
+async function retornaGerente(idCliente, idOperacao, idDiretor, res){
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-        let result = await pool.request()
-            .input('id', sql.VarChar, id)
+        let resultGerente = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .input('idDiretor', sql.Int, idDiretor)
             .execute('s_Gestao_Performance_Retorna_Dados_Gerente')
 
-        if (!result?.recordset) {
-            res.status(500).json('Não foi possível retornar os dados.')
-            return;
+        let resultOperador = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .input('idDiretor', sql.Int, idDiretor)
+            .execute('s_Gestao_Performance_Retorna_Dados_Operador')
+
+        let retorno = {
+            gerente: resultGerente?.recordset,
+            operador: resultOperador?.recordset
         }
 
-        let gerente = result.recordset
-
-        res.json(gerente)
+        res.json(retorno)
 
     } catch (error) {
         res.status(500).json(error)
@@ -153,27 +164,36 @@ async function retornaGerente(id, res){
 //Rota para exibição dos coordenadores no filtro
 router.get('/coordenador', function (req, res){
 
-    const {almope} = req.query
+    const {idCliente, idOperacao, idDiretor, idGerente} = req.query
 
-    retornaCoordenador(almope, res);
+    retornaCoordenador(idCliente, idOperacao, idDiretor, idGerente, res);
 
 })
-async function retornaCoordenador(almope, res){
+async function retornaCoordenador(idCliente, idOperacao, idDiretor, idGerente, res){
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-        let result = await pool.request()
-            .input('almope', sql.VarChar, almope)
+        let resultCoordenador = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .input('idDiretor', sql.Int, idDiretor)
+            .input('idGerente', sql.Int, idGerente)
             .execute('s_Gestao_Performance_Retorna_Dados_Coordenador')
 
-        if (!result?.recordset) {
-            res.status(500).json('Não foi possível retornar os dados.')
-            return;
+        let resultOperador = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .input('idDiretor', sql.Int, idDiretor)
+            .input('idGerente', sql.Int, idGerente)
+            .execute('s_Gestao_Performance_Retorna_Dados_Operador')
+    
+
+        let retorno = {
+            coordenador: resultCoordenador?.recordset,
+            operador: resultOperador?.recordset
         }
 
-        let coordenador = result.recordset
-
-        res.json(coordenador)
+        res.json(retorno)
 
     } catch (error) {
         res.status(500).json(error)
@@ -182,27 +202,38 @@ async function retornaCoordenador(almope, res){
 //Rota para exibição dos supervisores no filtro
 router.get('/supervisor', function (req, res){
 
-    const {almope} = req.query
+    const {idCliente, idOperacao, idDiretor, idGerente, idCoordenador} = req.query
 
-    retornaSupervisor(almope, res);
+    retornaSupervisor(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, res);
 
 })
-async function retornaSupervisor(almope, res){
+async function retornaSupervisor(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, res){
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-        let result = await pool.request()
-            .input('almope', sql.VarChar, almope)
+        let resultSupervisor = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .input('idDiretor', sql.Int, idDiretor)
+            .input('idGerente', sql.Int, idGerente)
+            .input('idCoordenador', sql.Int, idCoordenador)
             .execute('s_Gestao_Performance_Retorna_Dados_Supervisor')
 
-        if (!result?.recordset) {
-            res.status(500).json('Não foi possível retornar os dados.')
-            return;
+        let resultOperador = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .input('idDiretor', sql.Int, idDiretor)
+            .input('idGerente', sql.Int, idGerente)
+            .input('idCoordenador', sql.Int, idCoordenador)
+            .execute('s_Gestao_Performance_Retorna_Dados_Operador')
+    
+
+        let retorno = {
+            supervisor: resultSupervisor?.recordset,
+            operador: resultOperador?.recordset
         }
 
-        let supervisor = result.recordset
-
-        res.json(supervisor)
+        res.json(retorno)
 
     } catch (error) {
         res.status(500).json(error)
@@ -211,27 +242,30 @@ async function retornaSupervisor(almope, res){
 //Rota para exibição de operadores no filtro
 router.get('/operador', function (req, res){
 
-    const {almope} = req.query
+    const {idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor} = req.query
 
-    retornaOperador(almope, res);
+    retornaOperador(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, res);
 
 })
-async function retornaOperador(almope, res){
+async function retornaOperador(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, res){
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-        let result = await pool.request()
-            .input('almope', sql.VarChar, almope)
+        let resultOperador = await pool.request()
+            .input('idCliente', sql.Int, idCliente)
+            .input('idOperacao', sql.Int, idOperacao)
+            .input('idDiretor', sql.Int, idDiretor)
+            .input('idGerente', sql.Int, idGerente)
+            .input('idCoordenador', sql.Int, idCoordenador)
+            .input('idSupervisor', sql.Int, idSupervisor)
             .execute('s_Gestao_Performance_Retorna_Dados_Operador')
+    
 
-        if (!result?.recordset) {
-            res.status(500).json('Não foi possível retornar os dados.')
-            return;
+        let retorno = {
+            operador: resultOperador?.recordset
         }
 
-        let operador = result.recordset
-
-        res.json(operador)
+        res.json(retorno)
 
     } catch (error) {
         res.status(500).json(error)
