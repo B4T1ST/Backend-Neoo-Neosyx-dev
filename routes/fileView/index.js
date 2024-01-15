@@ -8,10 +8,16 @@ const router = express.Router();
 router.get('/imagens/:file', function (req, res) {
     const { file } = req.params
 
-    const caminho = 'C:\\inetpub\\wwwroot\\imageFiles\\'
+    const caminho = path.resolve(__dirname, '..', 'fileView', 'img');
 
-    res.sendFile(path.resolve(caminho, file));
-});
+    // Envia o arquivo solicitado
+    res.sendFile(path.resolve(caminho, file), (err) => {
+        if (err) {
+            console.error(err);
+            res.status(404).send('Arquivo não encontrado');
+        }
+    });
+})
 
 //exporta o router
 module.exports = router;

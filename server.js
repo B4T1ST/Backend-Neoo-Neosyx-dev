@@ -81,6 +81,7 @@ app.use(`${nginsxTag}/fileView`, fileView);
 
 app.use(`${nginsxTag}/avatar`, avatarRouter);
 
+
 //rota de cards
 app.use(`${nginsxTag}/gestaoPerformace`, cardsRouter);
 
