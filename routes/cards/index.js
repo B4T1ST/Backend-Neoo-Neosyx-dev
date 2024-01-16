@@ -353,7 +353,7 @@ async function retornaDadosFiltro(idCliente, idOperacao, idDiretor,idSuperintend
             .input('codigocoordenador', sql.Int, idCoordenador)
             .input('codigosupervisor', sql.Int, idSupervisor)
             .input('codigooperador', sql.Int, idOperador)
-            .input('datanicio', sql.DateTime, dataInicial)
+            .input('datainicio', sql.DateTime, dataInicial)
             .input('datafim', sql.DateTime, dataFinal)
             .execute('s_Gestao_Performance_Retorna_Dados_Equipe')
 
