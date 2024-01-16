@@ -71,8 +71,7 @@ async function retornaDados(almope, dataInicialParam, dataFinalParam, res){
             .input('almope', sql.VarChar, almope)
             .input('dataInicial', sql.VarChar, dataInicialParam)
             .input('dataFinal', sql.VarChar, dataFinalParam)
-            .execute('s_Sup_Digital_Retorna_Feedback_Historico_V6')
-        
+            .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
         // Retorna o primeiro conjunto de resultados (index 0)
         let retorno = {
             feedbackHistorico: resultFeedBackHistorico.recordset
