@@ -335,12 +335,12 @@ async function retornaOperador(idCliente, idOperacao, idDiretor, idGerente, idCo
 
 router.get('/dadosFiltro', function (req, res){
 
-    const {idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal} = req.query
+    const {idCliente, idOperacao, idDiretor, idSuperintendente, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal} = req.query
 
-    retornaDadosFiltro(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal, res);
+    retornaDadosFiltro(idCliente, idOperacao, idDiretor, idSuperintendente, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal, res);
 
 })
-async function retornaDadosFiltro(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal, res){
+async function retornaDadosFiltro(idCliente, idOperacao, idDiretor,idSuperintendente, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal, res){
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
@@ -348,6 +348,7 @@ async function retornaDadosFiltro(idCliente, idOperacao, idDiretor, idGerente, i
             .input('codigocliente', sql.Int, idCliente)
             .input('codigooperacao', sql.Int, idOperacao)
             .input('codigodiretor', sql.Int, idDiretor)
+            .input('codigosuperintendente', sql.Int, idSuperintendente)
             .input('codigogerente', sql.Int, idGerente)
             .input('codigocoordenador', sql.Int, idCoordenador)
             .input('codigosupervisor', sql.Int, idSupervisor)
