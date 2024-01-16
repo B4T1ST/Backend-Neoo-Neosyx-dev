@@ -333,6 +333,41 @@ async function retornaOperador(idCliente, idOperacao, idDiretor, idGerente, idCo
     }
 }
 
+router.get('/dadosFiltro', function (req, res){
+
+    const {idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal} = req.query
+
+    retornaDadosFiltro(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal, res);
+
+})
+async function retornaDadosFiltro(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal, res){
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
+        let resultFiltro = await pool.request()
+            .input('codigocliente', sql.Int, idCliente)
+            .input('codigooperacao', sql.Int, idOperacao)
+            .input('codigodiretor', sql.Int, idDiretor)
+            .input('codigogerente', sql.Int, idGerente)
+            .input('codigocoordenador', sql.Int, idCoordenador)
+            .input('codigosupervisor', sql.Int, idSupervisor)
+            .input('codigooperador', sql.Int, idOperador)
+            .input('datanicio', sql.DateTime, dataInicial)
+            .input('datafim', sql.DateTime, dataFinal)
+            .execute('[s_Gestao_Performance_Retorna_Dados_Equipe')
+
+        let retorno = {
+            filtro: resultFiltro?.recordset
+        }
+
+        res.json(retorno)
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+
 
 //Rota principal
 router.get('/', function (req, res) {

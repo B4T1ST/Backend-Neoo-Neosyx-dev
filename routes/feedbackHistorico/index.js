@@ -50,6 +50,7 @@ router.get('/', function (req, res) {
 
     const {
         almope,
+        almopeColaborador,
         dataInicial,
         dataFinal,
     } = req.query
@@ -57,10 +58,10 @@ router.get('/', function (req, res) {
     const dataInicialParam = dataInicial === '' ? null : dataInicial;
     const dataFinalParam = dataFinal === '' ? null : dataFinal;
 
-    retornaDados(almope, dataInicialParam, dataFinalParam, res)
+    retornaDados(almope, almopeColaborador, dataInicialParam, dataFinalParam, res)
 });
 
-async function retornaDados(almope, dataInicialParam, dataFinalParam, res){
+async function retornaDados(almope, almopeColaborador, dataInicialParam, dataFinalParam, res){
     try {
         let pool = await get('BDGamification', connection);
         console.log('Procedura retorna historico primeira request');
@@ -68,7 +69,7 @@ async function retornaDados(almope, dataInicialParam, dataFinalParam, res){
         // Requisição do banco
         let resultFeedBackHistorico = await pool.request()
             // Define os parâmetros
-            .input('almope', sql.VarChar, almope)
+            .input('almope', sql.VarChar, almopeColaborador)
             .input('dataInicial', sql.VarChar, dataInicialParam)
             .input('dataFinal', sql.VarChar, dataFinalParam)
             .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
