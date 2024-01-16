@@ -358,9 +358,12 @@ router.get('/', function (req, res) {
         return
     }
 
-    retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, res);
+    const dataInicialParam = dataInicial === " " ? null : dataInicial;
+    const dataFinalParam = dataFinal === " " ? null : dataFinal;
+
+    retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, dataInicialParam, dataFinalParam, res);
 });
-async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, res) {
+async function retornaDados(almope,dataInicial, dataFinal, cComparativo, cIndicador, dataInicialParam, dataFinalParam, almopeResponsavel, isFirstRendering, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
@@ -400,9 +403,9 @@ async function retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndic
         let resultFeedBackHistorico = await pool.request()
             // Define os parâmetros
             .input('almope', sql.VarChar, almope)
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
-            .execute('s_Sup_Digital_Retorna_Feedback_Historico_V6')
+            .input('dataInicial', sql.DateTime, dataInicialParam)
+            .input('dataFinal', sql.DateTime, dataFinalParam)
+            .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
 
         let resultTermometro = await pool.request()
             //define os parametros
