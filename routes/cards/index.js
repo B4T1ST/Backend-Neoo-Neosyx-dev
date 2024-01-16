@@ -354,7 +354,7 @@ async function retornaDadosFiltro(idCliente, idOperacao, idDiretor, idGerente, i
             .input('codigooperador', sql.Int, idOperador)
             .input('datanicio', sql.DateTime, dataInicial)
             .input('datafim', sql.DateTime, dataFinal)
-            .execute('[s_Gestao_Performance_Retorna_Dados_Equipe')
+            .execute('s_Gestao_Performance_Retorna_Dados_Equipe')
 
         let retorno = {
             filtro: resultFiltro?.recordset
