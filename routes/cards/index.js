@@ -468,7 +468,7 @@ async function retornaDados(almope,dataInicial, dataFinal, cComparativo, cIndica
 
         let resultRocoins = await pool.request()
             //define os parametros
-            .input('almope', sql.VarChar, almope)
+            .input('idOperador', sql.VarChar, almope)
             .execute('s_Gestao_Performance_Retorna_Dados_Rocoins')
 
         let resultDataAtualizacao = await pool.request()
