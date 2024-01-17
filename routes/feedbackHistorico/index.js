@@ -69,7 +69,7 @@ async function retornaDados(almope, almopeColaborador, dataInicialParam, dataFin
         // Requisição do banco
         let resultFeedBackHistorico = await pool.request()
             // Define os parâmetros
-            .input('almope', sql.VarChar, almope)
+            .input('idOperador', sql.VarChar, almope)
             .input('dataInicial', sql.VarChar, dataInicialParam)
             .input('dataFinal', sql.VarChar, dataFinalParam)
             .execute('s_Gestao_Performace_Retorna_Feedback_Historico')

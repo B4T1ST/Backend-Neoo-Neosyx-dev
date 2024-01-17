@@ -438,7 +438,7 @@ async function retornaDados(almope,dataInicial, dataFinal, cComparativo, cIndica
 
         let resultFeedBackHistorico = await pool.request()
             // Define os parâmetros
-            .input('almope', sql.VarChar, almope)
+            .input('idOperador', sql.VarChar, almope)
             .input('dataInicial', sql.DateTime, dataInicialParam)
             .input('dataFinal', sql.DateTime, dataFinalParam)
             .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
