@@ -49,31 +49,43 @@ async function retornaDadosagente(almope, res) {
 router.get('/', function (req, res) {
 
     const {
-        almope,
-        almopeColaborador,
         dataInicial,
         dataFinal,
+        idCliente,
+        idOperacao,
+        idDiretor,
+        idGerente,
+        idCoordenador,
+        idSupervisor,
+        idOperador,
+        cComparativo = 1,
+        cIndicador,
+        almopeResponsavel,
+        isFirstRendering
     } = req.query
 
-    const dataInicialParam = dataInicial === '' ? null : dataInicial;
-    const dataFinalParam = dataFinal === '' ? null : dataFinal;
 
-    retornaDados(almope, almopeColaborador, dataInicialParam, dataFinalParam, res)
+    const dataInicialParam = dataInicial === " " ? null : dataInicial;
+    const dataFinalParam = dataFinal === " " ? null : dataFinal;
+
+    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, dataInicialParam, dataFinalParam, res);
 });
 
-async function retornaDados(almope, almopeColaborador, dataInicialParam, dataFinalParam, res){
+async function retornaDados(dataInicialParam, dataFinalParam, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, dataInicialParam, dataFinalParam, res) {
     try {
         let pool = await get('BDGamification', connection);
         console.log('Procedura retorna historico primeira request');
 
         // Requisição do banco
         let resultFeedBackHistorico = await pool.request()
-            // Define os parâmetros
-            .input('idOperador', sql.VarChar, almope)
-            .input('dataInicial', sql.VarChar, dataInicialParam)
-            .input('dataFinal', sql.VarChar, dataFinalParam)
+            .input('idGerente', sql.VarChar, idGerente)  
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
+            .input('dataInicial', sql.DateTime, dataInicialParam)
+            .input('dataFinal', sql.DateTime, dataFinalParam)
             .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
-        // Retorna o primeiro conjunto de resultados (index 0)
+
         let retorno = {
             feedbackHistorico: resultFeedBackHistorico.recordset
         };

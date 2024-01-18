@@ -333,50 +333,19 @@ async function retornaOperador(idCliente, idOperacao, idDiretor, idGerente, idCo
     }
 }
 
-router.get('/dadosFiltro', function (req, res){
-
-    const {idCliente, idOperacao, idDiretor, idSuperintendente, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal} = req.query
-
-    retornaDadosFiltro(idCliente, idOperacao, idDiretor, idSuperintendente, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal, res);
-
-})
-async function retornaDadosFiltro(idCliente, idOperacao, idDiretor,idSuperintendente, idGerente, idCoordenador, idSupervisor, idOperador, dataInicial, dataFinal, res){
-    try {
-
-        let pool = await get('BDRechamadasGeral', connection)
-        let resultFiltro = await pool.request()
-            .input('codigocliente', sql.Int, idCliente)
-            .input('codigooperacao', sql.Int, idOperacao)
-            .input('codigodiretor', sql.Int, idDiretor)
-            .input('codigosuperintendente', sql.Int, idSuperintendente)
-            .input('codigogerente', sql.Int, idGerente)
-            .input('codigocoordenador', sql.Int, idCoordenador)
-            .input('codigosupervisor', sql.Int, idSupervisor)
-            .input('codigooperador', sql.Int, idOperador)
-            .input('datainicio', sql.DateTime, dataInicial)
-            .input('datafim', sql.DateTime, dataFinal)
-            .execute('s_Gestao_Performance_Retorna_Dados_Equipe')
-
-        let retorno = {
-            filtro: resultFiltro?.recordset
-        }
-
-        res.json(retorno)
-
-    } catch (error) {
-        res.status(500).json(error)
-    }
-}
-
-
-
 //Rota principal
 router.get('/', function (req, res) {
 
     const {
-        almope,
         dataInicial,
         dataFinal,
+        idCliente,
+        idOperacao,
+        idDiretor,
+        idGerente,
+        idCoordenador,
+        idSupervisor,
+        idOperador,
         cComparativo = 1,
         cIndicador,
         almopeResponsavel,
@@ -384,22 +353,12 @@ router.get('/', function (req, res) {
     } = req.query
 
 
-    if (!almope) {
-        res.status(400).json('almope não informado.')
-        return
-    }
-
-    if (!cComparativo) {
-        res.status(400).json('cComparativo não informado.')
-        return
-    }
-
     const dataInicialParam = dataInicial === " " ? null : dataInicial;
     const dataFinalParam = dataFinal === " " ? null : dataFinal;
 
-    retornaDados(almope, dataInicial, dataFinal, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, dataInicialParam, dataFinalParam, res);
+    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, dataInicialParam, dataFinalParam, res);
 });
-async function retornaDados(almope,dataInicial, dataFinal, cComparativo, cIndicador, dataInicialParam, dataFinalParam, almopeResponsavel, isFirstRendering, res) {
+async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, dataInicialParam, dataFinalParam, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
@@ -408,67 +367,87 @@ async function retornaDados(almope,dataInicial, dataFinal, cComparativo, cIndica
         // Requisição do banco
         let resultCards = await pool.request()
             //define os parametros
-            .input('almope', sql.VarChar, almope)
             .input('dataInicial', sql.DateTime, dataInicial)
             .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Sup_Digital_Retorna_Indicador_V2')
+            .input('idCliente', sql.VarChar, idCliente)
+            .input('idOperacao', sql.VarChar, idOperacao)
+            .input('idDiretor', sql.VarChar, idDiretor)
+            .input('idGerente', sql.VarChar, idGerente)
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performance_Retorna_Indicador')
 
 
         let resultDia = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
-            .execute('s_Sup_Digital_Retorna_Dia_Logado')
-
-        let resultTabelaAgrup = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Sup_Digital_Retorna_Tabela_Agrupada')
-
-        let resultTabela = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Sup_Digital_Retorna_Tabela')
-
-        let resultFeedBackHistorico = await pool.request()
-            // Define os parâmetros
-            .input('idOperador', sql.VarChar, almope)
+            .input('idOperador', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performance_Retorna_Dia_Logado')
+            
+         let resultFeedBackHistorico = await pool.request()
+            .input('idGerente', sql.VarChar, idGerente)  
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
             .input('dataInicial', sql.DateTime, dataInicialParam)
             .input('dataFinal', sql.DateTime, dataFinalParam)
             .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
 
-        let resultTermometro = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
+            // let resultTabelaAgrup = await pool.request()
+            //     //define os parametros
+        //     .input('almope', sql.VarChar, almope)
+        //     .input('dataInicial', sql.DateTime, dataInicial)
+        //     .input('dataFinal', sql.DateTime, dataFinal)
+        //     .input('cComparativo', sql.Int, cComparativo)
+        //     .execute('s_Sup_Digital_Retorna_Tabela_Agrupada')
+
+        let resultTabela = await pool.request()
             .input('dataInicial', sql.DateTime, dataInicial)
             .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Sup_Digital_Retorna_KPI')
+            .input('idCliente', sql.VarChar, idCliente)
+            .input('idOperacao', sql.VarChar, idOperacao)
+            .input('idDiretor', sql.VarChar, idDiretor)
+            .input('idGerente', sql.VarChar, idGerente)
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performance_Retorna_Tabela')
+
+
+        let resultTermometro = await pool.request()
+            .input('dataInicial', sql.DateTime, dataInicial)
+            .input('dataFinal', sql.DateTime, dataFinal)
+            .input('idCliente', sql.VarChar, idCliente)
+            .input('idOperacao', sql.VarChar, idOperacao)
+            .input('idDiretor', sql.VarChar, idDiretor)
+            .input('idGerente', sql.VarChar, idGerente)
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performace_Retorna_KPI_v2')
 
         let resultGrafico = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
             .input('dataInicial', sql.DateTime, dataInicial)
             .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .input('cIndicador', sql.Int, cIndicador)
-            .execute('s_Sup_Digital_Retorna_Grafico_Barra')
+            .input('idCliente', sql.VarChar, idCliente)
+            .input('idOperacao', sql.VarChar, idOperacao)
+            .input('idDiretor', sql.VarChar, idDiretor)
+            .input('idGerente', sql.VarChar, idGerente)
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
+            .input('cIndicador', sql.VarChar, cIndicador)
+            .execute('s_Gestao_Performance_Retorna_Grafico_Barra')
 
 
         let resultUsuario = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
-            .execute('s_Sup_Digital_Retorna_Dados_Colaborador')
+            .input('idOperador', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performance_Retorna_Dados_Colaborador')
 
         let resultRocoins = await pool.request()
-            //define os parametros
-            .input('idOperador', sql.VarChar, almope)
+            .input('idGerente', sql.VarChar, idGerente)
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
             .execute('s_Gestao_Performance_Retorna_Dados_Rocoins')
 
         let resultDataAtualizacao = await pool.request()
@@ -479,15 +458,15 @@ async function retornaDados(almope,dataInicial, dataFinal, cComparativo, cIndica
 
         let retorno = {
             torta: resultCards?.recordset,
-            rocoins:resultRocoins?.recordset,
-            feedbackHistorico: resultFeedBackHistorico.recordset,
             dias: resultDia?.recordset,
+            feedbackHistorico: resultFeedBackHistorico.recordset,
             tabela: agruparTabela(resultTabela?.recordset),
-            tabelaAgrupada: agruparGrafico(resultTabelaAgrup?.recordset),
-            grafico: resultGrafico?.recordset,
             termometro: resultTermometro?.recordset[0],
+            grafico: resultGrafico?.recordset,
             usuario: resultUsuario?.recordset[0],
+            rocoins:resultRocoins?.recordset,
             dataAtualizacao: resultDataAtualizacao.recordset
+            // tabelaAgrupada: agruparGrafico(resultTabelaAgrup?.recordset),
         };
 
         function agruparGrafico(tabelaAgrupada) {
@@ -596,36 +575,36 @@ async function retornaDados(almope,dataInicial, dataFinal, cComparativo, cIndica
 router.get('/pausas', function (req, res) {
 
     const {
-        almope,
         dataInicial,
         dataFinal,
-        cComparativo
+        idCliente,
+        idOperacao,
+        idDiretor,
+        idGerente,
+        idCoordenador,
+        idSupervisor,
+        idOperador,
+        cComparativo = 1,
     } = req.query
 
-    if (!almope) {
-        res.status(400).json('almope não informado.')
-        return
-    }
-
-    if (!cComparativo) {
-        res.status(400).json('cComparativo não informado.')
-        return
-    }
-
-    retornaDadosPausa(almope, dataInicial, dataFinal, cComparativo, res)
+    retornaDadosPausa(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador,  cComparativo, res);
 });
-async function retornaDadosPausa(almope, dataInicial, dataFinal, cComparativo, res) {
+async function retornaDadosPausa(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador,  cComparativo, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
         // Requisição do banco
         let result = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
             .input('dataInicial', sql.DateTime, dataInicial)
             .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Sup_Digital_Retorna_Pausas_v2')
+            .input('idCliente', sql.VarChar, idCliente)
+            .input('idOperacao', sql.VarChar, idOperacao)
+            .input('idDiretor', sql.VarChar, idDiretor)
+            .input('idGerente', sql.VarChar, idGerente)
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performance_Retorna_Pausas')
 
 
         if (!result?.recordset) {
@@ -645,36 +624,33 @@ async function retornaDadosPausa(almope, dataInicial, dataFinal, cComparativo, r
 router.get('/monitorias', function (req, res) {
 
     const {
-        almope,
         dataInicial,
         dataFinal,
-        cComparativo
+        idCliente,
+        idOperacao,
+        idDiretor,
+        idGerente,
+        idCoordenador,
+        idSupervisor,
+        idOperador,
+        cComparativo = 1,
     } = req.query
 
-    if (!almope) {
-        res.status(400).json('almope não informado.')
-        return
-    }
-
-    if (!cComparativo) {
-        res.status(400).json('cComparativo não informado.')
-        return
-    }
-
-    retornaDadosMonitoria(almope, dataInicial, dataFinal, cComparativo, res)
+    retornaDadosMonitoria(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador,  cComparativo, res);
 });
-async function retornaDadosMonitoria(almope, dataInicial, dataFinal, cComparativo, res) {
+async function retornaDadosMonitoria(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador,  cComparativo, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
         // Requisição do banco
         let result = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
             .input('dataInicial', sql.DateTime, dataInicial)
             .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Monitoramento_Agentes_Retorna_Monitorias')
+            .input('idGerente', sql.VarChar, idGerente)
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performance_Retorna_Monitoria')
 
 
         if (!result?.recordset) {
