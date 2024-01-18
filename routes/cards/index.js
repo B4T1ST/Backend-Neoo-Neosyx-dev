@@ -339,16 +339,15 @@ router.get('/', function (req, res) {
     const {
         dataInicial,
         dataFinal,
-        idCliente,
-        idOperacao,
-        idDiretor,
-        idGerente,
-        idCoordenador,
-        idSupervisor,
-        idOperador,
-        cComparativo = 1,
+        idCliente= "7",
+        idOperacao= "-1",
+        idDiretor= "-1",
+        idGerente= "-1",
+        idCoordenador= "-1",
+        idSupervisor= "4714100",
+        idOperador = "-1",
+        cComparativo = 4,
         cIndicador,
-        almopeResponsavel,
         isFirstRendering
     } = req.query
 
@@ -356,9 +355,9 @@ router.get('/', function (req, res) {
     const dataInicialParam = dataInicial === " " ? null : dataInicial;
     const dataFinalParam = dataFinal === " " ? null : dataFinal;
 
-    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, dataInicialParam, dataFinalParam, res);
+    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, cIndicador, isFirstRendering, dataInicialParam, dataFinalParam, res);
 });
-async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, dataInicialParam, dataFinalParam, res) {
+async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, cIndicador, isFirstRendering, dataInicialParam, dataFinalParam, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
@@ -392,13 +391,13 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('dataFinal', sql.DateTime, dataFinalParam)
             .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
 
-            // let resultTabelaAgrup = await pool.request()
-            //     //define os parametros
-        //     .input('almope', sql.VarChar, almope)
-        //     .input('dataInicial', sql.DateTime, dataInicial)
-        //     .input('dataFinal', sql.DateTime, dataFinal)
-        //     .input('cComparativo', sql.Int, cComparativo)
-        //     .execute('s_Sup_Digital_Retorna_Tabela_Agrupada')
+            let resultTabelaAgrup = await pool.request()
+                //define os parametros
+            .input('idOperador', sql.VarChar, idSupervisor)
+            .input('dataInicial', sql.DateTime, dataInicial)
+            .input('dataFinal', sql.DateTime, dataFinal)
+            .input('cComparativo', sql.Int, cComparativo)
+            .execute('s_Gestao_Performance_Retorna_Tabela_Agrupada')
 
         let resultTabela = await pool.request()
             .input('dataInicial', sql.DateTime, dataInicial)
@@ -465,8 +464,8 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             grafico: resultGrafico?.recordset,
             usuario: resultUsuario?.recordset[0],
             rocoins:resultRocoins?.recordset,
-            dataAtualizacao: resultDataAtualizacao.recordset
-            // tabelaAgrupada: agruparGrafico(resultTabelaAgrup?.recordset),
+            dataAtualizacao: resultDataAtualizacao.recordset,
+            tabelaAgrupada: agruparGrafico(resultTabelaAgrup?.recordset),
         };
 
         function agruparGrafico(tabelaAgrupada) {
@@ -667,103 +666,103 @@ async function retornaDadosMonitoria(dataInicial, dataFinal, idCliente, idOperac
     }
 }
 
-router.get('/extracaoXlsx', function (req, res) {
+// router.get('/extracaoXlsx', function (req, res) {
 
-    const {
-        almope,
-        dataInicial,
-        dataFinal,
-        cComparativo
-    } = req.query
+//     const {
+//         almope,
+//         dataInicial,
+//         dataFinal,
+//         cComparativo
+//     } = req.query
 
-    if (!almope) {
-        res.status(400).json('almope não informado.')
-        return
-    }
+//     if (!almope) {
+//         res.status(400).json('almope não informado.')
+//         return
+//     }
 
-    if (!cComparativo) {
-        res.status(400).json('cComparativo não informado.')
-        return
-    }
+//     if (!cComparativo) {
+//         res.status(400).json('cComparativo não informado.')
+//         return
+//     }
 
-    retornaDadosExtracao(almope, dataInicial, dataFinal, cComparativo, res)
-});
-async function retornaDadosExtracao(almope, dataInicial, dataFinal, cComparativo, res) {
-    try {
+//     retornaDadosExtracao(almope, dataInicial, dataFinal, cComparativo, res)
+// });
+// async function retornaDadosExtracao(almope, dataInicial, dataFinal, cComparativo, res) {
+//     try {
 
-        let pool = await get('BDRechamadasGeral', connection)
-        // Requisição do banco
-        let result = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Sup_Digital_Retorna_Extracao_Tabela_Xlsxs')
-
-
-        if (!result?.recordset) {
-            res.status(500).json('Não foi possível retornar os dados.')
-            return;
-        }
-
-        let retorno = result.recordset
-
-        res.json(retorno)
-
-    } catch (error) {
-        res.status(500).json(error)
-    }
-}
-
-router.get('/extracaoXlsx/agrupados', function (req, res) {
-
-    const {
-        almope,
-        dataInicial,
-        dataFinal,
-        cComparativo
-    } = req.query
-
-    if (!almope) {
-        res.status(400).json('almope não informado.')
-        return
-    }
-
-    if (!cComparativo) {
-        res.status(400).json('cComparativo não informado.')
-        return
-    }
-
-    retornaDadosExtracaoAgrupados(almope, dataInicial, dataFinal, cComparativo, res)
-});
-async function retornaDadosExtracaoAgrupados(almope, dataInicial, dataFinal, cComparativo, res) {
-    try {
-
-        let pool = await get('BDRechamadasGeral', connection)
-        // Requisição do banco
-        let result = await pool.request()
-            //define os parametros
-            .input('almope', sql.VarChar, almope)
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Sup_Digital_Retorna_Extracao_Tabela_Xlsx_Agrupada')
+//         let pool = await get('BDRechamadasGeral', connection)
+//         // Requisição do banco
+//         let result = await pool.request()
+//             //define os parametros
+//             .input('almope', sql.VarChar, almope)
+//             .input('dataInicial', sql.DateTime, dataInicial)
+//             .input('dataFinal', sql.DateTime, dataFinal)
+//             .input('cComparativo', sql.Int, cComparativo)
+//             .execute('s_Sup_Digital_Retorna_Extracao_Tabela_Xlsxs')
 
 
-        if (!result?.recordset) {
-            res.status(500).json('Não foi possível retornar os dados.')
-            return;
-        }
+//         if (!result?.recordset) {
+//             res.status(500).json('Não foi possível retornar os dados.')
+//             return;
+//         }
 
-        let retorno = result.recordset
+//         let retorno = result.recordset
 
-        res.json(retorno)
+//         res.json(retorno)
 
-    } catch (error) {
-        res.status(500).json(error)
-    }
-}
+//     } catch (error) {
+//         res.status(500).json(error)
+//     }
+// }
+
+// router.get('/extracaoXlsx/agrupados', function (req, res) {
+
+//     const {
+//         almope,
+//         dataInicial,
+//         dataFinal,
+//         cComparativo
+//     } = req.query
+
+//     if (!almope) {
+//         res.status(400).json('almope não informado.')
+//         return
+//     }
+
+//     if (!cComparativo) {
+//         res.status(400).json('cComparativo não informado.')
+//         return
+//     }
+
+//     retornaDadosExtracaoAgrupados(almope, dataInicial, dataFinal, cComparativo, res)
+// });
+// async function retornaDadosExtracaoAgrupados(almope, dataInicial, dataFinal, cComparativo, res) {
+//     try {
+
+//         let pool = await get('BDRechamadasGeral', connection)
+//         // Requisição do banco
+//         let result = await pool.request()
+//             //define os parametros
+//             .input('almope', sql.VarChar, almope)
+//             .input('dataInicial', sql.DateTime, dataInicial)
+//             .input('dataFinal', sql.DateTime, dataFinal)
+//             .input('cComparativo', sql.Int, cComparativo)
+//             .execute('s_Sup_Digital_Retorna_Extracao_Tabela_Xlsx_Agrupada')
+
+
+//         if (!result?.recordset) {
+//             res.status(500).json('Não foi possível retornar os dados.')
+//             return;
+//         }
+
+//         let retorno = result.recordset
+
+//         res.json(retorno)
+
+//     } catch (error) {
+//         res.status(500).json(error)
+//     }
+// }
 
 
 module.exports = router

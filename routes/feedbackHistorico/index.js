@@ -8,28 +8,24 @@ const { get } = require('../../lib/poolManager')
 //rota para retornar agentes
 router.get('/agentes', function (req, res) {
     const {
-        almope,
+        idOperador
     } = req.query
 
-    if (!almope) {
-        res.status(400).json('almope não informado.')
-        return
-    }
 
 
-    retornaDadosagente(almope,  res)
+    retornaDadosagente(idOperador,  res)
 });
 
-async function retornaDadosagente(almope, res) {
+async function retornaDadosagente(idOperador, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
         // Requisição do banco
         let result = await pool.request()
             //define os parametros
-            .input('almope', sql.VarChar, almope)
+            .input('idOperador', sql.VarChar, idOperador)
             
-            .execute('s_Monitoramento_Agentes_Retorna_Agentes_Supervisor')
+            .execute('s_Gestao_Performance_Retorna_Agentes_Supervisor')
 
 
         if (!result?.recordset) {

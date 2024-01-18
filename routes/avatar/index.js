@@ -7,15 +7,12 @@ const connection = require('../../config/' + config.banco);
 
 router.get('/', async (req, res) => {
     try {
-        const almope = req.query.almope; // Obtém o valor do query parameter 'almope'
-        if (!almope) {
-            return res.status(400).json('almope não informado.')
-        }
-
+        const idOperador= req.query.idOperador; // Obtém o valor do query parameter 'almope'
+    
         let pool = await get('BDRechamadasGeral', connection)
         let result = await pool.request()
-            .input('almope', sql.VarChar(255), almope)
-            .execute('s_Sup_Digital_Retorna_Avatar');
+            .input('idOperador', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performance_Retorna_Avatar');
         res.json(result.recordset[0]);
     } catch (error) {
         console.error(error);
@@ -26,15 +23,12 @@ router.get('/', async (req, res) => {
 // Rota PUT para atualizar o avatar por almope
 router.put('/', async (req, res) => {
     try {
-        const almope = req.query.almope; // Obtém o valor do query parameter 'almope'
-        if (!almope) {
-            return res.status(400).json('almope não informado.')
-        }
-
+        const idOperador = req.query.idOperador; // Obtém o valor do query parameter 'almope'
+ 
         let pool = await get('BDRechamadasGeral', connection)
         let result = await pool.request()
-            .input('almope', sql.VarChar(255), almope)
-            .execute('s_Sup_Digital_Troca_Avatar');
+            .input('idOperador', sql.VarChar(255), idOperador)
+            .execute('s_Gestao_Performance_Troca_Avatar');
         res.send(result.recordset[0]);
     } catch (error) {
         console.error(error);

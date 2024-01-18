@@ -7,30 +7,24 @@ const config = require('../../config/config.json');
 const connection = require('../../config/' + config.banco);
 
 //Aplica alteração no status da sanção apartir das ações do Acompanhamento de Sanções
-router.get('/', function (req, res) {
+router.get('/agentes', function (req, res) {
     const {
-        almope,
+        idOperador
     } = req.query
 
-    if (!almope) {
-        res.status(400).json('almope não informado.')
-        return
-    }
-
-
-    retornaDados(almope,  res)
+    retornaDadosagente(idOperador,  res)
 });
 
-async function retornaDados(almope, res) {
+async function retornaDadosagente(idOperador, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
         // Requisição do banco
         let result = await pool.request()
             //define os parametros
-            .input('almope', sql.VarChar, almope)
+            .input('idOperador', sql.VarChar, idOperador)
             
-            .execute('s_Monitoramento_Agentes_Retorna_Agentes_Supervisor')
+            .execute('s_Gestao_Performance_Retorna_Agentes_Supervisor')
 
 
         if (!result?.recordset) {
@@ -45,8 +39,5 @@ async function retornaDados(almope, res) {
     } catch (error) {
         res.status(500).json(error)
     }
-}
-
-
-
+};
 module.exports = router
