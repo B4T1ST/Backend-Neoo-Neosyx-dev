@@ -439,7 +439,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
 
         let resultUsuario = await pool.request()
-            .input('idOperador', sql.VarChar, idOperador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
             .execute('s_Gestao_Performance_Retorna_Dados_Colaborador')
 
         let resultRocoins = await pool.request()
