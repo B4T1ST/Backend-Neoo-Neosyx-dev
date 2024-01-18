@@ -346,7 +346,7 @@ router.get('/', function (req, res) {
         idCoordenador= "-1",
         idSupervisor= "4714100",
         idOperador = "-1",
-        cComparativo = 4,
+        cComparativo,
         cIndicador,
         isFirstRendering
     } = req.query
@@ -457,11 +457,11 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
         let retorno = {
             torta: resultCards?.recordset,
+            grafico: resultGrafico?.recordset,
             dias: resultDia?.recordset,
             feedbackHistorico: resultFeedBackHistorico.recordset,
             tabela: agruparTabela(resultTabela?.recordset),
             termometro: resultTermometro?.recordset[0],
-            grafico: resultGrafico?.recordset,
             usuario: resultUsuario?.recordset[0],
             rocoins:resultRocoins?.recordset,
             dataAtualizacao: resultDataAtualizacao.recordset,
@@ -576,13 +576,13 @@ router.get('/pausas', function (req, res) {
     const {
         dataInicial,
         dataFinal,
-        idCliente,
-        idOperacao,
-        idDiretor,
-        idGerente,
-        idCoordenador,
+        idCliente = '-1',
+        idOperacao = '-1',
+        idDiretor= '-1',
+        idGerente= '-1',
+        idCoordenador= '-1',
         idSupervisor,
-        idOperador,
+        idOperador = '-1',
         cComparativo = 1,
     } = req.query
 
@@ -625,13 +625,13 @@ router.get('/monitorias', function (req, res) {
     const {
         dataInicial,
         dataFinal,
-        idCliente,
-        idOperacao,
-        idDiretor,
-        idGerente,
-        idCoordenador,
+        idCliente = '-1',
+        idOperacao = '-1',
+        idDiretor= '-1',
+        idGerente= '-1',
+        idCoordenador= '-1',
         idSupervisor,
-        idOperador,
+        idOperador = '-1',
         cComparativo = 1,
     } = req.query
 

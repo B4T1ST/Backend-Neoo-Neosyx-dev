@@ -6,6 +6,7 @@
   "database"  : "BDRechamadasGeral",
   "stream"    : false,
   "options": {
+    "requestTimeout"          : 60000,
     "trustedConnection"       : true,
     "encrypt"                 : true,
     "enableArithAbort"        : true,
