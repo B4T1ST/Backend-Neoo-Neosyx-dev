@@ -339,12 +339,12 @@ router.get('/', function (req, res) {
     const {
         dataInicial,
         dataFinal,
-        idCliente= "7",
+        idCliente= "-1",
         idOperacao= "-1",
         idDiretor= "-1",
         idGerente= "-1",
         idCoordenador= "-1",
-        idSupervisor= "4714100",
+        idSupervisor= "-1",
         idOperador = "-1",
         cComparativo,
         cIndicador,
@@ -581,7 +581,7 @@ router.get('/pausas', function (req, res) {
         idDiretor= '-1',
         idGerente= '-1',
         idCoordenador= '-1',
-        idSupervisor,
+        idSupervisor= '',
         idOperador = '-1',
         cComparativo = 1,
     } = req.query
@@ -630,7 +630,7 @@ router.get('/monitorias', function (req, res) {
         idDiretor= '-1',
         idGerente= '-1',
         idCoordenador= '-1',
-        idSupervisor,
+        idSupervisor= '4714100',
         idOperador = '-1',
         cComparativo = 1,
     } = req.query
