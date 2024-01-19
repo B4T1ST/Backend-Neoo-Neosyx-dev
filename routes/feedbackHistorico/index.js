@@ -47,31 +47,22 @@ router.get('/', function (req, res) {
     const {
         dataInicial,
         dataFinal,
-        idCliente,
-        idOperacao,
-        idDiretor,
         idGerente,
         idCoordenador,
         idSupervisor,
-        idOperador,
-        cComparativo = 1,
-        cIndicador,
-        almopeResponsavel,
-        isFirstRendering
+        idOperador
     } = req.query
 
 
     const dataInicialParam = dataInicial === " " ? null : dataInicial;
     const dataFinalParam = dataFinal === " " ? null : dataFinal;
 
-    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, dataInicialParam, dataFinalParam, res);
+    retornaDados(dataInicial, dataFinal,  idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res);
 });
 
-async function retornaDados(dataInicialParam, dataFinalParam, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, cIndicador, almopeResponsavel, isFirstRendering, dataInicialParam, dataFinalParam, res) {
+async function retornaDados(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res) {
     try {
         let pool = await get('BDGamification', connection);
-        console.log('Procedura retorna historico primeira request');
-
         // Requisição do banco
         let resultFeedBackHistorico = await pool.request()
             .input('idGerente', sql.VarChar, idGerente)  
@@ -96,26 +87,36 @@ async function retornaDados(dataInicialParam, dataFinalParam, idCliente, idOpera
 router.get('/extracaoXlsx', function (req, res) {
 
     const {
-        almope
+        dataInicial,
+        dataFinal,
+        idGerente,
+        idCoordenador,
+        idSupervisor,
+        idOperador
     } = req.query
 
 
-    retornaDadosExtracao(almope, res)
+    const dataInicialParam = dataInicial === " " ? null : dataInicial;
+    const dataFinalParam = dataFinal === " " ? null : dataFinal;
+
+
+    retornaDadosExtracao(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res);
 });
 
-async function retornaDadosExtracao(almope, res){
+async function retornaDadosExtracao(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res){
     try {
         let pool = await get('BDGamification', connection);
-        console.log('Procedura retorna historico primeira request');
 
-        let resultFeedBackHistoricoExtracao = await pool.request()
-
-            .input('almope', sql.VarChar, almope)
-            .execute('s_Sup_Digital_Retorna_Feedback_Historico_Xlsx')
+        let result = await pool.request()
+        .input('idGerente', sql.VarChar, idGerente)  
+        .input('idCoordenador', sql.VarChar, idCoordenador)
+        .input('idSupervisor', sql.VarChar, idSupervisor)
+        .input('idOperador', sql.VarChar, idOperador)
+        .input('dataInicial', sql.DateTime, dataInicialParam)
+        .input('dataFinal', sql.DateTime, dataFinalParam)
+        .execute('s_Gestao_Performace_Retorna_Feedback_Historico_Xlsx')
         
-        let retorno = {
-            feedbackHistoricoExtracao: resultFeedBackHistoricoExtracao.recordset
-        };
+        let retorno = result.recordset
 
         res.json(retorno);
     } catch (error) {
