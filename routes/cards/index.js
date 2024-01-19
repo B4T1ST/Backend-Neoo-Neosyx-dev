@@ -759,7 +759,7 @@ async function  retornaDadosExtracaoAgrupados(dataInicial, dataFinal,idCliente, 
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Gestao_Performance_Retorna_Tabela_Agrupada')
+            .execute('s_Gestao_Performance_Retorna_Extracao_Tabela_Xlsx_Agrupadas')
 
 
         if (!result?.recordset) {
