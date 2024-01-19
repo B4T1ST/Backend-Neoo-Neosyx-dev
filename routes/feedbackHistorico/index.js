@@ -8,20 +8,20 @@ const { get } = require('../../lib/poolManager')
 //rota para retornar agentes
 router.get('/agentes', function (req, res) {
     const {
-        idOperador
+        idSupervisor
     } = req.query
 
-    retornaDadosagente(idOperador,  res)
+    retornaDadosagente(idSupervisor,  res)
 });
 
-async function retornaDadosagente(idOperador, res) {
+async function retornaDadosagente(idSupervisor, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
         // Requisição do banco
         let result = await pool.request()
             //define os parametros
-            .input('idOperador', sql.VarChar, idOperador)
+            .input('idOperador', sql.VarChar, idSupervisor)
             
             .execute('s_Gestao_Performance_Retorna_Agentes_Supervisor')
 

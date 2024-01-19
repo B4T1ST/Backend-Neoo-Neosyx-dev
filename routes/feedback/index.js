@@ -11,22 +11,20 @@ const connection = require('../../config/' + config.banco);
 router.get('/', function (req, res) {
 
     const {
-        almope,
+        idOperador,
     } = req.query
 
-    retornaDadosFeedback(almope, res)
+    retornaDadosFeedback(idOperador, res)
 });
-async function retornaDadosFeedback(almope, res) {
+async function retornaDadosFeedback(idOperador, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
         console.log('procedura retorna cards orimeira request')
-
-
         // Requisição do banco
         let resultFeedback = await pool.request()
             //define os parametros
-            .input('almope', sql.VarChar, almope)
+            .input('idOperador', sql.VarChar, idOperador)
             .execute('s_Sup_Digital_Retorna_Feedback_Popup')    
 
         let retorno = {
