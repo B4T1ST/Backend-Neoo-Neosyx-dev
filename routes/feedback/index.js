@@ -25,7 +25,7 @@ async function retornaDadosFeedback(idOperador, res) {
         let resultFeedback = await pool.request()
             //define os parametros
             .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Sup_Digital_Retorna_Feedback_Popup')    
+            .execute('s_Gestao_Performance_Retorna_Feedback_Popup')    
 
         let retorno = {
          
@@ -35,7 +35,7 @@ async function retornaDadosFeedback(idOperador, res) {
                     let resultMotivos = await pool.request()
                     //define os parametros
                         .input('cFeedback', sql.Int, i.id)
-                        .execute('s_Sup_Digital_Retorna_Motivo_Feedback') 
+                        .execute('s_Gestao_Performance_Retorna_Motivo_Feedback') 
                     console.log(resultMotivos)
                     i.motivos = resultMotivos.recordset
                     return i
