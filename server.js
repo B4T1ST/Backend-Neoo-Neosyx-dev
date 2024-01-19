@@ -42,7 +42,7 @@ const sidebarRouter         = require('./routes/sidebar.js');
 const feedbackHistoricoRouter = require('./routes/feedbackHistorico/index');
 const feedbackRouter = require('./routes/feedback/index');
 const cardsRouter = require('./routes/cards/index.js');
-const graficoBarraRouter = require('./routes/cards/graficoBarra.js');
+const graficoBarraRouter = require('./routes/cards/graficoBarra');
 const fileView = require('./routes/fileView/index.js');
 const avatarRouter           = require('./routes/avatar/index.js');
 
@@ -86,7 +86,7 @@ app.use(`${nginsxTag}/avatar`, avatarRouter);
 app.use(`${nginsxTag}/gestaoPerformace`, cardsRouter);
 
 //rota do grafico torta
-app.use(`${nginsxTag}/gestaoPerformace/graficoBarra`, graficoBarraRouter);
+//app.use(`${nginsxTag}/gestaoPerformace/graficoBarra`, graficoBarraRouter);
 
 app.use(`${nginsxTag}/gestaoPerformace/feedbackHistorico`, feedbackHistoricoRouter)
 

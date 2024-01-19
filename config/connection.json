@@ -5,8 +5,8 @@
   "password"  : "@g0r@0ununc@",
   "database"  : "BDRechamadasGeral",
   "stream"    : false,
+  "requestTimeout"          : 30000,
   "options": {
-    "requestTimeout"          : 60000,
     "trustedConnection"       : true,
     "encrypt"                 : true,
     "enableArithAbort"        : true,
