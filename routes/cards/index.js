@@ -24,7 +24,7 @@ async function retornaDadosUsuario(almope, res) {
 
         let pool = await get('BDRechamadasGeral', connection)
         let resultColaborador = await pool.request()
-            .input('idSupervisor', sql.VarChar, almope)
+            .input('almope', sql.VarChar, almope)
             .execute('s_Gestao_Performance_Retorna_Dados_Colaborador')
 
         let retorno = {
