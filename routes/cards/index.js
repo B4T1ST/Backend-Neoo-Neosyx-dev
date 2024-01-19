@@ -666,103 +666,80 @@ async function retornaDadosMonitoria(dataInicial, dataFinal, idCliente, idOperac
     }
 }
 
-// router.get('/extracaoXlsx', function (req, res) {
+router.get('/extracaoXlsx', function (req, res) {
 
-//     const {
-//         almope,
-//         dataInicial,
-//         dataFinal,
-//         cComparativo
-//     } = req.query
+    const {
+        idSupervisor,
+        dataInicial,
+        dataFinal
+    } = req.query
 
-//     if (!almope) {
-//         res.status(400).json('almope não informado.')
-//         return
-//     }
+    retornaDadosExtracao(idSupervisor, dataInicial, dataFinal, res)
+});
+async function retornaDadosExtracao(idSupervisor, dataInicial, dataFinal, res) {
+    try {
 
-//     if (!cComparativo) {
-//         res.status(400).json('cComparativo não informado.')
-//         return
-//     }
-
-//     retornaDadosExtracao(almope, dataInicial, dataFinal, cComparativo, res)
-// });
-// async function retornaDadosExtracao(almope, dataInicial, dataFinal, cComparativo, res) {
-//     try {
-
-//         let pool = await get('BDRechamadasGeral', connection)
-//         // Requisição do banco
-//         let result = await pool.request()
-//             //define os parametros
-//             .input('almope', sql.VarChar, almope)
-//             .input('dataInicial', sql.DateTime, dataInicial)
-//             .input('dataFinal', sql.DateTime, dataFinal)
-//             .input('cComparativo', sql.Int, cComparativo)
-//             .execute('s_Sup_Digital_Retorna_Extracao_Tabela_Xlsxs')
+        let pool = await get('BDRechamadasGeral', connection)
+        // Requisição do banco
+        let result = await pool.request()
+            //define os parametros
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('dataInicial', sql.DateTime, dataInicial)
+            .input('dataFinal', sql.DateTime, dataFinal)
+            .execute('s_Gestao_Performance_Retorna_Extracao_Tabela_Xlsx')
 
 
-//         if (!result?.recordset) {
-//             res.status(500).json('Não foi possível retornar os dados.')
-//             return;
-//         }
+        if (!result?.recordset) {
+            res.status(500).json('Não foi possível retornar os dados.')
+            return;
+        }
 
-//         let retorno = result.recordset
+        let retorno = result.recordset
 
-//         res.json(retorno)
+        res.json(retorno)
 
-//     } catch (error) {
-//         res.status(500).json(error)
-//     }
-// }
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
 
-// router.get('/extracaoXlsx/agrupados', function (req, res) {
+router.get('/extracaoXlsx/agrupados', function (req, res) {
 
-//     const {
-//         almope,
-//         dataInicial,
-//         dataFinal,
-//         cComparativo
-//     } = req.query
-
-//     if (!almope) {
-//         res.status(400).json('almope não informado.')
-//         return
-//     }
-
-//     if (!cComparativo) {
-//         res.status(400).json('cComparativo não informado.')
-//         return
-//     }
-
-//     retornaDadosExtracaoAgrupados(almope, dataInicial, dataFinal, cComparativo, res)
-// });
-// async function retornaDadosExtracaoAgrupados(almope, dataInicial, dataFinal, cComparativo, res) {
-//     try {
-
-//         let pool = await get('BDRechamadasGeral', connection)
-//         // Requisição do banco
-//         let result = await pool.request()
-//             //define os parametros
-//             .input('almope', sql.VarChar, almope)
-//             .input('dataInicial', sql.DateTime, dataInicial)
-//             .input('dataFinal', sql.DateTime, dataFinal)
-//             .input('cComparativo', sql.Int, cComparativo)
-//             .execute('s_Sup_Digital_Retorna_Extracao_Tabela_Xlsx_Agrupada')
+    const {
+        idSupervisor,
+        dataInicial,
+        dataFinal
+    } = req.query
 
 
-//         if (!result?.recordset) {
-//             res.status(500).json('Não foi possível retornar os dados.')
-//             return;
-//         }
+    retornaDadosExtracaoAgrupados(idSupervisor, dataInicial, dataFinal, res)
+});
+async function retornaDadosExtracaoAgrupados(idSupervisor, dataInicial, dataFinal, res) {
+    try {
 
-//         let retorno = result.recordset
+        let pool = await get('BDRechamadasGeral', connection)
+        // Requisição do banco
+        let result = await pool.request()
+            //define os parametros
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('dataInicial', sql.DateTime, dataInicial)
+            .input('dataFinal', sql.DateTime, dataFinal)
+            .execute('s_Gestao_Performance_Retorna_Extracao_Tabela_Xlsx_Agrupada')
 
-//         res.json(retorno)
 
-//     } catch (error) {
-//         res.status(500).json(error)
-//     }
-// }
+        if (!result?.recordset) {
+            res.status(500).json('Não foi possível retornar os dados.')
+            return;
+        }
+
+        let retorno = result.recordset
+
+        res.json(retorno)
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
 
 
 module.exports = router
