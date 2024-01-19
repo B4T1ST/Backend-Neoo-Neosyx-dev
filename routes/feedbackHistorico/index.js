@@ -11,8 +11,6 @@ router.get('/agentes', function (req, res) {
         idOperador
     } = req.query
 
-
-
     retornaDadosagente(idOperador,  res)
 });
 
