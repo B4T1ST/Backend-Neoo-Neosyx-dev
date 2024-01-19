@@ -388,7 +388,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-        console.log('procedura retorna cards orimeira request')
+        console.log('procedura retorna cards Primeira request')
 
         // Requisição do banco
         let resultCards = await pool.request()
@@ -403,11 +403,6 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)
             .execute('s_Gestao_Performance_Retorna_Indicador')
-
-
-        let resultDia = await pool.request()
-            .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Gestao_Performance_Retorna_Dia_Logado')
             
          let resultFeedBackHistorico = await pool.request()
             .input('idGerente', sql.VarChar, idGerente)  
@@ -419,12 +414,16 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
 
             let resultTabelaAgrup = await pool.request()
-                //define os parametros
-            .input('idOperador', sql.VarChar, idSupervisor)
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
-            .input('cComparativo', sql.Int, cComparativo)
-            .execute('s_Gestao_Performance_Retorna_Tabela_Agrupada')
+                .input('dataInicial', sql.DateTime, dataInicial)
+                .input('dataFinal', sql.DateTime, dataFinal)
+                .input('idCliente', sql.VarChar, idCliente)
+                .input('idOperacao', sql.VarChar, idOperacao)
+                .input('idDiretor', sql.VarChar, idDiretor)
+                .input('idGerente', sql.VarChar, idGerente)
+                .input('idCoordenador', sql.VarChar, idCoordenador)
+                .input('idSupervisor', sql.VarChar, idSupervisor)
+                .input('idOperador', sql.VarChar, idOperador)
+                .execute('s_Gestao_Performance_Retorna_Tabela_Agrupada')
 
         let resultTabela = await pool.request()
             .input('dataInicial', sql.DateTime, dataInicial)
@@ -481,7 +480,6 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
         let retorno = {
             torta: resultCards?.recordset,
             grafico: resultGrafico?.recordset,
-            dias: resultDia?.recordset,
             feedbackHistorico: resultFeedBackHistorico.recordset,
             tabela: agruparTabela(resultTabela?.recordset),
             termometro: resultTermometro?.recordset[0],
