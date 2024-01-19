@@ -465,10 +465,6 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .execute('s_Gestao_Performance_Retorna_Grafico_Barra')
 
 
-        let resultUsuario = await pool.request()
-            .input('idSupervisor', sql.VarChar, idSupervisor)
-            .execute('s_Gestao_Performance_Retorna_Dados_Colaborador')
-
         let resultRocoins = await pool.request()
             .input('idGerente', sql.VarChar, idGerente)
             .input('idCoordenador', sql.VarChar, idCoordenador)
@@ -489,7 +485,6 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             feedbackHistorico: resultFeedBackHistorico.recordset,
             tabela: agruparTabela(resultTabela?.recordset),
             termometro: resultTermometro?.recordset[0],
-            usuario: resultUsuario?.recordset[0],
             rocoins:resultRocoins?.recordset,
             dataAtualizacao: resultDataAtualizacao.recordset,
             tabelaAgrupada: agruparGrafico(resultTabelaAgrup?.recordset),
