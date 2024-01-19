@@ -13,18 +13,18 @@ router.use('/comparativos', require('./comparativos'))
 
 router.get('/usuario', function (req, res) {
     const {
-        idOperador
+        almope
     } = req.query
 
-    retornaDadosUsuario(idOperador,  res)
+    retornaDadosUsuario(almope,  res)
 });
 
-async function retornaDadosUsuario(idOperador, res) {
+async function retornaDadosUsuario(almope, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
         let resultColaborador = await pool.request()
-            .input('idSupervisor', sql.VarChar, idOperador)
+            .input('idSupervisor', sql.VarChar, almope)
             .execute('s_Gestao_Performance_Retorna_Dados_Colaborador')
 
         let retorno = {
