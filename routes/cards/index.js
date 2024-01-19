@@ -11,6 +11,33 @@ router.use('/agentes', require('./agentes'))
 router.use('/comparativos', require('./comparativos'))
 
 
+router.get('/usuario', function (req, res) {
+    const {
+        idOperador
+    } = req.query
+
+    retornaDadosUsuario(idOperador,  res)
+});
+
+async function retornaDadosUsuario(idOperador, res) {
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
+        let resultColaborador = await pool.request()
+            .input('idSupervisor', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performance_Retorna_Dados_Colaborador')
+
+        let retorno = {
+            cargo: resultColaborador?.recordset
+        }
+
+        res.json(retorno)
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+};
+
 //Rota para exibição dos clientes no filtro
 router.get('/cliente', function (req, res){
 
