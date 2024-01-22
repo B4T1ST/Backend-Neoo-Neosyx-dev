@@ -491,7 +491,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
         function agruparGrafico(tabelaAgrupada) {
             const indicadoresMapping = {
                 almope: 'Almope',
-                operador: 'Operador',
+                nome: 'Operador',
                 atendidas: 'Atendidas',
                 tma: 'TMA',
                 tmt: 'TMT',
