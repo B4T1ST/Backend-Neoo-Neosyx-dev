@@ -423,7 +423,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 .input('idCoordenador', sql.VarChar, idCoordenador)
                 .input('idSupervisor', sql.VarChar, idSupervisor)
                 .input('idOperador', sql.VarChar, idOperador)
-                .execute('s_Gestao_Performance_Retorna_Tabela_Agrupada')
+                .execute('s_Gestao_Performance_Retorna_Extracao_Tabela_Xlsx_Agrupadas')
 
         let resultTabela = await pool.request()
             .input('dataInicial', sql.DateTime, dataInicial)
@@ -487,35 +487,34 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             dataAtualizacao: resultDataAtualizacao.recordset,
             tabelaAgrupada: agruparGrafico(resultTabelaAgrup?.recordset),
         };
-
+        
         function agruparGrafico(tabelaAgrupada) {
             const indicadoresMapping = {
                 almope: 'Almope',
                 operador: 'Operador',
                 atendidas: 'Atendidas',
+                tma: 'TMA',
+                tmt: 'TMT',
                 absenteismo: 'Absenteísmo',
                 aderencia: 'Aderência',
-                csat: 'CSAT',
-                desconexao: 'Desconexão',
-                desvioPausa: 'Desvio de Pausa',
+                tempologado: 'Tempo Logado',
                 jackin: 'Jackin',
-                notaQualidade: 'Nota de Qualidade',
-                nps: 'NPS',
-                operador: 'Operador',
-                pausa: 'Pausa',
-                qtdMonitoria: 'Quantidade de Monitoria',
-                qtdTransferidas: 'Quantidade Transferidas',
                 recham24m: 'Recham 24m',
+                shortcall30s: 'Shortcall 30s',
+                desconexao: 'Desconexão',
+                notaQualidade: 'Nota de Qualidade',
+                qtdMonitoria: 'Quantidade de Monitoria',
+                tempoSilencio: 'Tempo de Silêncio',
+                pausa: 'Pausa',
                 recham48m: 'Recham 48m',
+                desvioPausa: 'Desvio de Pausa',
+                qtdTransferidas: 'Quantidade Transferidas',
                 recham60m: 'Recham 60m',
                 recham72m: 'Recham 72m',
                 recham128m: 'Recham 128m',
-                shortcall30s: 'Shortcall 30s',
                 shortcall60s: 'Shortcall 60s',
-                tempoSilencio: 'Tempo de Silêncio',
-                tempologado: 'Tempo Logado',
-                tma: 'TMA',
-                tmt: 'TMT',
+                csat: 'CSAT',
+                nps: 'NPS',
                 vendas: 'Vendas',
                 vendasPerc: 'Vendas Percentual',
             };
@@ -537,38 +536,37 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
         }
 
         function agruparTabela(tabela) {
-            const indicadoresMapping = {
+            const indicadoresMappingg = {
                 periodo: 'Periodo',
+                atendidas: 'Atendidas',
+                tma: 'TMA',
+                tmt: 'TMT',
                 absenteismo: 'Absenteísmo',
                 aderencia: 'Aderência',
-                atendidas: 'Atendidas',
-                csat: 'CSAT',
-                desconexao: 'Desconexão',
-                desvioPausa: 'Desvio de Pausa',
+                tempologado: 'Tempo Logado',
                 jackin: 'Jackin',
-                notaQualidade: 'Nota de Qualidade',
-                nps: 'NPS',
-                operador: 'Operador',
-                pausa: 'Pausa',
-                qtdMonitoria: 'Quantidade de Monitoria',
-                qtdTransferidas: 'Quantidade Transferidas',
                 recham24m: 'Recham 24m',
                 recham48m: 'Recham 48m',
                 recham60m: 'Recham 60m',
                 recham72m: 'Recham 72m',
                 recham128m: 'Recham 128m',
+                qtdTransferidas: 'Quantidade Transferidas',
                 shortcall30s: 'Shortcall 30s',
                 shortcall60s: 'Shortcall 60s',
+                desconexao: 'Desconexão',
+                desvioPausa: 'Desvio de Pausa',
+                notaQualidade: 'Nota de Qualidade',
+                qtdMonitoria: 'Quantidade de Monitoria',
                 tempoSilencio: 'Tempo de Silêncio',
-                tempologado: 'Tempo Logado',
-                tma: 'TMA',
-                tmt: 'TMT',
+                pausa: 'Pausa',
+                nps: 'NPS',
+                csat: 'CSAT',
                 vendas: 'Vendas',
                 vendasPerc: 'Vendas Percentual',
             };
         
             return tabela.map(item => {
-                const indicadorKey = Object.keys(indicadoresMapping);
+                const indicadorKey = Object.keys(indicadoresMappingg);
                 
                 const filteredIndicators = indicadorKey.filter(key => {
                     const valorDoIndicador = item[key];
@@ -616,14 +614,10 @@ async function retornaDadosPausa(dataInicial, dataFinal, idCliente, idOperacao, 
         let result = await pool.request()
             .input('dataInicial', sql.DateTime, dataInicial)
             .input('dataFinal', sql.DateTime, dataFinal)
-            .input('idCliente', sql.VarChar, idCliente)
-            .input('idOperacao', sql.VarChar, idOperacao)
-            .input('idDiretor', sql.VarChar, idDiretor)
             .input('idGerente', sql.VarChar, idGerente)
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
-            .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Gestao_Performance_Retorna_Pausas')
+            .execute('s_Gestao_Performance_Retorna_Pausas_v2')
 
 
         if (!result?.recordset) {
