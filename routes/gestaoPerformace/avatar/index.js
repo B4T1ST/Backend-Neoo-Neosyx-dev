@@ -1,9 +1,9 @@
 const sql = require('mssql');
 const express = require('express');
 const router = express.Router();
-const config = require('../../config/config.json');
-const { get } = require('../../lib/poolManager')
-const connection = require('../../config/' + config.banco);
+const config = require('../../../config/config.json');
+const { get } = require('../../../lib/poolManager')
+const connection = require('../../../config/' + config.banco);
 
 router.get('/', async (req, res) => {
     try {
@@ -11,8 +11,8 @@ router.get('/', async (req, res) => {
     
         let pool = await get('BDRechamadasGeral', connection)
         let result = await pool.request()
-            .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Gestao_Performance_Retorna_Avatar');
+            .input('almope', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performance_Retorna_Avatar_V2');
         res.json(result.recordset[0]);
     } catch (error) {
         console.error(error);
@@ -27,8 +27,8 @@ router.put('/', async (req, res) => {
  
         let pool = await get('BDRechamadasGeral', connection)
         let result = await pool.request()
-            .input('idOperador', sql.VarChar(255), idOperador)
-            .execute('s_Gestao_Performance_Troca_Avatar');
+            .input('almope', sql.VarChar(255), idOperador)
+            .execute('s_Gestao_Performance_Troca_Avatar_V2');
         res.send(result.recordset[0]);
     } catch (error) {
         console.error(error);

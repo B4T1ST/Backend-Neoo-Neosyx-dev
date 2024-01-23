@@ -2,32 +2,30 @@
 const sql = require('mssql');
 const express = require('express');
 const router = express.Router();
-const config = require('../../config/config.json');
-const { get } = require('../../lib/poolManager')
-const connection = require('../../config/' + config.banco);
+const config = require('../../../config/config.json');
+const { get } = require('../../../lib/poolManager')
+const connection = require('../../../config/' + config.banco);
 
 
 //rota para obter feedback
 router.get('/', function (req, res) {
 
     const {
-        almope,
+        idOperador,
     } = req.query
 
-    retornaDadosFeedback(almope, res)
+    retornaDadosFeedback(idOperador, res)
 });
-async function retornaDadosFeedback(almope, res) {
+async function retornaDadosFeedback(idOperador, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
         console.log('procedura retorna cards orimeira request')
-
-
         // Requisição do banco
         let resultFeedback = await pool.request()
             //define os parametros
-            .input('almope', sql.VarChar, almope)
-            .execute('s_Sup_Digital_Retorna_Feedback_Popup')    
+            .input('idOperador', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performance_Retorna_Feedback_Popup')    
 
         let retorno = {
          
@@ -37,7 +35,7 @@ async function retornaDadosFeedback(almope, res) {
                     let resultMotivos = await pool.request()
                     //define os parametros
                         .input('cFeedback', sql.Int, i.id)
-                        .execute('s_Sup_Digital_Retorna_Motivo_Feedback') 
+                        .execute('s_Gestao_Performance_Retorna_Motivo_Feedback') 
                     console.log(resultMotivos)
                     i.motivos = resultMotivos.recordset
                     return i

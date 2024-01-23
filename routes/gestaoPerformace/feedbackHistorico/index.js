@@ -1,9 +1,9 @@
 const sql = require('mssql');
 const express = require('express');
 const router = express.Router();
-const config = require('../../config/config.json');
-const connection = require('../../config/' + config.banco);
-const { get } = require('../../lib/poolManager')
+const config = require('../../../config/config.json');
+const connection = require('../../../config/' + config.banco);
+const { get } = require('../../../lib/poolManager')
 
 //rota para retornar agentes
 router.get('/agentes', function (req, res) {
@@ -98,10 +98,10 @@ router.get('/extracaoXlsx', function (req, res) {
     const dataFinalParam = dataFinal === " " ? null : dataFinal;
 
 
-    retornaDadosExtracao(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res);
+    retornaDadosExtracao(idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res);
 });
 
-async function retornaDadosExtracao(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res){
+async function retornaDadosExtracao(idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res){
     try {
         let pool = await get('BDGamification', connection);
 

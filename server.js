@@ -39,12 +39,14 @@ const MVPRouter      = require('./routes/MVP/index.js');
 const sidebarRouter         = require('./routes/sidebar.js');
 // const sancoesRouter         = require('./routes/sancoes');
 
-const feedbackHistoricoRouter = require('./routes/feedbackHistorico/index');
-const feedbackRouter = require('./routes/feedback/index');
-const cardsRouter = require('./routes/cards/index.js');
-const graficoBarraRouter = require('./routes/cards/graficoBarra');
+const feedbackHistoricoRouter = require('./routes/gestaoPerformace/feedbackHistorico/');
+const feedbackRouter = require('./routes/gestaoPerformace/feedback/');
+const homeRouter = require('./routes/gestaoPerformace/home');
+const graficoBarraRouter = require('./routes/gestaoPerformace/graficoBarra/');
+const tabelasRouter = require('./routes/gestaoPerformace/tabelas/');
+const kpiRouter = require('./routes/gestaoPerformace/KPI/');
 const fileView = require('./routes/fileView/index.js');
-const avatarRouter           = require('./routes/avatar/index.js');
+const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.js');
 
 // const port = 4000;
 // const port = 8443;
@@ -79,17 +81,25 @@ app.use(session({
 
 app.use(`${nginsxTag}/fileView`, fileView);
 
+//rota para avatar
 app.use(`${nginsxTag}/avatar`, avatarRouter);
 
+//rota home
+app.use(`${nginsxTag}/gestaoPerformace`, homeRouter);
 
-//rota de cards
-app.use(`${nginsxTag}/gestaoPerformace`, cardsRouter);
+//rota do grafico barra
+app.use(`${nginsxTag}/gestaoPerformace/graficoBarra`, graficoBarraRouter);
 
-//rota do grafico torta
-//app.use(`${nginsxTag}/gestaoPerformace/graficoBarra`, graficoBarraRouter);
+//rota para tabelas dos graficos + extracao
+app.use(`${nginsxTag}/gestaoPerformace/tabela`, tabelasRouter);
 
+//rota para KPI
+app.use(`${nginsxTag}/gestaoPerformace/kpi`, kpiRouter);
+
+//rota para feedbackHistorico
 app.use(`${nginsxTag}/gestaoPerformace/feedbackHistorico`, feedbackHistoricoRouter)
 
+//rota para pop-up feedbackHistorico
 app.use(`${nginsxTag}/gestaoPerformace/feedback`, feedbackRouter)
 
 //carrega as rotas
