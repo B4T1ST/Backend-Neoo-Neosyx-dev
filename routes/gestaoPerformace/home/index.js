@@ -412,7 +412,6 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
         res.status(500).json(error);
     }
 }
-
 router.get('/rocoins', function (req, res) {
 
     const {
