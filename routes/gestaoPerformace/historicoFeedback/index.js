@@ -37,7 +37,7 @@ async function retornaDadosHistoricoFeedback(dataInicial, dataFinal, idGerente, 
             .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
 
         let retorno = {
-            feedbackHistorico: resultFeedBackHistorico.recordset
+            historicoFeedback: resultFeedBackHistorico.recordset
         };
 
         res.json(retorno);
