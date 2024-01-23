@@ -27,7 +27,6 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-        console.log('procedura retorna cards Primeira request')
 
         // Requisição do banco
         let resultTermometro = await pool.request()
@@ -41,7 +40,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
 
         let retorno = {
-            termometro: resultTermometro?.recordset[0],
+            termometro: resultTermometro?.recordset,
         };
 
         res.json(retorno);
