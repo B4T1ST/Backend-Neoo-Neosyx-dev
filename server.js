@@ -41,9 +41,16 @@ const sidebarRouter         = require('./routes/sidebar.js');
 
 const feedbackHistoricoRouter = require('./routes/gestaoPerformace/feedbackHistorico/');
 const feedbackRouter = require('./routes/gestaoPerformace/feedback/');
-const homeRouter = require('./routes/gestaoPerformace/home');
+const tortaRouter = require('./routes/gestaoPerformace/torta');
 const graficoBarraRouter = require('./routes/gestaoPerformace/graficoBarra/');
 const tabelasRouter = require('./routes/gestaoPerformace/tabelas/');
+const filtroRouter = require('./routes/gestaoPerformace/filtro/');
+const dataAtualizacaoRouter = require('./routes/gestaoPerformace/dataAtualizacao/');
+const historicoFeedbackRouter = require('./routes/gestaoPerformace/historicoFeedback/');
+const monitoriasGestaoPerformaceRouter = require('./routes/gestaoPerformace/monitorias/');
+const pausasGestaoPerformaceRouter = require('./routes/gestaoPerformace/pausas/');
+const rocoinsRouter = require('./routes/gestaoPerformace/rocoins/');
+const usuarioRouter = require('./routes/gestaoPerformace/usuario/');
 const kpiRouter = require('./routes/gestaoPerformace/KPI/');
 const fileView = require('./routes/fileView/index.js');
 const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.js');
@@ -85,10 +92,31 @@ app.use(`${nginsxTag}/fileView`, fileView);
 app.use(`${nginsxTag}/avatar`, avatarRouter);
 
 //rota home
-app.use(`${nginsxTag}/gestaoPerformace`, homeRouter);
+app.use(`${nginsxTag}/gestaoPerformace/torta`, tortaRouter);
+
+//rota de dataAtualizacao
+app.use(`${nginsxTag}/gestaoPerformace/dataAtualizacao`, dataAtualizacaoRouter);
+
+//rota de historicoFeedback
+app.use(`${nginsxTag}/gestaoPerformace/historicoFeedback`, historicoFeedbackRouter);
+
+//rota de monitorias gestao performace
+app.use(`${nginsxTag}/gestaoPerformace/monitorias`, monitoriasGestaoPerformaceRouter);
+
+//rota de pausas gestao performace
+app.use(`${nginsxTag}/gestaoPerformace/pausas`, pausasGestaoPerformaceRouter);
+
+//rota de rocoins
+app.use(`${nginsxTag}/gestaoPerformace/rocoins`, rocoinsRouter);
+
+//rota de usuario
+app.use(`${nginsxTag}/gestaoPerformace/usuario`, usuarioRouter);
 
 //rota do grafico barra
 app.use(`${nginsxTag}/gestaoPerformace/graficoBarra`, graficoBarraRouter);
+
+
+app.use(`${nginsxTag}/gestaoPerformace/filtro`, filtroRouter);
 
 //rota para tabelas dos graficos + extracao
 app.use(`${nginsxTag}/gestaoPerformace/tabela`, tabelasRouter);
