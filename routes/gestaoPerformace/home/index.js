@@ -387,11 +387,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-        console.log('procedura retorna cards Primeira request')
-
-        // Requisição do banco
         let resultCards = await pool.request()
-            //define os parametros
             .input('dataInicial', sql.DateTime, dataInicial)
             .input('dataFinal', sql.DateTime, dataFinal)
             .input('idCliente', sql.VarChar, idCliente)
@@ -402,7 +398,78 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)
             .execute('s_Gestao_Performance_Retorna_Indicador')
-            
+        
+
+        let retorno = {
+            torta: resultCards?.recordset
+
+        };
+
+        res.json(retorno);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
+}
+
+router.get('/rocoins', function (req, res) {
+
+    const {
+        idGerente= "-1",
+        idCoordenador= "-1",
+        idSupervisor= "-1",
+        idOperador = "-1",
+    } = req.query
+
+    retornaDadosRocoins(idGerente, idCoordenador, idSupervisor, idOperador,  res);
+});
+async function retornaDadosRocoins(idGerente, idCoordenador, idSupervisor, idOperador,  res) {
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
+
+
+        let resultRocoins = await pool.request()
+            .input('idGerente', sql.VarChar, idGerente)
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
+            .execute('s_Gestao_Performance_Retorna_Dados_Rocoins')
+
+
+        let retorno = {
+            rocoins:resultRocoins?.recordset
+        };
+
+        res.json(retorno);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
+}
+router.get('/historicoFeedback', function (req, res) {
+
+    const {
+        dataInicial,
+        dataFinal,
+        idGerente= "-1",
+        idCoordenador= "-1",
+        idSupervisor= "-1",
+        idOperador = "-1",
+    } = req.query
+
+
+    const dataInicialParam = dataInicial === " " ? null : dataInicial;
+    const dataFinalParam = dataFinal === " " ? null : dataFinal;
+
+    retornaDadosHistoricoFeedback(dataInicial, dataFinal,  idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res);
+});
+async function retornaDadosHistoricoFeedback(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res) {
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
          let resultFeedBackHistorico = await pool.request()
             .input('idGerente', sql.VarChar, idGerente)  
             .input('idCoordenador', sql.VarChar, idCoordenador)
@@ -412,12 +479,30 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('dataFinal', sql.DateTime, dataFinalParam)
             .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
 
-        let resultRocoins = await pool.request()
-            .input('idGerente', sql.VarChar, idGerente)
-            .input('idCoordenador', sql.VarChar, idCoordenador)
-            .input('idSupervisor', sql.VarChar, idSupervisor)
-            .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Gestao_Performance_Retorna_Dados_Rocoins')
+        let retorno = {
+            feedbackHistorico: resultFeedBackHistorico.recordset
+        };
+
+        res.json(retorno);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
+}
+router.get('/dataAtualizacao', function (req, res) {
+
+    const {
+        dataInicial,
+        dataFinal,
+    } = req.query
+
+    retornaDadosDataAtualizacao(dataInicial, dataFinal, res);
+});
+async function retornaDadosDataAtualizacao(dataInicial, dataFinal, res) {
+    try {
+
+        let pool = await get('BDRechamadasGeral', connection)
 
         let resultDataAtualizacao = await pool.request()
             .input('dataInicial', sql.DateTime, dataInicial)
@@ -425,9 +510,6 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .execute('s_Sup_Digital_Retorna_Data_Atualizacao')
 
         let retorno = {
-            torta: resultCards?.recordset,
-            feedbackHistorico: resultFeedBackHistorico.recordset,
-            rocoins:resultRocoins?.recordset,
             dataAtualizacao: resultDataAtualizacao.recordset,
         };
 
@@ -438,6 +520,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
         res.status(500).json(error);
     }
 }
+
 router.get('/pausas', function (req, res) {
 
     const {
