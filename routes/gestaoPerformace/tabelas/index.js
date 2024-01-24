@@ -37,7 +37,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 .input('idCoordenador', sql.VarChar, idCoordenador)
                 .input('idSupervisor', sql.VarChar, idSupervisor)
                 .input('idOperador', sql.VarChar, idOperador)
-                .execute('s_Gestao_Performance_Retorna_Extracao_Tabela_Xlsx_Agrupadas') 
+                .execute('s_Gestao_Performance_Retorna_Tabela_Agrupada') 
             
             let resultTabela = await pool.request()
                 .input('dataInicial', sql.DateTime, dataInicial)
@@ -58,33 +58,33 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
         function agruparGrafico(tabelaAgrupada) {
             const indicadoresMapping = {
-                almope: 'Almope',
-                nome: 'Operador',
-                atendidas: 'Atendidas',
-                tma: 'TMA',
-                tmt: 'TMT',
-                absenteismo: 'Absenteísmo',
-                aderencia: 'Aderência',
-                tempologado: 'Tempo Logado',
-                jackin: 'Jackin',
-                recham24m: 'Rechamadas 24h',
-                shortcall30s: 'Shortcall 30s',
-                desconexao: 'Desconexão',
-                notaQualidade: 'Nota de Qualidade',
-                qtdMonitoria: 'Quantidade de Monitoria',
-                tempoSilencio: 'Tempo de Silêncio',
-                pausa: 'Pausa',
-                recham48m: 'Rechamadas 48h',
-                desvioPausa: 'Desvio de Pausa',
-                qtdTransferidas: 'Quantidade Transferidas',
-                recham60m: 'Rechamadas 60m',
-                recham72m: 'Rechamadas 72h',
-                recham128m: 'Rechamadas 168h',
-                shortcall60s: 'Shortcall 60s',
-                csat: 'CSAT',
-                nps: 'NPS',
-                vendas: 'Vendas',
-                vendasPerc: 'Vendas Percentual',
+                "Almope": 'Almope',
+                "Operador": 'Operador',
+                "Atendidas": 'Atendidas',
+                "TMA:": 'TMA',
+                "TMT": 'TMT',
+                "Absenteísmo": 'Absenteísmo',
+                "Aderência": 'Aderência',
+                "Tempo Logado": 'Tempo Logado',
+                "Jackin": 'Jackin',
+                "Rechamadas 60m": 'Rechamadas 60m',
+                "Rechamadas 24h": 'Rechamadas 24h',
+                "Rechamadas 48h": 'Rechamadas 48h',
+                "Rechamadas 72h": 'Rechamadas 72h',
+                "Rechamadas 168h": 'Rechamadas 168h',
+                "Transferidas": 'Transferidas',
+                "Shortcall 30s": 'Shortcall 30s',
+                "Shortcall 60s": 'Shortcall 60s',
+                "Desconexão": 'Desconexão',
+                "Desvio de Pausa": 'Desvio de Pausa',
+                "Nota de Qualidade": 'Nota de Qualidade',
+                "Monitorias": 'Monitorias',
+                "Tempo Silêncio": 'Tempo Silêncio',
+                "Pausa": 'Pausa',
+                "NPS": 'NPS',
+                "CSAT": 'NPS',
+                "Vendas": 'Vendas',
+                "Vendas Percentual": 'Vendas Percentual',
             };
         
             return tabelaAgrupada.map(item => {
@@ -128,7 +128,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Tempo Silêncio": 'Tempo Silêncio',
                 "Pausa": 'Pausa',
                 "NPS": 'NPS',
-                "CSAT": 'CSAT',
+                "CSAT": 'NPS',
                 "Vendas": 'Vendas',
                 "Vendas Percentual": 'Vendas Percentual',
             };
@@ -189,7 +189,7 @@ async function retornaDadosExtracao(dataInicial, dataFinal,idCliente, idOperacao
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)   
-            .execute('s_Gestao_Performance_Retorna_Tabela')
+            .execute('s_Gestao_Performance_Retorna_Extracao_Tabela_Xlsx')
 
 
         let retorno = result.recordset
