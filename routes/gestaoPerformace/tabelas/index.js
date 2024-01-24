@@ -67,19 +67,19 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 aderencia: 'Aderência',
                 tempologado: 'Tempo Logado',
                 jackin: 'Jackin',
-                recham24m: 'Recham 24m',
+                recham24m: 'Rechamadas 24h',
                 shortcall30s: 'Shortcall 30s',
                 desconexao: 'Desconexão',
                 notaQualidade: 'Nota de Qualidade',
                 qtdMonitoria: 'Quantidade de Monitoria',
                 tempoSilencio: 'Tempo de Silêncio',
                 pausa: 'Pausa',
-                recham48m: 'Recham 48m',
+                recham48m: 'Rechamadas 48h',
                 desvioPausa: 'Desvio de Pausa',
                 qtdTransferidas: 'Quantidade Transferidas',
-                recham60m: 'Recham 60m',
-                recham72m: 'Recham 72m',
-                recham128m: 'Recham 128m',
+                recham60m: 'Rechamadas 60m',
+                recham72m: 'Rechamadas 72h',
+                recham128m: 'Rechamadas 168h',
                 shortcall60s: 'Shortcall 60s',
                 csat: 'CSAT',
                 nps: 'NPS',
@@ -95,9 +95,9 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                     // Verifica se o valor do indicador existe e não é nulo
                     return valorDoIndicador !== undefined && valorDoIndicador !== null && valorDoIndicador !== "-";
                 });
-        
+                const mappedValues = filteredIndicators.map(key => indicadoresMapping[key]);
                 return {
-                    field: filteredIndicators,
+                    field: mappedValues,
                     ...item
                 };
             });
@@ -105,7 +105,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
         function agruparTabela(tabela) {
             const indicadoresMappingg = {
-                periodo: 'Período',
+                Período: 'Período',
                 atendidas: 'Atendidas',
                 tma: 'TMA',
                 tmt: 'TMT',
@@ -113,11 +113,11 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 aderencia: 'Aderência',
                 tempologado: 'Tempo Logado',
                 jackin: 'Jackin',
-                recham24m: 'Recham 24m',
-                recham48m: 'Recham 48m',
-                recham60m: 'Recham 60m',
-                recham72m: 'Recham 72m',
-                recham128m: 'Recham 128m',
+                recham60m: 'Rechamadas 60m',
+                recham24m: 'Rechamadas 24h',
+                recham48m: 'Rechamadas 48h',
+                recham72m: 'Rechamadas 72h',
+                recham128m: 'Rechamadas 168h',
                 qtdTransferidas: 'Quantidade Transferidas',
                 shortcall30s: 'Shortcall 30s',
                 shortcall60s: 'Shortcall 60s',
@@ -135,15 +135,18 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
         
             return tabela.map(item => {
                 const indicadorKey = Object.keys(indicadoresMappingg);
-                
+        
                 const filteredIndicators = indicadorKey.filter(key => {
                     const valorDoIndicador = item[key];
                     // Verifica se o valor do indicador existe e não é nulo
                     return valorDoIndicador !== undefined && valorDoIndicador !== null && valorDoIndicador !== "-";
                 });
         
+                // Adiciona aspas aos valores mapeados
+                const mappedValues = filteredIndicators.map(key => indicadoresMappingg[key]);
+        
                 return {
-                    field: filteredIndicators,
+                    field: mappedValues,
                     ...item
                 };
             });
