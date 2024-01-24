@@ -105,8 +105,8 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
         function agruparTabela(tabela) {
             const indicadoresMappingg = {
-                Período: 'Período',
-                atendidas: 'Atendidas',
+                "Período": 'Período',
+                "Atendidas": 'Atendidas',
                 tma: 'TMA',
                 tmt: 'TMT',
                 absenteismo: 'Absenteísmo',
