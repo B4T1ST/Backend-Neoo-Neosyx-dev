@@ -105,7 +105,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
         function agruparTabela(tabela) {
             const indicadoresMappingg = {
-                periodo: 'Periodo',
+                periodo: 'Período',
                 atendidas: 'Atendidas',
                 tma: 'TMA',
                 tmt: 'TMT',
@@ -185,7 +185,7 @@ async function retornaDadosExtracao(dataInicial, dataFinal,idCliente, idOperacao
             .input('idGerente', sql.VarChar, idGerente)
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
-            .input('idOperador', sql.VarChar, idOperador)
+            .input('idOperador', sql.VarChar, idOperador)   
             .execute('s_Gestao_Performance_Retorna_Tabela')
 
 
