@@ -80,6 +80,8 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Nota de Qualidade": 'Nota de Qualidade',
                 "Monitorias": 'Monitorias',
                 "Tempo Silêncio": 'Tempo Silêncio',
+                "Escala": 'Escala',
+                "Falta": 'Falta',
                 "Pausa": 'Pausa',
                 "NPS": 'NPS',
                 "CSAT": 'NPS',
