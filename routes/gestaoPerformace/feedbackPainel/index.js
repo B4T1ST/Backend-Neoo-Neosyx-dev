@@ -34,7 +34,7 @@ async function retornaDadosHistoricoFeedback(dataInicial, dataFinal, idGerente, 
             .input('idOperador', sql.VarChar, idOperador)
             .input('dataInicial', sql.DateTime, dataInicialParam)
             .input('dataFinal', sql.DateTime, dataFinalParam)
-            .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
+            .execute('s_Gestao_Performace_Retorna_Feedback_Painel')
 
         let retorno = {
             historicoFeedback: resultFeedBackHistorico.recordset

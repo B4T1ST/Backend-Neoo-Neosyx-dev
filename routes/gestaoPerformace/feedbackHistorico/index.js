@@ -69,7 +69,7 @@ async function retornaDados(dataInicial, dataFinal, idGerente, idCoordenador, id
             .input('idOperador', sql.VarChar, idOperador)
             .input('dataInicial', sql.DateTime, dataInicialParam)
             .input('dataFinal', sql.DateTime, dataFinalParam)
-            .execute('s_Gestao_Performace_Retorna_Feedback_Historico_V2')
+            .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
 
         let retorno = {
             feedbackHistorico: resultFeedBackHistorico.recordset
