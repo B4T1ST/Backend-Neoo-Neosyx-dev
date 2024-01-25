@@ -41,27 +41,28 @@ async function retornaDadosagente(idSupervisor, res) {
 }
 // rota de historico
 router.get('/', function (req, res) {
-
     const {
         dataInicial,
         dataFinal,
         idGerente,
         idCoordenador,
         idSupervisor,
-        idOperador
-    } = req.query
-
+        idOperador,
+        pageNumber,  // Novo parâmetro de página
+        pageSize     // Novo parâmetro de tamanho de página
+    } = req.query;
 
     const dataInicialParam = dataInicial === " " ? null : dataInicial;
     const dataFinalParam = dataFinal === " " ? null : dataFinal;
 
-    retornaDados(dataInicial, dataFinal,  idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res);
+    retornaDados(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, pageNumber, pageSize, res);
 });
 
-async function retornaDados(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res) {
+async function retornaDados(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, pageNumber, pageSize, res) {
     try {
         let pool = await get('BDGamification', connection);
-        // Requisição do banco
+
+        // Requisição do banco com parâmetros de paginação
         let resultFeedBackHistorico = await pool.request()
             .input('idGerente', sql.VarChar, idGerente)  
             .input('idCoordenador', sql.VarChar, idCoordenador)
@@ -69,7 +70,9 @@ async function retornaDados(dataInicial, dataFinal, idGerente, idCoordenador, id
             .input('idOperador', sql.VarChar, idOperador)
             .input('dataInicial', sql.DateTime, dataInicialParam)
             .input('dataFinal', sql.DateTime, dataFinalParam)
-            .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
+            .input('pageNumber', sql.Int, pageNumber)
+            .input('pageSize', sql.Int, pageSize)
+            .execute('s_Gestao_Performace_Retorna_Feedback_Historico_Paginada')
 
         let retorno = {
             feedbackHistorico: resultFeedBackHistorico.recordset
@@ -81,6 +84,8 @@ async function retornaDados(dataInicial, dataFinal, idGerente, idCoordenador, id
         res.status(500).json(error);
     }
 }
+
+
 
 router.get('/extracaoXlsx', function (req, res) {
 
