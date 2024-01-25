@@ -46,7 +46,7 @@ const graficoBarraRouter = require('./routes/gestaoPerformace/graficoBarra/');
 const tabelasRouter = require('./routes/gestaoPerformace/tabelas/');
 const filtroRouter = require('./routes/gestaoPerformace/filtro/');
 const dataAtualizacaoRouter = require('./routes/gestaoPerformace/dataAtualizacao/');
-const historicoFeedbackRouter = require('./routes/gestaoPerformace/feedbackPainel/');
+const feedbackPainelRouter = require('./routes/gestaoPerformace/feedbackPainel/');
 const monitoriasGestaoPerformaceRouter = require('./routes/gestaoPerformace/monitorias/');
 const pausasGestaoPerformaceRouter = require('./routes/gestaoPerformace/pausas/');
 const rocoinsRouter = require('./routes/gestaoPerformace/rocoins/');
@@ -98,7 +98,7 @@ app.use(`${nginsxTag}/gestaoPerformace/torta`, tortaRouter);
 app.use(`${nginsxTag}/gestaoPerformace/dataAtualizacao`, dataAtualizacaoRouter);
 
 //rota de historicoFeedback
-app.use(`${nginsxTag}/gestaoPerformace/historicoFeedback`, historicoFeedbackRouter);
+app.use(`${nginsxTag}/gestaoPerformace/feedbackPainel`, feedbackPainelRouter);
 
 //rota de monitorias gestao performace
 app.use(`${nginsxTag}/gestaoPerformace/monitorias`, monitoriasGestaoPerformaceRouter);
