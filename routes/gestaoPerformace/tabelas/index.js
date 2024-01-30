@@ -84,7 +84,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Falta": 'Falta',
                 "Pausa": 'Pausa',
                 "NPS": 'NPS',
-                "CSAT": 'NPS',
+                "CSAT": 'CSAT',
                 "Vendas": 'Vendas',
                 "Vendas Percentual": 'Vendas Percentual',
             };
@@ -130,9 +130,9 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Tempo Silêncio": 'Tempo Silêncio',
                 "Falta": 'Falta',
                 "Pausa": 'Pausa',
-                "Escala": 'Pausa',
+                "Escala": 'Escala',
                 "NPS": 'NPS',
-                "CSAT": 'NPS',
+                "CSAT": 'CSAT',
                 "Vendas": 'Vendas',
                 "Vendas Percentual": 'Vendas Percentual',
             };
