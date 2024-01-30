@@ -130,7 +130,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Tempo Silêncio": 'Tempo Silêncio',
                 "Falta": 'Falta',
                 "Pausa": 'Pausa',
-                "Pausa": 'Pausa',
+                "Escala": 'Pausa',
                 "NPS": 'NPS',
                 "CSAT": 'NPS',
                 "Vendas": 'Vendas',
