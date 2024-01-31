@@ -41,29 +41,35 @@ async function retornaDadosagente(idSupervisor, res) {
 }
 // rota de historico
 router.get('/', function (req, res) {
+
     const {
         dataInicial,
         dataFinal,
-        idGerente,
-        idCoordenador,
-        idSupervisor,
-        idOperador,
-        pageNumber,  // Novo parâmetro de página
-        pageSize     // Novo parâmetro de tamanho de página
-    } = req.query;
+        idCliente= "-1",
+        idOperacao= "-1",
+        idDiretor= "-1",
+        idGerente= "-1",
+        idCoordenador= "-1",
+        idSupervisor= "-1",
+        idOperador = "-1",
+        pageNumber,
+        pageSize
+    } = req.query
+
 
     const dataInicialParam = dataInicial === " " ? null : dataInicial;
     const dataFinalParam = dataFinal === " " ? null : dataFinal;
 
-    retornaDados(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, pageNumber, pageSize, res);
+    retornaDadosHistoricoFeedback(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, pageNumber, pageSize, dataInicialParam, dataFinalParam, res);
 });
-
-async function retornaDados(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, pageNumber, pageSize, res) {
+async function retornaDadosHistoricoFeedback(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, pageNumber, pageSize, dataInicialParam, dataFinalParam, res) {
     try {
-        let pool = await get('BDGamification', connection);
 
-        // Requisição do banco com parâmetros de paginação
-        let resultFeedBackHistorico = await pool.request()
+        let pool = await get('BDRechamadasGeral', connection)
+         let resultFeedBackHistorico = await pool.request()
+            .input('idCliente', sql.VarChar, idCliente)
+            .input('idOperacao', sql.VarChar, idOperacao)
+            .input('idDiretor', sql.VarChar, idDiretor)      
             .input('idGerente', sql.VarChar, idGerente)  
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
@@ -72,18 +78,19 @@ async function retornaDados(dataInicial, dataFinal, idGerente, idCoordenador, id
             .input('dataFinal', sql.DateTime, dataFinalParam)
             .input('pageNumber', sql.Int, pageNumber)
             .input('pageSize', sql.Int, pageSize)
-            .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
+            .execute('s_Gestao_Performace_Retorna_Feedback_Painel')
 
         let retorno = {
-            feedbackHistorico: resultFeedBackHistorico.recordset
+            historicoFeedback: resultFeedBackHistorico.recordset
         };
 
         res.json(retorno);
+
     } catch (error) {
         console.log(error);
         res.status(500).json(error);
     }
-}
+};
 
 
 
