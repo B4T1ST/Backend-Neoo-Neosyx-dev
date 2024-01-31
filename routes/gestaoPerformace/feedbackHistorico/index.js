@@ -97,8 +97,8 @@ async function retornaDadosHistoricoFeedback(dataInicial, dataFinal, idCliente, 
 router.get('/extracaoXlsx', function (req, res) {
 
     const {
-        dataInicial,
-        dataFinal,
+        // dataInicial,
+        // dataFinal,
         idGerente,
         idCoordenador,
         idSupervisor,
@@ -106,14 +106,14 @@ router.get('/extracaoXlsx', function (req, res) {
     } = req.query
 
 
-    const dataInicialParam = dataInicial === " " ? null : dataInicial;
-    const dataFinalParam = dataFinal === " " ? null : dataFinal;
+    // const dataInicialParam = dataInicial === " " ? null : dataInicial;
+    // const dataFinalParam = dataFinal === " " ? null : dataFinal;
 
 
-    retornaDadosExtracao(idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res);
+    retornaDadosExtracao(idGerente, idCoordenador, idSupervisor, idOperador, res);
 });
 
-async function retornaDadosExtracao(idGerente, idCoordenador, idSupervisor, idOperador, dataInicialParam, dataFinalParam, res){
+async function retornaDadosExtracao(idGerente, idCoordenador, idSupervisor, idOperador, res){
     try {
         let pool = await get('BDGamification', connection);
 
@@ -122,8 +122,8 @@ async function retornaDadosExtracao(idGerente, idCoordenador, idSupervisor, idOp
         .input('idCoordenador', sql.VarChar, idCoordenador)
         .input('idSupervisor', sql.VarChar, idSupervisor)
         .input('idOperador', sql.VarChar, idOperador)
-        .input('dataInicial', sql.DateTime, dataInicialParam)
-        .input('dataFinal', sql.DateTime, dataFinalParam)
+        // .input('dataInicial', sql.DateTime, dataInicialParam)
+        // .input('dataFinal', sql.DateTime, dataFinalParam)
         .execute('s_Gestao_Performace_Retorna_Feedback_Historico_Xlsx')
         
         let retorno = result.recordset
