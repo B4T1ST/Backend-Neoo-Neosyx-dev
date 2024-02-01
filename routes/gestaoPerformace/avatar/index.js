@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
         let pool = await get('BDRechamadasGeral', connection)
         let result = await pool.request()
             .input('almope', sql.VarChar, idOperador)
-            .execute('s_Gestao_Performance_Retorna_Avatar_V2');
+            .execute('s_Gestao_Performance_Retorna_Avatar');
         res.json(result.recordset[0]);
     } catch (error) {
         console.error(error);
@@ -28,7 +28,7 @@ router.put('/', async (req, res) => {
         let pool = await get('BDRechamadasGeral', connection)
         let result = await pool.request()
             .input('almope', sql.VarChar(255), idOperador)
-            .execute('s_Gestao_Performance_Troca_Avatar_V2');
+            .execute('s_Gestao_Performance_Troca_Avatar');
         res.send(result.recordset[0]);
     } catch (error) {
         console.error(error);

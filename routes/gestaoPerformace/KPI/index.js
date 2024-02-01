@@ -36,7 +36,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Gestao_Performance_Retorna_KPI_V3')
+            .execute('s_Gestao_Performance_Retorna_KPI')
 
 
         let retorno = {
