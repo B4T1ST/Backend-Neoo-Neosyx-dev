@@ -34,7 +34,7 @@ async function retornaDadosPausa(dataInicial, dataFinal, idCliente, idOperacao, 
             .input('idGerente', sql.VarChar, idGerente)
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
-            .execute('s_Gestao_Performance_Retorna_Pausas_v2')
+            .execute('s_Gestao_Performance_Retorna_Pausas')
 
 
         if (!result?.recordset) {
