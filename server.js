@@ -39,6 +39,7 @@ const MVPRouter      = require('./routes/MVP/index.js');
 const sidebarRouter         = require('./routes/sidebar.js');
 // const sancoesRouter         = require('./routes/sancoes');
 
+//gestao performance
 const feedbackHistoricoRouter = require('./routes/gestaoPerformace/feedbackHistorico/');
 const feedbackRouter = require('./routes/gestaoPerformace/feedback/');
 const tortaRouter = require('./routes/gestaoPerformace/torta');
@@ -55,6 +56,8 @@ const kpiRouter = require('./routes/gestaoPerformace/KPI/');
 const fileView = require('./routes/fileView/index.js');
 const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.js');
 
+//gestao executiva
+const indicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
 // const port = 4000;
 // const port = 8443;
 
@@ -129,6 +132,10 @@ app.use(`${nginsxTag}/gestaoPerformace/feedbackHistorico`, feedbackHistoricoRout
 
 //rota para pop-up feedbackHistorico
 app.use(`${nginsxTag}/gestaoPerformace/feedback`, feedbackRouter)
+
+
+//rota para indicadores gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, indicadoresRouter)
 
 //carrega as rotas
 // app.get(`${nginsxTag}/lagin`, (req, res) => res.send('Hallo World!'));
