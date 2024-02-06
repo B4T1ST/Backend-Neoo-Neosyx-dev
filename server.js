@@ -57,7 +57,8 @@ const fileView = require('./routes/fileView/index.js');
 const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.js');
 
 //gestao executiva
-const indicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
+const executivaIndicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
+const executivaTortaRouter = require ('./routes/gestaoExecutiva/torta/');
 // const port = 4000;
 // const port = 8443;
 
@@ -135,7 +136,10 @@ app.use(`${nginsxTag}/gestaoPerformace/feedback`, feedbackRouter)
 
 
 //rota para indicadores gestao executiva
-app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, indicadoresRouter)
+app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, executivaIndicadoresRouter)
+
+//rota para torta gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/torta`, executivaTortaRouter)
 
 //carrega as rotas
 // app.get(`${nginsxTag}/lagin`, (req, res) => res.send('Hallo World!'));
