@@ -2,11 +2,10 @@
 const sql = require('mssql');
 const express = require('express');
 const router = express.Router();
-const config = require('../../../config/config.json');
 const { get } = require('../../../lib/poolManager')
+const config = require('../../../config/config.json');
 const connection = require('../../../config/' + config.executiva);
 
-//Rota principal
 router.get('/', function (req, res) {
 
     const {
@@ -22,13 +21,15 @@ router.get('/', function (req, res) {
         cIndicador,
     } = req.query
 
-    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador,  res);
+    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, res);
 });
-async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, res) {
+
+async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador,  res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-        let resultCards = await pool.request()
+
+        let resultUniverso = await pool.request()
             .input('dataInicial', sql.DateTime, dataInicial)
             .input('dataFinal', sql.DateTime, dataFinal)
             .input('idCliente', sql.VarChar, idCliente)
@@ -38,20 +39,20 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Gestao_Executiva_Retorna_Torta')
-        
+            .input('cIndicador', sql.VarChar, cIndicador)
+            .execute('s_Gestao_Executiva_Retorna_Universo')
+
+ 
 
         let retorno = {
-            torta: resultCards?.recordset
-
+            Universo: resultUniverso?.recordset,
         };
 
         res.json(retorno);
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error)
     }
-};
+}
 
 module.exports = router

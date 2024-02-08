@@ -59,6 +59,7 @@ const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.j
 //gestao executiva
 const executivaIndicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
 const executivaTortaRouter = require ('./routes/gestaoExecutiva/torta/');
+const executivaUniversoRouter = require ('./routes/gestaoExecutiva/universo/');
 // const port = 4000;
 // const port = 8443;
 
@@ -140,6 +141,9 @@ app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, executivaIndicadoresRouter)
 
 //rota para torta gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/torta`, executivaTortaRouter)
+
+//rota para torta gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/universo`, executivaUniversoRouter)
 
 //carrega as rotas
 // app.get(`${nginsxTag}/lagin`, (req, res) => res.send('Hallo World!'));
