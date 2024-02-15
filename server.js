@@ -61,6 +61,7 @@ const executivaIndicadoresRouter = require('./routes/gestaoExecutiva/indicador/'
 const executivaTortaRouter = require ('./routes/gestaoExecutiva/torta/');
 const executivaUniversoRouter = require ('./routes/gestaoExecutiva/universo/');
 const executivaVisaoGeralRouter = require ('./routes/gestaoExecutiva/visaoGeral/');
+const executivaHierarquiaRouter = require ('./routes/gestaoExecutiva/hierarquia/');
 // const port = 4000;
 // const port = 8443;
 
@@ -148,6 +149,9 @@ app.use(`${nginsxTag}/gestaoExecutiva/universo`, executivaUniversoRouter)
 
 //rota para Visao Geral gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/visaoGeral`, executivaVisaoGeralRouter)
+
+//rota para Hierarquia gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/hierarquia`, executivaHierarquiaRouter)
 
 //carrega as rotas
 // app.get(`${nginsxTag}/lagin`, (req, res) => res.send('Hallo World!'));
