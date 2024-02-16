@@ -62,10 +62,10 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                         return acc;
                     }, {}),
             
-                    periodo: [...new Set(retorno.field.map(item => item.periodo))] // Obter datas únicas
+                    periodo: [...new Set(retorno.field.map(item => item.periodo))] 
                 };
             
-                // Transformar valores em um array de objetos
+                
                 grafico.valores = grafico.periodo.map(data => {
                     const valoresPorData = grafico.valores[data];
                     const objetoValores = {};
