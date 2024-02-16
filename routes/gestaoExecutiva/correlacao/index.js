@@ -45,21 +45,37 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 field: resultCorrelacao?.recordset
             };
     
+
             const transformarResposta = (retorno) => {
                 const grafico = {
                     field: retorno.field.map(item => ({
                         nome: item.nome,
                         color: item.corThr
                     })),
-    
+            
                     valores: retorno.field.reduce((acc, item) => {
-                        acc[item.nome] = parseFloat(item.valor.replace('%', ''));
+                        const data = item.periodo;
+                        if (!acc[data]) {
+                            acc[data] = {};
+                        }
+                        acc[data][item.nome] = parseFloat(item.valor.replace('%', ''));
                         return acc;
                     }, {}),
-    
-                    periodo: [retorno.field[0].periodo] 
+            
+                    periodo: [...new Set(retorno.field.map(item => item.periodo))] // Obter datas únicas
                 };
-    
+            
+                // Transformar valores em um array de objetos
+                grafico.valores = grafico.periodo.map(data => {
+                    const valoresPorData = grafico.valores[data];
+                    const objetoValores = {};
+                    grafico.field.forEach(indicador => {
+                        const nome = indicador.nome;
+                        objetoValores[nome] = valoresPorData ? valoresPorData[nome] || 0 : 0;
+                    });
+                    return objetoValores;
+                });
+            
                 return grafico;
             };
     
