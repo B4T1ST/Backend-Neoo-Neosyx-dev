@@ -9,13 +9,31 @@ const connection = require('../../../config/' + config.executiva);
 //Rota principal
 router.get('/', function (req, res) {
 
-    retornaDados(res);
+    const {
+        idCliente= "-1",
+        idOperacao= "-1",
+        idDiretor= "-1",
+        idGerente= "-1",
+        idCoordenador= "-1",
+        idSupervisor= "-1",
+        idOperador = "-1",
+        cIndicador,
+    } = req.query
+
+    retornaDados(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador,  res);
 });
-async function retornaDados(res) {
-    try {
+async function retornaDados(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, res) {
+     try {
 
         let pool = await get('BDRechamadasGeral', connection)
         let resultIndicador = await pool.request()
+            .input('idCliente', sql.VarChar, idCliente)
+            .input('idOperacao', sql.VarChar, idOperacao)
+            .input('idDiretor', sql.VarChar, idDiretor)
+            .input('idGerente', sql.VarChar, idGerente)
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
             .execute('s_Gestao_Executiva_Retorna_Indicadores')
         
 
