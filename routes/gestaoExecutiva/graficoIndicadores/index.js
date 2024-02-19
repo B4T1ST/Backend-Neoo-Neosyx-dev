@@ -29,7 +29,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
         let pool = await get('BDRechamadasGeral', connection)
 
-        let resultUniverso = await pool.request()
+        let resultGraficoIndicadores = await pool.request()
             .input('dataInicial', sql.DateTime, dataInicial)
             .input('dataFinal', sql.DateTime, dataFinal)
             .input('idCliente', sql.VarChar, idCliente)
@@ -45,7 +45,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
  
 
         let retorno = {
-            Universo: resultUniverso?.recordset,
+            GraficoIndicadores: resultGraficoIndicadores?.recordset,
         };
 
         res.json(retorno);
