@@ -48,10 +48,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
             const transformarResposta = (retorno) => {
                 const grafico = {
-                    field: retorno.field.map(item => ({
-                        nome: item.nome,
-                        color: item.corThr
-                    })),
+                    field: [...new Set(retorno.field.map(item => JSON.stringify({ nome: item.nome, color: item.corThr })))].map(JSON.parse),
             
                     valores: retorno.field.reduce((acc, item) => {
                         const data = item.periodo;
@@ -62,10 +59,10 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                         return acc;
                     }, {}),
             
-                    periodo: [...new Set(retorno.field.map(item => item.periodo))] 
+                    periodo: [...new Set(retorno.field.map(item => item.periodo))] // Obter datas únicas
                 };
             
-                
+                // Transformar valores em um array de objetos
                 grafico.valores = grafico.periodo.map(data => {
                     const valoresPorData = grafico.valores[data];
                     const objetoValores = {};
