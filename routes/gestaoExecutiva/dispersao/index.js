@@ -49,7 +49,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
         };
 
         const transformarResposta = (retorno) => {
-            const primeiroItem = retorno.Dispersao[0]; // Assume que todos os itens têm o mesmo indicador
+            const primeiroItem = retorno.Dispersao[0];
             const grafico = {
                 indicador: {
                     nome: primeiroItem.indicador
