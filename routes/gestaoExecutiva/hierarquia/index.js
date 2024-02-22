@@ -44,7 +44,28 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             Hierarquia: resultHierarquia?.recordset,
         };
 
-        res.json(retorno);
+        //res.json(retorno);
+
+        const transformarResposta = (retorno) => {
+            const primeiroItem = retorno.Hierarquia[0]; // Assume que todos os itens têm o mesmo indicador
+            const grafico = {
+                HC: {
+                    HC: primeiroItem.HC
+                },
+                Hierarquia: retorno.Hierarquia.map(item => ({
+                    operador: item.Operador,
+                    indicador: item.Indicador,
+                    valor: item.Valor,
+                    cIndicador: item.cIndicador
+                }))
+            };
+
+            return grafico;
+        };
+
+        // Utiliza a função transformarResposta
+        const respostaTransformada = transformarResposta(retorno);
+        res.json(respostaTransformada);
 
     } catch (error) {
         res.status(500).json(error)

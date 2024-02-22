@@ -66,6 +66,7 @@ const executivaCorrelacaoRouter = require ('./routes/gestaoExecutiva/correlacao/
 const executivaGraficoIndicadoresRouter = require ('./routes/gestaoExecutiva/graficoIndicadores/');
 const executivaUsuarioRouter = require ('./routes/gestaoExecutiva/usuario/');
 const executivaDispersaoRouter = require ('./routes/gestaoExecutiva/dispersao/');
+const executivaFiltroRouter = require ('./routes/gestaoExecutiva/filtro/');
 // const port = 4000;
 // const port = 8443;
 
@@ -168,6 +169,9 @@ app.use(`${nginsxTag}/gestaoExecutiva/usuario`, executivaUsuarioRouter)
 
 //rota para Dispersao Indicadores gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/dispersao`, executivaDispersaoRouter)
+
+//rota para filtro gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/filtro`, executivaFiltroRouter)
 
 
 //carrega as rotas
