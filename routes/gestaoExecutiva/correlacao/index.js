@@ -48,14 +48,17 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
             const transformarResposta = (retorno) => {
                 const grafico = {
-                    field: [...new Set(retorno.field.map(item => JSON.stringify({ nome: item.nome, color: item.corThr })))].map(JSON.parse),
+                    field: [...new Set(retorno.field.map(item => ({ nome: item.nome, color: item.corThr })))],
             
                     valores: retorno.field.reduce((acc, item) => {
                         const data = item.periodo;
                         if (!acc[data]) {
                             acc[data] = {};
                         }
-                        acc[data][item.nome] = parseFloat(item.valor.replace('%', ''));
+            
+                        // Certifique-se de que 'valor' está definido e manipule porcentagens corretamente
+                        const valor = item.valor ? parseFloat(item.valor.replace('%', '')) : 0;
+                        acc[data][item.nome] = valor;
                         return acc;
                     }, {}),
             
