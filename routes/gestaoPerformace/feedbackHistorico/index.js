@@ -78,7 +78,7 @@ async function retornaDadosHistoricoFeedback(dataInicial, dataFinal, idCliente, 
             .input('dataFinal', sql.DateTime, dataFinalParam)
             .input('pageNumber', sql.Int, pageNumber)
             .input('pageSize', sql.Int, pageSize)
-            .execute('s_Gestao_Performace_Retorna_Feedback_Painel')
+            .execute('s_Gestao_Performace_Retorna_Feedback_Historico')
 
         let retorno = {
             historicoFeedback: resultFeedBackHistorico.recordset

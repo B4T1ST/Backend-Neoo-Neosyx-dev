@@ -16,7 +16,7 @@ router.get('/', function (req, res) {
         idDiretor= '-1',
         idGerente= '-1',
         idCoordenador= '-1',
-        idSupervisor= '',
+        idSupervisor= '-1',
         idOperador = '-1',
         cComparativo = 1,
     } = req.query
@@ -34,6 +34,7 @@ async function retornaDadosPausa(dataInicial, dataFinal, idCliente, idOperacao, 
             .input('idGerente', sql.VarChar, idGerente)
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
             .execute('s_Gestao_Performance_Retorna_Pausas')
 
 

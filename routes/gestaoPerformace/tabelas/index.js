@@ -61,7 +61,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Almope": 'Almope',
                 "Operador": 'Operador',
                 "Atendidas": 'Atendidas',
-                "TMA:": 'TMA',
+                "TMA": 'TMA',
                 "TMT": 'TMT',
                 "Absenteísmo": 'Absenteísmo',
                 "Aderência": 'Aderência',
@@ -87,6 +87,15 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "CSAT": 'CSAT',
                 "Vendas": 'Vendas',
                 "Vendas Percentual": 'Vendas Percentual',
+                "Atend. Disc.": 'Atend. Disc.',
+                "Discados": 'Discados',
+                "CPC": 'CPC',
+                "Promessa": 'Promessa',
+                "Sucesso": 'Sucesso',
+                "Valor Recuperado": 'Valor Recuperado',
+                "Retorno": 'Retorno',
+                "Eficiência": 'Eficiência',
+
             };
         
             return tabelaAgrupada.map(item => {
@@ -109,7 +118,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             const indicadoresMappingg = {
                 "Período": 'Período',
                 "Atendidas": 'Atendidas',
-                "TMA:": 'TMA',
+                "TMA": 'TMA',
                 "TMT": 'TMT',
                 "Absenteísmo": 'Absenteísmo',
                 "Aderência": 'Aderência',
@@ -135,6 +144,15 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "CSAT": 'CSAT',
                 "Vendas": 'Vendas',
                 "Vendas Percentual": 'Vendas Percentual',
+                
+                "Atend. Disc.": 'Atend. Disc.',
+                "Discados": 'Discados',
+                "CPC": 'CPC',
+                "Promessa": 'Promessa',
+                "Sucesso": 'Sucesso',
+                "Valor Recuperado": 'Valor Recuperado',
+                "Retorno": 'Retorno',
+                "Eficiência": 'Eficiência',
             };
         
             return tabela.map(item => {
