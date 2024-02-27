@@ -68,6 +68,7 @@ const executivaUsuarioRouter = require ('./routes/gestaoExecutiva/usuario/');
 const executivaDispersaoRouter = require ('./routes/gestaoExecutiva/dispersao/');
 const executivaFiltroRouter = require ('./routes/gestaoExecutiva/filtro/');
 const executivaMicroGestaoRouter = require ('./routes/gestaoExecutiva/microGestao/');
+const executivaExtracaoRouter = require ('./routes/gestaoExecutiva/extracao/');
 // const port = 4000;
 // const port = 8443;
 
@@ -176,6 +177,9 @@ app.use(`${nginsxTag}/gestaoExecutiva/filtro`, executivaFiltroRouter)
 
 //rota para micro gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/microGestao`, executivaMicroGestaoRouter)
+
+//rota para extracao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/extracao`, executivaExtracaoRouter)
 
 
 //carrega as rotas
