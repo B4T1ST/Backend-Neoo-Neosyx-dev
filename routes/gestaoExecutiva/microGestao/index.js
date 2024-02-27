@@ -23,7 +23,7 @@ router.get('/', function (req, res) {
     retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, res);
 });
 
-async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador,  res) {
+async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
@@ -40,71 +40,9 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('idOperador', sql.VarChar, idOperador)
             .execute('s_Gestao_Executiva_Retorna_Micro_Gestao')
 
-
         let retorno = {
-            MicroGestao: agruparMicroGestao(resultMicroGestao?.recordset),
+            MicroGestao: transformarMicroGestao(resultMicroGestao?.recordset)
         };
-
-        function agruparMicroGestao(MicroGestao) {
-            const indicadoresMapping = {
-                "operador": 'operador',
-                "supervisor": 'supervisor',
-                "operacao": 'operacao',
-                "indicadorAtendidas": 'indicadorAtendidas',
-                "indicadorTmo": 'indicadorTmo',
-                "quartilTmo": 'quartilTmo',
-                "corThrTmo": 'corThrTmo',
-                "indicadorAbsenteismo": 'indicadorAbsenteismo',
-                "quartilAbsenteismo": 'quartilAbsenteismo',
-                "corThrAbsenteismo": 'corThrAbsenteismo',
-                "indicadorTempologado": 'indicadorTempologado',
-                "quartilTempologado": 'quartilTempologado',
-                "corThrTempologado": 'corThrTempologado',
-                "indicadorJackin": 'indicadorJackin',
-                "quartilJackin": 'quartilJackin',
-                "corThrJackin": 'corThrJackin',
-                "indicadorRecham60m": 'indicadorRecham60m',
-                "quartilRecham60m": 'quartilRecham60m',
-                "corThrRecham60m": 'corThrRecham60m',
-                "indicadorRecham24h": 'indicadorRecham24h',
-                "quartilRecham24h": 'quartilRecham24h',
-                "corThrRecham24h": 'corThrRecham24h',
-                "indicadorRecham48h": 'indicadorRecham48h',
-                "quartilRecham48h": 'quartilRecham48h',
-                "corThrRecham48h": 'corThrRecham48h',
-                "indicadorRecham72h": 'indicadorRecham72h',
-                "quartilRecham72h": 'quartilRecham72h',
-                "corThrRecham72h": 'corThrRecham72h',
-                "indicadorTransferidas": 'indicadorTransferidas',
-                "quartilTransferidas": 'quartilTransferidas',
-                "corThrTransferidas": 'corThrTransferidas',
-                "indicadorShortCall30s": 'indicadorShortCall30s',
-                "quartilShortCall30s": 'quartilShortCall30s',
-                "corThrShortCall30s": 'corThrShortCall30s',
-                "indicadorShortCall60s": 'indicadorShortCall60s',
-                "quartilShortCall60s": 'quartilShortCall60s',
-                "corThrShortCall60s": 'corThrShortCall60s',
-                "indicadorDesconexao": 'indicadorDesconexao',
-                "quartilDesconexao": 'quartilDesconexao',
-                "corThrDesconexao": 'corThrDesconexao'  
-
-            };
-        
-            return MicroGestao.map(item => {
-                const indicadorKey = Object.keys(indicadoresMapping);
-                
-                const filteredIndicators = indicadorKey.filter(key => {
-                    const valorDoIndicador = item[key];
-                    // Verifica se o valor do indicador existe e não é nulo
-                    return valorDoIndicador !== undefined && valorDoIndicador !== null && valorDoIndicador !== "-";
-                });
-                const mappedValues = filteredIndicators.map(key => indicadoresMapping[key]);
-                return {
-                    field: mappedValues,
-                    ...item
-                };
-            });
-        }
 
         res.json(retorno)
 
@@ -112,4 +50,41 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
         res.status(500).json(error);
     }
 }
+
+function transformarMicroGestao(microGestao) {
+    const result = {
+        field: ["Operador", "Supervisor", "Operacao", "Atendidas", "TMA", "quartilTmo", "Absenteísmo", "quartilAbsenteismo", "Tempo Logado", "quartilTempologado", "Jackin", "quartilJackin", "Rechamadas 60m", "quartilRecham60m", "Rechamadas 24h", "quartilRecham24h", "Rechamadas 48h", "quartilRecham48h", "Rechamdas 72h", "quartilRecham72h", "Transferidas", "quartilTransferidas", "ShortCall 30s", "quartilShortCall30s", "ShortCall 60s", "quartilShortCall60s", "Desconexão", "quartilDesconexao"],
+        value: [],
+        colors: []
+    };
+
+    //const camposCores = ["Tmo", "Absenteismo", "Tempologado", "Jackin", "Recham60m", "Recham24h", "Recham48h", "Recham72h", "Transferidas", "ShortCall30s", "ShortCall60s", "Desconexao"];
+
+    for (const campo of result.field) {
+        // Adiciona os valores ao array value
+        const values = microGestao.map(item => ({ [campo]: item[campo] }));
+        result.value.push(values);
+
+        // Adiciona as cores ao array colors
+        const key = `cor${campo}`;
+        const colors = microGestao.map(item => {
+            const corCampo = item[key];
+            return corCampo !== null && corCampo !== undefined ? { [key]: corCampo } : null;
+        }).filter(color => color !== null);
+
+        result.colors.push(colors);
+    }
+
+    // Remove arrays vazios
+    result.value = result.value.filter(arr => arr.length > 0);
+    result.colors = result.colors.filter(arr => arr.length > 0);
+
+    return result;
+}
+
+
+
+
+
+
 module.exports = router
