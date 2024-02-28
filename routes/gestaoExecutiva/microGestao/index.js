@@ -61,11 +61,9 @@ function transformarMicroGestao(microGestao) {
     const camposCores = ["Tmo", "Absenteismo", "Tempologado", "Jackin", "Recham60m", "Recham24h", "Recham48h", "Recham72h", "Transferidas", "ShortCall30s", "ShortCall60s", "Desconexao"];
 
     for (const campo of result.field) {
-        // Adiciona os valores ao array value
         const values = microGestao.map(item => ({ [campo]: item[campo] }));
         result.value.push(values);
 
-        // Adiciona as cores ao array colors
         const key = `cor${campo}`;
         const colors = microGestao.map(item => {
             const corCampo = item[key];
@@ -76,7 +74,6 @@ function transformarMicroGestao(microGestao) {
         result.colors.push(colors);
     }
 
-    // Remove arrays vazios
     result.value = result.value.filter(arr => arr.length > 0);
     result.colors = result.colors.filter(arr => arr.length > 0);
 
