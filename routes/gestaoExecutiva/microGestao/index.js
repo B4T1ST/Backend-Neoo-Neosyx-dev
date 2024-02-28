@@ -60,29 +60,29 @@ function transformarMicroGestao(microGestao) {
         "operacao",
         "atendidas",
         "tma",
-        "quartilTMA",
+        "quartiltma",
         "absenteísmo",
-        "quartilAbsenteísmo",
+        "quartilabsenteísmo",
         "tempo logado",
-        "quartilTempo Logado",
+        "quartiltempo logado",
         "jackin",
-        "quartilJackin",
+        "quartiljackin",
         "rechamadas 60m",
-        "quartilRechamadas 60m",
+        "quartilrechamadas 60m",
         "rechamadas 24h",
-        "quartilRechamadas 24h",
+        "quartilrechamadas 24h",
         "rechamadas 48h",
-        "quartilRechamadas 48h",
+        "quartilrechamadas 48h",
         "rechamadas 72h",
-        "quartilRechamadas 72h",
+        "quartilrechamadas 72h",
         "transferidas",
-        "quartilTransferidas",
+        "quartiltransferidas",
         "shortcall 30s",
-        "quartilShortCall 30s",
+        "quartilshortcall 30s",
         "shortcall 60s",
-        "quartilShortCall 60s",
+        "quartilshortcall 60s",
         "desconexão",
-        "quartilDesconexão",
+        "quartildesconexão",
         "id"
       ],
       value: [],
@@ -92,7 +92,7 @@ function transformarMicroGestao(microGestao) {
     const colorsMap = {};
 
     for (const item of microGestao) {
-      const obj = { operador: item["Operador"] };
+      const obj = { operador: item["operador"] };
       const colorObj = {};
   
       for (const campo of result.field) {
