@@ -53,34 +53,36 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
 function transformarMicroGestao(microGestao) {
     const result = {
-        field: ["Operador", "Supervisor", "Operacao", "Atendidas", "TMA", "quartilTmo", "Absenteísmo", "quartilAbsenteismo", "Tempo Logado", "quartilTempologado", "Jackin", "quartilJackin", "Rechamadas 60m", "quartilRecham60m", "Rechamadas 24h", "quartilRecham24h", "Rechamadas 48h", "quartilRecham48h", "Rechamdas 72h", "quartilRecham72h", "Transferidas", "quartilTransferidas", "ShortCall 30s", "quartilShortCall30s", "ShortCall 60s", "quartilShortCall60s", "Desconexão", "quartilDesconexao"],
+        field: ["Operador", "Supervisor", "Operacao", "Atendidas", "TMA", "quartilTmo", "Absenteísmo", "quartilAbsenteismo", "Tempo Logado", "quartilTempologado", "Jackin", "quartilJackin", "Rechamadas 60m", "quartilRecham60m", "Rechamadas 24h", "quartilRecham24h", "Rechamadas 48h", "quartilRecham48h", "Rechamadas 72h", "quartilRecham72h", "Transferidas", "quartilTransferidas", "ShortCall 30s", "quartilShortCall30s", "ShortCall 60s", "quartilShortCall60s", "Desconexão", "quartilDesconexao"],
         value: [],
         colors: []
     };
 
-    //const camposCores = ["Tmo", "Absenteismo", "Tempologado", "Jackin", "Recham60m", "Recham24h", "Recham48h", "Recham72h", "Transferidas", "ShortCall30s", "ShortCall60s", "Desconexao"];
+    const camposCores = ["Tmo", "Absenteismo", "Tempologado", "Jackin", "Recham60m", "Recham24h", "Recham48h", "Recham72h", "Transferidas", "ShortCall30s", "ShortCall60s", "Desconexao"];
 
     for (const campo of result.field) {
-
+        // Adiciona os valores ao array value
         const values = microGestao.map(item => ({ [campo]: item[campo] }));
         result.value.push(values);
 
-
+        // Adiciona as cores ao array colors
         const key = `cor${campo}`;
         const colors = microGestao.map(item => {
             const corCampo = item[key];
-            return corCampo !== null && corCampo !== undefined ? { [key]: corCampo } : null;
+            const quartilCampo = `quartil${campo.charAt(0).toUpperCase()}${campo.slice(1)}`;
+            return corCampo !== null && corCampo !== undefined ? { [quartilCampo]: corCampo } : null;
         }).filter(color => color !== null);
 
         result.colors.push(colors);
     }
 
-
+    // Remove arrays vazios
     result.value = result.value.filter(arr => arr.length > 0);
     result.colors = result.colors.filter(arr => arr.length > 0);
 
     return result;
 }
+
 
 
 
