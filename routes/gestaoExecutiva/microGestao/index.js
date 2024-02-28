@@ -53,7 +53,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
 function transformarMicroGestao(microGestao) {
     const result = {
-        field: ["Operador", "Supervisor", "Operacao", "Atendidas", "TMA", "quartilTmo", "Absenteísmo", "quartilAbsenteismo", "Tempo Logado", "quartilTempologado", "Jackin", "quartilJackin", "Rechamadas 60m", "quartilRecham60m", "Rechamadas 24h", "quartilRecham24h", "Rechamadas 48h", "quartilRecham48h", "Rechamadas 72h", "quartilRecham72h", "Transferidas", "quartilTransferidas", "ShortCall 30s", "quartilShortCall30s", "ShortCall 60s", "quartilShortCall60s", "Desconexão", "quartilDesconexao"],
+        field: ["Operador", "Supervisor", "Operacao", "Atendidas", "TMA", "quartilTMA", "Absenteísmo", "quartilAbsenteísmo", "Tempo Logado", "quartilTempo Logado", "Jackin", "quartilJackin", "Rechamadas 60m", "quartilRechamadas 60m", "Rechamadas 24h", "quartilRechamadas 24h", "Rechamadas 48h", "quartilRechamadas 48h", "Rechamadas 72h", "quartilRechamadas 72h", "Transferidas", "quartilTransferidas", "ShortCall 30s", "quartilShortCall 30s", "ShortCall 60s", "quartilShortCall 60s", "Desconexão", "quartilDesconexão"],
         value: [],
         colors: []
     };
