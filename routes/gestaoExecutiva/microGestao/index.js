@@ -51,34 +51,85 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
     }
 }
 
+
 function transformarMicroGestao(microGestao) {
     const result = {
-        field: ["Operador", "Supervisor", "Operacao", "Atendidas", "TMA", "quartilTMA", "Absenteísmo", "quartilAbsenteísmo", "Tempo Logado", "quartilTempo Logado", "Jackin", "quartilJackin", "Rechamadas 60m", "quartilRechamadas 60m", "Rechamadas 24h", "quartilRechamadas 24h", "Rechamadas 48h", "quartilRechamadas 48h", "Rechamadas 72h", "quartilRechamadas 72h", "Transferidas", "quartilTransferidas", "ShortCall 30s", "quartilShortCall 30s", "ShortCall 60s", "quartilShortCall 60s", "Desconexão", "quartilDesconexão"],
-        value: [],
-        colors: []
+      field: [
+        "Operador",
+        "Supervisor",
+        "Operacao",
+        "Atendidas",
+        "TMA",
+        "quartilTMA",
+        "Absenteísmo",
+        "quartilAbsenteísmo",
+        "Tempo Logado",
+        "quartilTempo Logado",
+        "Jackin",
+        "quartilJackin",
+        "Rechamadas 60m",
+        "quartilRechamadas 60m",
+        "Rechamadas 24h",
+        "quartilRechamadas 24h",
+        "Rechamadas 48h",
+        "quartilRechamadas 48h",
+        "Rechamadas 72h",
+        "quartilRechamadas 72h",
+        "Transferidas",
+        "quartilTransferidas",
+        "ShortCall 30s",
+        "quartilShortCall 30s",
+        "ShortCall 60s",
+        "quartilShortCall 60s",
+        "Desconexão",
+        "quartilDesconexão",
+      ],
+      value: [],
+      colors: [],
     };
-
-    const camposCores = ["Tmo", "Absenteismo", "Tempologado", "Jackin", "Recham60m", "Recham24h", "Recham48h", "Recham72h", "Transferidas", "ShortCall30s", "ShortCall60s", "Desconexao"];
-
-    for (const campo of result.field) {
-        const values = microGestao.map(item => ({ [campo]: item[campo] }));
-        result.value.push(values);
-
-        const key = `cor${campo}`;
-        const colors = microGestao.map(item => {
-            const corCampo = item[key];
-            const quartilCampo = `quartil${campo.charAt(0).toUpperCase()}${campo.slice(1)}`;
-            return corCampo !== null && corCampo !== undefined ? { [quartilCampo]: corCampo } : null;
-        }).filter(color => color !== null);
-
-        result.colors.push(colors);
+  
+    const colorsMap = {}; 
+  
+    for (const item of microGestao) {
+      const obj = {};
+      for (const campo of result.field) {
+        if (campo === "Operador") {
+          obj.operador = item[campo];
+        } else if (campo.startsWith("quartil")) {
+          const valorCampo = item[campo];
+          if (valorCampo !== null && valorCampo !== undefined) {
+            const nomeCampo = campo.slice(7); 
+            obj[`quartil${nomeCampo}`] = valorCampo;
+            const corCampo =
+              item[
+                `cor${nomeCampo.charAt(0).toUpperCase()}${nomeCampo.slice(1)}`
+              ];
+            if (corCampo) {
+              if (!colorsMap[obj.operador]) {
+                colorsMap[obj.operador] = {};
+              }
+              colorsMap[obj.operador][campo] = corCampo;
+            }
+          }
+        } else {
+          obj[campo.toLowerCase()] = item[campo];
+        }
+      }
+      result.value.push(obj);
     }
-
-    result.value = result.value.filter(arr => arr.length > 0);
-    result.colors = result.colors.filter(arr => arr.length > 0);
-
+  
+    // Convertendo o mapa de cores para o formato desejado
+    for (const operador in colorsMap) {
+      const cores = colorsMap[operador];
+      const colorObj = {};
+      for (const campo in cores) {
+        colorObj[campo] = cores[campo];
+      }
+      result.colors.push(colorObj);
+    }
+  
     return result;
-}
+  }
 
 
 
