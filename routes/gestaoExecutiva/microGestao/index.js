@@ -89,44 +89,39 @@ function transformarMicroGestao(microGestao) {
       colors: [],
     };
   
-    const colorsMap = {}; 
-  
+    const colorsMap = {};
+
     for (const item of microGestao) {
-      const obj = {};
+      const obj = { operador: item["Operador"] };
+      const colorObj = {};
+  
       for (const campo of result.field) {
-        if (campo === "Operador") {
-          obj.operador = item[campo];
-        } else if (campo.startsWith("quartil")) {
+        if (campo.startsWith("quartil")) {
           const valorCampo = item[campo];
           if (valorCampo !== null && valorCampo !== undefined) {
-            const nomeCampo = campo.slice(7); 
+            const nomeCampo = campo.slice(7);
             obj[`quartil${nomeCampo}`] = valorCampo;
-            const corCampo =
-              item[
-                `cor${nomeCampo.charAt(0).toUpperCase()}${nomeCampo.slice(1)}`
-              ];
+      
+            const corCampo = item[`cor${nomeCampo}`];
             if (corCampo) {
-              if (!colorsMap[obj.Operador]) {
-                colorsMap[obj.Operador] = {};
-              }
-              colorsMap[obj.Operador][campo] = corCampo;
+              colorObj[`quartil${nomeCampo}`] = corCampo; // Use nomeCampo here
             }
           }
         } else {
           obj[campo.toLowerCase()] = item[campo];
         }
       }
+  
       result.value.push(obj);
+  
+      if (Object.keys(colorObj).length > 0) {
+        colorsMap[obj.operador] = colorObj;
+      }
     }
   
     // Convertendo o mapa de cores para o formato desejado
     for (const operador in colorsMap) {
-      const cores = colorsMap[operador];
-      const colorObj = {};
-      for (const campo in cores) {
-        colorObj[campo] = cores[campo];
-      }
-      result.colors.push(colorObj);
+      result.colors.push(colorsMap[operador]);
     }
   
     return result;
