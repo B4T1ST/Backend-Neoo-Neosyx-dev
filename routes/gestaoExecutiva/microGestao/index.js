@@ -55,7 +55,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 function transformarMicroGestao(microGestao) {
     const result = {
       field: [
-        "Operador",
+        "operador",
         "Supervisor",
         "Operacao",
         "Atendidas",
@@ -83,6 +83,7 @@ function transformarMicroGestao(microGestao) {
         "quartilShortCall 60s",
         "Desconexão",
         "quartilDesconexão",
+        "id"
       ],
       value: [],
       colors: [],
@@ -105,10 +106,10 @@ function transformarMicroGestao(microGestao) {
                 `cor${nomeCampo.charAt(0).toUpperCase()}${nomeCampo.slice(1)}`
               ];
             if (corCampo) {
-              if (!colorsMap[obj.operador]) {
-                colorsMap[obj.operador] = {};
+              if (!colorsMap[obj.Operador]) {
+                colorsMap[obj.Operador] = {};
               }
-              colorsMap[obj.operador][campo] = corCampo;
+              colorsMap[obj.Operador][campo] = corCampo;
             }
           }
         } else {
