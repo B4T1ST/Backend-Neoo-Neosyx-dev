@@ -8,23 +8,33 @@ const { get } = require('../../../lib/poolManager')
 //rota para retornar agentes
 router.get('/agentes', function (req, res) {
     const {
-        idSupervisor
+        idCliente= "-1",
+        idOperacao= "-1",
+        idDiretor= "-1",
+        idGerente= "-1",
+        idCoordenador= "-1",
+        idSupervisor= "-1",
+        idOperador = "-1",
     } = req.query
 
-    retornaDadosagente(idSupervisor,  res)
+    retornaDadosagente(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, res);
 });
 
-async function retornaDadosagente(idSupervisor, res) {
+async function retornaDadosagente(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
         // Requisição do banco
         let result = await pool.request()
             //define os parametros
-            .input('idOperador', sql.VarChar, idSupervisor)
-            
+            .input('idCliente', sql.VarChar, idCliente)
+            .input('idOperacao', sql.VarChar, idOperacao)
+            .input('idDiretor', sql.VarChar, idDiretor)      
+            .input('idGerente', sql.VarChar, idGerente)  
+            .input('idCoordenador', sql.VarChar, idCoordenador)
+            .input('idSupervisor', sql.VarChar, idSupervisor)
+            .input('idOperador', sql.VarChar, idOperador)
             .execute('s_Gestao_Performance_Retorna_Agentes_Supervisor')
-
 
         if (!result?.recordset) {
             res.status(500).json('Não foi possível retornar os dados.')
