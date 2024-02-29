@@ -49,7 +49,6 @@ router.get('/', async function (req, res) {
                 value: resultColaborador.idOperador,
             },
 
-            // Adicione mais campos conforme necessário
         };
 
         res.json(mergedData);
