@@ -15,36 +15,36 @@ router.get('/', async function (req, res) {
 
         // Mapeia os resultados para o novo formato desejado
         const mergedData = {
-            Nome: resultColaborador.nome,
-            Almope: resultColaborador.almope,
-            Avatar: resultColaborador.avatar,
-            IsSupervisor: resultColaborador.isSupervisor,
-            Cargo: resultColaborador.cargo,
-            Cliente: {
+            nome: resultColaborador.nome,
+            almope: resultColaborador.almope,
+            avatar: resultColaborador.avatar,
+            isSupervisor: resultColaborador.isSupervisor,
+            cargo: resultColaborador.cargo,
+            cliente: {
                 label: resultColaborador.cliente,
                 value: resultColaborador.idCliente,
             },
-            Campanha: {
+            campanha: {
                 label: resultColaborador.campanha,
                 value: resultColaborador.idCampanha,
             },
-            Diretor: {
+            diretor: {
                 label: resultColaborador.diretor,
                 value: resultColaborador.idDiretor,
             },
-            Gerente: {
+            gerente: {
                 label: resultColaborador.gerente,
                 value: resultColaborador.idGerente,
             },
-            Coordenador: {
+            coordenador: {
                 label: resultColaborador.coordenador,
                 value: resultColaborador.idCoordenador,
             },
-            Supervisor: {
+            supervisor: {
                 label: resultColaborador.supervisor,
                 value: resultColaborador.idSupervisor,
             },
-            Operador: {
+            operador: {
                 label: resultColaborador.operador,
                 value: resultColaborador.idOperador,
             },
