@@ -24,7 +24,7 @@ router.get('/', async function (req, res) {
                 label: resultColaborador.cliente,
                 value: resultColaborador.idCliente,
             },
-            campanha: {
+            operacao: {
                 label: resultColaborador.campanha,
                 value: resultColaborador.idCampanha,
             },
