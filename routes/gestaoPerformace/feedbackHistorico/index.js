@@ -109,10 +109,13 @@ router.get('/extracaoXlsx', function (req, res) {
     const {
         dataInicial,
         dataFinal,
-        idGerente,
-        idCoordenador,
-        idSupervisor,
-        idOperador
+        idCliente= "-1",
+        idOperacao= "-1",
+        idDiretor= "-1",
+        idGerente= "-1",
+        idCoordenador= "-1",
+        idSupervisor= "-1",
+        idOperador = "-1"
     } = req.query
 
 
@@ -120,20 +123,23 @@ router.get('/extracaoXlsx', function (req, res) {
     // const dataFinalParam = dataFinal === " " ? null : dataFinal;
 
 
-    retornaDadosExtracao(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, res);
+    retornaDadosExtracao(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, res);
 });
 
-async function retornaDadosExtracao(dataInicial, dataFinal, idGerente, idCoordenador, idSupervisor, idOperador, res){
+async function retornaDadosExtracao(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, res){
     try {
         let pool = await get('BDGamification', connection);
 
         let result = await pool.request()
-        .input('idGerente', sql.VarChar, idGerente)  
+        .input('dataInicial', sql.DateTime, dataInicial)
+        .input('dataFinal', sql.DateTime, dataFinal)
+        .input('idCliente', sql.VarChar, idCliente)
+        .input('idOperacao', sql.VarChar, idOperacao)
+        .input('idDiretor', sql.VarChar, idDiretor)
+        .input('idGerente', sql.VarChar, idGerente)
         .input('idCoordenador', sql.VarChar, idCoordenador)
         .input('idSupervisor', sql.VarChar, idSupervisor)
         .input('idOperador', sql.VarChar, idOperador)
-        .input('dataInicial', sql.DateTime, dataInicial)
-        .input('dataFinal', sql.DateTime, dataFinal)
         .execute('s_Gestao_Performace_Retorna_Feedback_Historico_Xlsx')
         
         let retorno = result.recordset
