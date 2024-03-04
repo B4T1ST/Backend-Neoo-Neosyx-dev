@@ -37,7 +37,7 @@ async function retornaDadosExtracao(dataInicial, dataFinal,idCliente, idOperacao
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)   
-            .execute('s_Gestao_Executiva_Retorna_Extracao_Tabela_Xlsx')
+            .execute('s_Gestao_Executiva_Retorna_Micro_Gestao_Extracao_Tabela_Xlsx')
 
 
         let retorno = result.recordset
