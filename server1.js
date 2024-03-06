@@ -38,21 +38,44 @@ const relatoriosRouter      = require('./routes/relatorios');
 const sidebarRouter         = require('./routes/sidebar');
 const MVPRouter      = require('./routes/MVP');
 
-const feedbackHistoricoRouter = require('./routes/feedbackHistorico/index');
-const feedbackRouter = require('./routes/feedback/index');
-const cardsRouter = require('./routes/cards/');
-const graficoBarraRouter = require('./routes/cards/graficoBarra');
-const fileView = require('./routes/fileView');
-const avatarRouter           = require('./routes/avatar');
+const feedbackHistoricoRouter = require('./routes/gestaoPerformace/feedbackHistorico/');
+const feedbackRouter = require('./routes/gestaoPerformace/feedback/');
+const tortaRouter = require('./routes/gestaoPerformace/torta');
+const graficoBarraRouter = require('./routes/gestaoPerformace/graficoBarra/');
+const tabelasRouter = require('./routes/gestaoPerformace/tabelas/');
+const filtroRouter = require('./routes/gestaoPerformace/filtro/');
+const dataAtualizacaoRouter = require('./routes/gestaoPerformace/dataAtualizacao/');
+const feedbackPainelRouter = require('./routes/gestaoPerformace/feedbackPainel/');
+const monitoriasGestaoPerformaceRouter = require('./routes/gestaoPerformace/monitorias/');
+const pausasGestaoPerformaceRouter = require('./routes/gestaoPerformace/pausas/');
+const rocoinsRouter = require('./routes/gestaoPerformace/rocoins/');
+const usuarioRouter = require('./routes/gestaoPerformace/usuario/');
+const kpiRouter = require('./routes/gestaoPerformace/KPI/');
+const fileView = require('./routes/fileView/index.js');
+const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.js');
 // const sancoesRouter         = require('./routes/sancoes');
 
+//gestao executiva
+const executivaIndicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
+const executivaTortaRouter = require ('./routes/gestaoExecutiva/torta/');
+const executivaUniversoRouter = require ('./routes/gestaoExecutiva/universo/');
+const executivaVisaoGeralRouter = require ('./routes/gestaoExecutiva/visaoGeral/');
+const executivaHierarquiaRouter = require ('./routes/gestaoExecutiva/hierarquia/');
+const executivaCorrelacaoRouter = require ('./routes/gestaoExecutiva/correlacao/');
+const executivaGraficoIndicadoresRouter = require ('./routes/gestaoExecutiva/graficoIndicadores/');
+const executivaUsuarioRouter = require ('./routes/gestaoExecutiva/usuario/');
+const executivaDispersaoRouter = require ('./routes/gestaoExecutiva/dispersao/');
+const executivaFiltroRouter = require ('./routes/gestaoExecutiva/filtro/');
+const executivaMicroGestaoRouter = require ('./routes/gestaoExecutiva/microGestao/');
+const executivaExtracaoRouter = require ('./routes/gestaoExecutiva/extracao/');
+const executivaExtracaoMicroGestaoRouter = require ('./routes/gestaoExecutiva/extracaoMicroGestao/');
 // const port = 4000;
 // const port = 8443;
 
 const nginsxTag = '/api'
 
 const app = express();
-const port = 2500;
+const port = 3001;
 
 //carrega os demais middlewares
 app.use(cors(
@@ -81,17 +104,89 @@ app.use(session({
 
 app.use(`${nginsxTag}/fileView`, fileView);
 
+//rota para avatar
 app.use(`${nginsxTag}/avatar`, avatarRouter);
 
-//rota de cards
-app.use(`${nginsxTag}/supervisaoDigital`, cardsRouter);
+//rota home
+app.use(`${nginsxTag}/gestaoPerformace/torta`, tortaRouter);
 
-//rota do grafico torta
-// app.use('/graficoTorta', tortaRouter );
+//rota de dataAtualizacao
+app.use(`${nginsxTag}/gestaoPerformace/dataAtualizacao`, dataAtualizacaoRouter);
 
-app.use(`${nginsxTag}/supervisaoDigital/feedbackHistorico`, feedbackHistoricoRouter)
+//rota de historicoFeedback
+app.use(`${nginsxTag}/gestaoPerformace/feedbackPainel`, feedbackPainelRouter);
 
-app.use(`${nginsxTag}/supervisaoDigital/feedback`, feedbackRouter)
+//rota de monitorias gestao performace
+app.use(`${nginsxTag}/gestaoPerformace/monitorias`, monitoriasGestaoPerformaceRouter);
+
+//rota de pausas gestao performace
+app.use(`${nginsxTag}/gestaoPerformace/pausas`, pausasGestaoPerformaceRouter);
+
+//rota de rocoins
+app.use(`${nginsxTag}/gestaoPerformace/rocoins`, rocoinsRouter);
+
+//rota de usuario
+app.use(`${nginsxTag}/gestaoPerformace/usuario`, usuarioRouter);
+
+//rota do grafico barra
+app.use(`${nginsxTag}/gestaoPerformace/graficoBarra`, graficoBarraRouter);
+
+
+app.use(`${nginsxTag}/gestaoPerformace/filtro`, filtroRouter);
+
+//rota para tabelas dos graficos + extracao
+app.use(`${nginsxTag}/gestaoPerformace/tabela`, tabelasRouter);
+
+//rota para KPI
+app.use(`${nginsxTag}/gestaoPerformace/kpi`, kpiRouter);
+
+//rota para feedbackHistorico
+app.use(`${nginsxTag}/gestaoPerformace/feedbackHistorico`, feedbackHistoricoRouter)
+
+//rota para pop-up feedbackHistorico
+app.use(`${nginsxTag}/gestaoPerformace/feedback`, feedbackRouter)
+
+
+//rota para indicadores gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, executivaIndicadoresRouter)
+
+//rota para torta gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/torta`, executivaTortaRouter)
+
+//rota para universo gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/universo`, executivaUniversoRouter)
+
+//rota para Visao Geral gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/visaoGeral`, executivaVisaoGeralRouter)
+
+//rota para Hierarquia gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/hierarquia`, executivaHierarquiaRouter)
+
+//rota para Correlacao gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/correlacao`, executivaCorrelacaoRouter)
+
+//rota para Grafico Indicadores gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/graficoIndicadores`, executivaGraficoIndicadoresRouter)
+
+//rota para dados Colaborador gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/usuario`, executivaUsuarioRouter)
+
+//rota para Dispersao Indicadores gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/dispersao`, executivaDispersaoRouter)
+
+//rota para filtro gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/filtro`, executivaFiltroRouter)
+
+//rota para micro gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/microGestao`, executivaMicroGestaoRouter)
+
+//rota para extracao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/extracao`, executivaExtracaoRouter)
+
+//rota para extracao executiva micro gestao
+app.use(`${nginsxTag}/gestaoExecutiva/extracaoMicroGestao`, executivaExtracaoMicroGestaoRouter)
+
+
 //carrega as rotas
 // app.get(`${nginsxTag}/lagin`, (req, res) => res.send('Hallo World!'));
 app.get(`${nginsxTag}/basicStatus`, (req, res) => res.status(200).send({ status: 'Online' }));
