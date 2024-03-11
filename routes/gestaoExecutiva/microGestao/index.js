@@ -75,6 +75,8 @@ function transformarMicroGestao(microGestao) {
         "quartilrechamadas 48h",
         "rechamadas 72h",
         "quartilrechamadas 72h",
+        "rechamadas 168h",
+        "quartilrechamadas 168h",
         "transferidas",
         "quartiltransferidas",
         "shortcall 30s",
