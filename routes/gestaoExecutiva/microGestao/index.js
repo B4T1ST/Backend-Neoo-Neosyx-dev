@@ -55,7 +55,6 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 function transformarMicroGestao(microGestao) {
     const result = {
       field: [
-        "operador",
         "supervisor",
         "operacao",
         "atendidas",
@@ -94,7 +93,7 @@ function transformarMicroGestao(microGestao) {
     const colorsMap = {};
 
     for (const item of microGestao) {
-      const obj = { operador: item["operador"] };
+      const obj = { supervisor: item["supervisor"] };
       const colorObj = {};
   
       for (const campo of result.field) {
@@ -117,13 +116,13 @@ function transformarMicroGestao(microGestao) {
       result.value.push(obj);
   
       if (Object.keys(colorObj).length > 0) {
-        colorsMap[obj.operador] = colorObj;
+        colorsMap[obj.supervisor] = colorObj;
       }
     }
   
     // Convertendo o mapa de cores para o formato desejado
-    for (const operador in colorsMap) {
-      result.colors.push(colorsMap[operador]);
+    for (const supervisor in colorsMap) {
+      result.colors.push(colorsMap[supervisor]);
     }
   
     return result;
