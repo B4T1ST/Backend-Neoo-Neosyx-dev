@@ -18,12 +18,13 @@ router.get('/', function (req, res) {
         idCoordenador= "-1",
         idSupervisor= "-1",
         idOperador = "-1",
+        cComparativo,
     } = req.query
 
-    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, res);
+    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, res);
 });
 
-async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, res) {
+async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
@@ -38,10 +39,11 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)
+            .input('cComparativo', sql.Int, cComparativo)
             .execute('s_Gestao_Executiva_Retorna_Micro_Gestao')
 
         let retorno = {
-            MicroGestao: transformarMicroGestao(resultMicroGestao?.recordset)
+            MicroGestao:transformarMicroGestao (resultMicroGestao?.recordset)
         };
 
         res.json(retorno)
@@ -55,6 +57,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 function transformarMicroGestao(microGestao) {
     const result = {
       field: [
+        "operador",
         "supervisor",
         "operacao",
         "atendidas",
@@ -93,7 +96,7 @@ function transformarMicroGestao(microGestao) {
     const colorsMap = {};
 
     for (const item of microGestao) {
-      const obj = { supervisor: item["supervisor"] };
+      const obj = { operador: item["operador"] };
       const colorObj = {};
   
       for (const campo of result.field) {
@@ -116,13 +119,13 @@ function transformarMicroGestao(microGestao) {
       result.value.push(obj);
   
       if (Object.keys(colorObj).length > 0) {
-        colorsMap[obj.supervisor] = colorObj;
+        colorsMap[obj.operador] = colorObj;
       }
     }
   
     // Convertendo o mapa de cores para o formato desejado
-    for (const supervisor in colorsMap) {
-      result.colors.push(colorsMap[supervisor]);
+    for (const operador in colorsMap) {
+      result.colors.push(colorsMap[operador]);
     }
   
     return result;
