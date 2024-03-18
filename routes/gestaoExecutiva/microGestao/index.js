@@ -42,10 +42,18 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('cComparativo', sql.Int, cComparativo)
             .execute('s_Gestao_Executiva_Retorna_Micro_Gestao')
 
-        let retorno = {
-            MicroGestao:transformarMicroGestao (resultMicroGestao?.recordset)
-        };
+        let retorno = {};
 
+            if (cComparativo == 0) {
+                retorno = {
+                    MicroGestao: transformarMicroGestaoOperador(resultMicroGestao?.recordset)
+                };
+            } else {
+                retorno = {
+                    MicroGestao: transformarMicroGestaoSupervisor(resultMicroGestao?.recordset)
+                };
+            }
+    
         res.json(retorno)
 
     } catch (error) {
@@ -54,10 +62,9 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 }
 
 
-function transformarMicroGestao(microGestao) {
+function transformarMicroGestaoSupervisor(microGestao) {
     const result = {
       field: [
-        "operador",
         "supervisor",
         "operacao",
         "atendidas",
@@ -96,7 +103,7 @@ function transformarMicroGestao(microGestao) {
     const colorsMap = {};
 
     for (const item of microGestao) {
-      const obj = { operador: item["operador"] };
+      const obj = { supervisor: item["supervisor"] };
       const colorObj = {};
   
       for (const campo of result.field) {
@@ -119,22 +126,93 @@ function transformarMicroGestao(microGestao) {
       result.value.push(obj);
   
       if (Object.keys(colorObj).length > 0) {
-        colorsMap[obj.operador] = colorObj;
+        colorsMap[obj.supervisor] = colorObj;
       }
     }
   
     // Convertendo o mapa de cores para o formato desejado
-    for (const operador in colorsMap) {
-      result.colors.push(colorsMap[operador]);
+    for (const supervisor in colorsMap) {
+      result.colors.push(colorsMap[supervisor]);
     }
   
     return result;
   }
 
+function transformarMicroGestaoOperador(microGestao) {
+  const result = {
+    field: [ 
+      "operador",
+      "supervisor",
+      "operacao",
+      "atendidas",
+      "tempo logado",
+      "quartiltempo logado",
+      "tma",
+      "quartiltma",
+      "absenteísmo",
+      "quartilabsenteísmo",
+      "jackin",
+      "quartiljackin",
+      "rechamadas 60m",
+      "quartilrechamadas 60m",
+      "rechamadas 24h",
+      "quartilrechamadas 24h",
+      "rechamadas 48h",
+      "quartilrechamadas 48h",
+      "rechamadas 72h",
+      "quartilrechamadas 72h",
+      "rechamadas 168h",
+      "quartilrechamadas 168h",
+      "transferidas",
+      "quartiltransferidas",
+      "shortcall 30s",
+      "quartilshortcall 30s",
+      "shortcall 60s",
+      "quartilshortcall 60s",
+      "desconexão",
+      "quartildesconexão",
+      "id"
+    ],
+    value: [],
+    colors: [],
+  };
 
+  const colorsMap = {};
 
+  for (const item of microGestao) {
+    const obj = { operador: item["operador"] };
+    const colorObj = {};
 
+    for (const campo of result.field) {
+      if (campo.startsWith("quartil")) {
+        const valorCampo = item[campo];
+        if (valorCampo !== null && valorCampo !== undefined) {
+          const nomeCampo = campo.slice(7);
+          obj[`quartil${nomeCampo}`] = valorCampo;
+    
+          const corCampo = item[`cor${nomeCampo}`];
+          if (corCampo) {
+            colorObj[`quartil${nomeCampo}`] = corCampo; // Use nomeCampo here
+          }
+        }
+      } else {
+        obj[campo.toLowerCase()] = item[campo];
+      }
+    }
 
+    result.value.push(obj);
 
+    if (Object.keys(colorObj).length > 0) {
+      colorsMap[obj.operador] = colorObj;
+    }
+  }
+
+  // Convertendo o mapa de cores para o formato desejado
+  for (const operador in colorsMap) {
+    result.colors.push(colorsMap[operador]);
+  }
+
+  return result;
+}
 
 module.exports = router
