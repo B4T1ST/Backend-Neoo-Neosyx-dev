@@ -6,31 +6,70 @@ const config = require('../../../config/config.json');
 const { get } = require('../../../lib/poolManager')
 const connection = require('../../../config/' + config.banco);
 
-router.get('/', function (req, res) {
-    const {
-        almope
-    } = req.query
+router.get('/', async function (req, res) {
+    try {
+        const { almope } = req.query;
 
-    retornaDadosUsuario(almope,  res)
+        // Chama a função para obter os dados do colaborador
+        const resultColaborador = await retornaDadosUsuario(almope);
+
+        // Mapeia os resultados para o novo formato desejado
+        const mergedData = {
+            nome: resultColaborador.nome,
+            almope: resultColaborador.almope,
+            avatar: resultColaborador.avatar,
+            isSupervisor: resultColaborador.isSupervisor,
+            cargo: resultColaborador.cargo,
+            cliente: {
+                label: resultColaborador.cliente,
+                value: resultColaborador.idCliente,
+            },
+            operacao: {
+                label: resultColaborador.campanha,
+                value: resultColaborador.idCampanha,
+            },
+            diretor: {
+                label: resultColaborador.diretor,
+                value: resultColaborador.idDiretor,
+            },
+            gerente: {
+                label: resultColaborador.gerente,
+                value: resultColaborador.idGerente,
+            },
+            coordenador: {
+                label: resultColaborador.coordenador,
+                value: resultColaborador.idCoordenador,
+            },
+            supervisor: {
+                label: resultColaborador.supervisor,
+                value: resultColaborador.idSupervisor,
+            },
+            operador: {
+                label: resultColaborador.operador,
+                value: resultColaborador.idOperador,
+            },
+
+        };
+
+        res.json(mergedData);
+
+    } catch (error) {
+        console.error('Erro ao consultar o banco de dados:', error.message);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
 });
 
-async function retornaDadosUsuario(almope, res) {
+async function retornaDadosUsuario(almope) {
     try {
-
         let pool = await get('BDRechamadasGeral', connection)
         let resultColaborador = await pool.request()
             .input('almope', sql.VarChar, almope)
-            .execute('s_Gestao_Executiva_Retorna_Dados_Colaborador')
+            .execute('s_Gestao_Executiva_Retorna_Dados_Colaborador');
 
-        let retorno = {
-            cargo: resultColaborador?.recordset
-        }
-
-        res.json(retorno)
-
+        return resultColaborador.recordset[0]; // Assume que há apenas um registro retornado
     } catch (error) {
-        res.status(500).json(error)
+        throw error;
     }
-};
+}
 
-module.exports = router
+module.exports = router;
