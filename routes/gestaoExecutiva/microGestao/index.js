@@ -18,7 +18,7 @@ router.get('/', function (req, res) {
         idCoordenador= "-1",
         idSupervisor= "-1",
         idOperador = "-1",
-        cComparativo,
+        cComparativo = 1,
     } = req.query
 
     retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cComparativo, res);
@@ -44,6 +44,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
         let retorno = {};
 
+          console.log(cComparativo)
             if (cComparativo == 0) {
                 retorno = {
                     MicroGestao: transformarMicroGestaoOperador(resultMicroGestao?.recordset)
@@ -126,13 +127,13 @@ function transformarMicroGestaoSupervisor(microGestao) {
       result.value.push(obj);
   
       if (Object.keys(colorObj).length > 0) {
-        colorsMap[obj.supervisor] = colorObj;
+        colorsMap[obj.id] = colorObj;
       }
     }
   
     // Convertendo o mapa de cores para o formato desejado
-    for (const supervisor in colorsMap) {
-      result.colors.push(colorsMap[supervisor]);
+    for (const id in colorsMap) {
+      result.colors.push(colorsMap[id]);
     }
   
     return result;

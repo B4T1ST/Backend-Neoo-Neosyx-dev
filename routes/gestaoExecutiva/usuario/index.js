@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('../../../config/config.json');
 const { get } = require('../../../lib/poolManager')
-const connection = require('../../../config/' + config.banco);
+const connection = require('../../../config/' + config.executiva);
 
 router.get('/', async function (req, res) {
     try {
