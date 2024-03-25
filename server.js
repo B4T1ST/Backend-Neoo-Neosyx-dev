@@ -59,11 +59,9 @@ const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.j
 //gestao executiva
 const executivaIndicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
 const executivaTortaRouter = require ('./routes/gestaoExecutiva/torta/');
-const executivaUniversoRouter = require ('./routes/gestaoExecutiva/universo/');
 const executivaVisaoGeralRouter = require ('./routes/gestaoExecutiva/visaoGeral/');
 const executivaHierarquiaRouter = require ('./routes/gestaoExecutiva/hierarquia/');
 const executivaCorrelacaoRouter = require ('./routes/gestaoExecutiva/correlacao/');
-const executivaGraficoIndicadoresRouter = require ('./routes/gestaoExecutiva/graficoIndicadores/');
 const executivaUsuarioRouter = require ('./routes/gestaoExecutiva/usuario/');
 const executivaDispersaoRouter = require ('./routes/gestaoExecutiva/dispersao/');
 const executivaFiltroRouter = require ('./routes/gestaoExecutiva/filtro/');
@@ -153,9 +151,6 @@ app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, executivaIndicadoresRouter)
 //rota para torta gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/torta`, executivaTortaRouter)
 
-//rota para universo gestao executiva
-app.use(`${nginsxTag}/gestaoExecutiva/universo`, executivaUniversoRouter)
-
 //rota para Visao Geral gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/visaoGeral`, executivaVisaoGeralRouter)
 
@@ -164,9 +159,6 @@ app.use(`${nginsxTag}/gestaoExecutiva/hierarquia`, executivaHierarquiaRouter)
 
 //rota para Correlacao gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/correlacao`, executivaCorrelacaoRouter)
-
-//rota para Grafico Indicadores gestao executiva
-app.use(`${nginsxTag}/gestaoExecutiva/graficoIndicadores`, executivaGraficoIndicadoresRouter)
 
 //rota para dados Colaborador gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/usuario`, executivaUsuarioRouter)
