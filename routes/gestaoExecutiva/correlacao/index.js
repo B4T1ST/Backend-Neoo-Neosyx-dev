@@ -19,12 +19,13 @@ router.get('/', function (req, res) {
         idCoordenador= "-1",
         idSupervisor= "-1",
         idOperador = "-1",
-        cIndicador,
+        cIndicador = "-1",
+        cCategoria = "-1",
     } = req.query
 
-    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador,  res);
+    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, cCategoria,  res);
 });
-async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, res) {
+async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, cCategoria, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
@@ -38,7 +39,9 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Gestao_Executiva_Retorna_Correlacao_Indicadores')
+            .input('indicadorCategoria', sql.VarChar, cCategoria)
+            .input('codigoIndicador', sql.VarChar, cIndicador)
+            .execute('s_Gestao_Executiva_Retorna_Correlacao_Indicadores_v2')
         
 
             let retorno = {
