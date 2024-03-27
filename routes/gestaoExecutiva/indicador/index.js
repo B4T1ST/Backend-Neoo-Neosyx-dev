@@ -17,7 +17,7 @@ router.get('/', function (req, res) {
         idCoordenador= "-1",
         idSupervisor= "-1",
         idOperador = "-1",
-        cIndicador,
+        cIndicador = '|-1|',
     } = req.query
 
     retornaDados(idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador,  res);
@@ -34,7 +34,8 @@ async function retornaDados(idCliente, idOperacao, idDiretor, idGerente, idCoord
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Gestao_Executiva_Retorna_Indicadores')
+            .input('codigoIndicador', sql.VarChar, cIndicador)
+            .execute('s_Gestao_Executiva_Retorna_Indicadores_v2')
         
 
         let retorno = {
