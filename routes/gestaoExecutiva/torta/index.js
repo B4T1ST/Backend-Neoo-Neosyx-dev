@@ -19,7 +19,7 @@ router.get('/', function (req, res) {
         idCoordenador= "-1",
         idSupervisor= "-1",
         idOperador = "-1",
-        cIndicador = '-1',
+        cIndicador = '|-1|',
         cCategoria = '-1'
     } = req.query
 

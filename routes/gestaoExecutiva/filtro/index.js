@@ -20,7 +20,7 @@ router.get('/cliente', function (req, res){
         idSupervisor= '-1',
         idOperador= '-1',
         cCategoria = '-1',
-        cIndicador = '-1'
+        cIndicador = '|-1|'
     } = req.query
 
     retornaCliente(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cCategoria, cIndicador, res);
@@ -148,7 +148,7 @@ router.get('/categoria', function (req, res){
         idSupervisor= '-1',
         idOperador= '-1',
         cCategoria = '-1',
-        cIndicador = '-1'
+        cIndicador = '|-1|'
     } = req.query
 
     retornaCategoria(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cCategoria, cIndicador, res);
@@ -277,7 +277,7 @@ router.get('/indicadores', function (req, res){
         idSupervisor= '-1',
         idOperador= '-1',
         cCategoria = '-1',
-        cIndicador = '-1'
+        cIndicador = '|-1|'
     } = req.query
 
     retornaIndicadores(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cCategoria, cIndicador, res);
@@ -406,7 +406,7 @@ router.get('/operacao', function (req, res){
         idSupervisor= '-1',
         idOperador= '-1',
         cCategoria = '-1',
-        cIndicador = '-1'
+        cIndicador = '|-1|'
     } = req.query
 
     retornaOperacao(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cCategoria, cIndicador, res);
@@ -533,7 +533,7 @@ router.get('/gerente', function (req, res){
         idSupervisor= '-1',
         idOperador= '-1',
         cCategoria ='-1',
-        cIndicador = '-1'
+        cIndicador = '|-1|'
     } = req.query
 
     retornaGerente(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cCategoria, cIndicador, res);
@@ -661,7 +661,7 @@ router.get('/coordenador', function (req, res){
         idSupervisor= '-1',
         idOperador= '-1',
         cCategoria = '-1',
-        cIndicador = '-1'
+        cIndicador = '|-1|'
     } = req.query
 
     retornaCoordenador(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cCategoria, cIndicador, res);
@@ -789,7 +789,7 @@ router.get('/supervisor', function (req, res){
         idSupervisor= '-1',
         idOperador= '-1',
         cCategoria = '-1',
-        cIndicador = '-1'
+        cIndicador = '|-1|'
     } = req.query
 
     retornaSupervisor(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cCategoria, cIndicador, res);
