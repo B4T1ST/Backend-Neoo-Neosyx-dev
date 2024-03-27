@@ -45,7 +45,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
         
 
         let retorno = {
-            torta: resultCards?.recordset
+            indicadores: resultCards?.recordset
 
         };
 
