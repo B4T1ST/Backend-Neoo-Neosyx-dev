@@ -57,7 +57,8 @@ const fileView = require('./routes/fileView/index.js');
 const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.js');
 
 //gestao executiva
-const executivaTortaRouter = require ('./routes/gestaoExecutiva/torta/');
+const executivaIndicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
+const executivaCardsRouter = require ('./routes/gestaoExecutiva/cards/index.js');
 const executivaVisaoGeralRouter = require ('./routes/gestaoExecutiva/visaoGeral/');
 const executivaHierarquiaRouter = require ('./routes/gestaoExecutiva/hierarquia/');
 const executivaCorrelacaoRouter = require ('./routes/gestaoExecutiva/correlacao/');
@@ -143,8 +144,11 @@ app.use(`${nginsxTag}/gestaoPerformace/feedbackHistorico`, feedbackHistoricoRout
 //rota para pop-up feedbackHistorico
 app.use(`${nginsxTag}/gestaoPerformace/feedback`, feedbackRouter)
 
-//rota para torta gestao executiva
-app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, executivaTortaRouter)
+//rota para indicadores gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, executivaIndicadoresRouter)
+
+//rota para cards gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/cards`, executivaCardsRouter)
 
 //rota para Visao Geral gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/visaoGeral`, executivaVisaoGeralRouter)
