@@ -55,6 +55,7 @@ const usuarioRouter = require('./routes/gestaoPerformace/usuario/');
 const kpiRouter = require('./routes/gestaoPerformace/KPI/');
 const fileView = require('./routes/fileView/index.js');
 const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.js');
+const extratoRouter = require('./routes/gestaoPerformace/extrato');
 
 //gestao executiva
 const executivaIndicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
@@ -143,6 +144,9 @@ app.use(`${nginsxTag}/gestaoPerformace/feedbackHistorico`, feedbackHistoricoRout
 
 //rota para pop-up feedbackHistorico
 app.use(`${nginsxTag}/gestaoPerformace/feedback`, feedbackRouter)
+
+// rota de extrato
+app.use(`${nginsxTag}/gestaoPerformace/extrato`, extratoRouter)
 
 //rota para indicadores gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, executivaIndicadoresRouter)
