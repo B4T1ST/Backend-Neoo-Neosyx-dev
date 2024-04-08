@@ -103,16 +103,17 @@ app.use(session({
 
 app.use(`${nginsxTag}/fileView`, fileView);
 
-//rota para avatar
+
+//rota para avatar Gestao Performance
 app.use(`${nginsxTag}/avatar`, avatarRouter);
 
-//rota home
+//rota home Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/torta`, tortaRouter);
 
-//rota de dataAtualizacao
+//rota de dataAtualizacao Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/dataAtualizacao`, dataAtualizacaoRouter);
 
-//rota de historicoFeedback
+//rota de historicoFeedback Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/feedbackPainel`, feedbackPainelRouter);
 
 //rota de monitorias gestao performace
@@ -121,32 +122,35 @@ app.use(`${nginsxTag}/gestaoPerformace/monitorias`, monitoriasGestaoPerformaceRo
 //rota de pausas gestao performace
 app.use(`${nginsxTag}/gestaoPerformace/pausas`, pausasGestaoPerformaceRouter);
 
-//rota de rocoins
+//rota de rocoins Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/rocoins`, rocoinsRouter);
 
-//rota de usuario
+//rota de usuario Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/usuario`, usuarioRouter);
 
-//rota do grafico barra
+//rota do grafico barra Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/graficoBarra`, graficoBarraRouter);
 
-
+//rota de filtro para Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/filtro`, filtroRouter);
 
-//rota para tabelas dos graficos + extracao
+//rota para tabelas dos graficos + extracao Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/tabela`, tabelasRouter);
 
-//rota para KPI
+//rota para KPI Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/kpi`, kpiRouter);
 
-//rota para feedbackHistorico
+//rota para feedbackHistorico Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/feedbackHistorico`, feedbackHistoricoRouter)
 
-//rota para pop-up feedbackHistorico
+//rota para pop-up feedbackHistorico Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/feedback`, feedbackRouter)
 
-// rota de extrato
+// rota de extrato Gestao Performance
 app.use(`${nginsxTag}/gestaoPerformace/extrato`, extratoRouter)
+
+
+
 
 //rota para indicadores gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, executivaIndicadoresRouter)

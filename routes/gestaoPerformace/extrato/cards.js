@@ -58,7 +58,7 @@ async function retornaDadosCards(dataInicial, dataFinal, idCliente, idOperacao, 
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-        // Requisição do banco
+        // Requisição do banco para os subdados dos cards (semana1, semana2, etc)
         let result = await pool.request()
             //define os parametros
             .input('dataInicial',   sql.DateTime,       dataInicial)
@@ -72,9 +72,49 @@ async function retornaDadosCards(dataInicial, dataFinal, idCliente, idOperacao, 
             .input('idOperador',    sql.VarChar(100),   idOperador)
             .execute('s_Gestao_Performance_Extrato_Roccoins_Retorna_Dados_Cards')    
 
+        let result2 = await pool.request()
+            //define os parametros
+            .input('dataInicial',   sql.DateTime,       dataInicial)
+            .input('dataFinal',     sql.DateTime,       dataFinal)
+            .input('idCliente',     sql.VarChar(100),   idCliente)
+            .input('idOperacao',    sql.VarChar(100),   idOperacao)
+            .input('idDiretor',     sql.VarChar(100),   idDiretor)
+            .input('idGerente',     sql.VarChar(100),   idGerente)
+            .input('idCoordenador', sql.VarChar(100),   idCoordenador)
+            .input('idSupervisor',  sql.VarChar(100),   idSupervisor)
+            .input('idOperador',    sql.VarChar(100),   idOperador)
+            .execute('s_Gestao_Performance_Extrato_Roccoins_Retorna_Dados_Cards_Consolidado')   
+
+
         let retorno = result.recordset
-         
-        res.json(retorno)
+        let retorno2 = result2.recordset
+
+        // Separa e filtra o retorno pelos indicadores
+        function groupByIndicador(dadosRetorno, indicador) {
+            const retornoObj = {};
+
+            dadosRetorno.forEach(obj => {
+                const indicadorValue = obj[indicador];
+                const indicadorFormatado = indicadorValue.replaceAll(' ', '_');
+                            
+                if (!retornoObj[indicadorFormatado]) {
+                    retornoObj[indicadorFormatado] = [];
+                }
+
+                retornoObj[indicadorFormatado].push(obj)
+            })
+
+            return retornoObj
+        }
+
+        const retornoAlt = groupByIndicador(retorno, 'indicador')
+        
+        const retornoFormatted = {
+            cards: retorno2,
+            subCards: retornoAlt
+        }
+
+        res.json(retornoFormatted)
 
     } catch (error) {
         console.log(error)
