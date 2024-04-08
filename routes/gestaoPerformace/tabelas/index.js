@@ -60,9 +60,12 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             const indicadoresMapping = {
                 "Almope": 'Almope',
                 "Operador": 'Operador',
-                "Atendidas": 'Atendidas',
+                "Nível": 'Nível',
+                "Roccoins": 'Roccoins',
                 "TMA": 'TMA',
                 "TMT": 'TMT',
+                "TMT Callback": 'TMT Callback',
+                "Callback": 'Callback',
                 "Absenteísmo": 'Absenteísmo',
                 "Aderência": 'Aderência',
                 "Tempo Logado": 'Tempo Logado',
@@ -73,6 +76,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Rechamadas 72h": 'Rechamadas 72h',
                 "Rechamadas 168h": 'Rechamadas 168h',
                 "Transferidas": 'Transferidas',
+                "Shortcall 10s": 'Shortcall 10s',
                 "Shortcall 30s": 'Shortcall 30s',
                 "Shortcall 60s": 'Shortcall 60s',
                 "Desconexão": 'Desconexão',
@@ -80,6 +84,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Nota de Qualidade": 'Nota de Qualidade',
                 "Monitorias": 'Monitorias',
                 "Tempo Silêncio": 'Tempo Silêncio',
+                
                 "Escala": 'Escala',
                 "Falta": 'Falta',
                 "Pausa": 'Pausa',
@@ -87,6 +92,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "CSAT": 'CSAT',
                 "Vendas": 'Vendas',
                 "Vendas Percentual": 'Vendas Percentual',
+
                 "Atend. Disc.": 'Atend. Disc.',
                 "Discados": 'Discados',
                 "CPC": 'CPC',
@@ -95,6 +101,19 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Valor Recuperado": 'Valor Recuperado',
                 "Retorno": 'Retorno',
                 "Eficiência": 'Eficiência',
+
+                "Alimentação": 'Alimentação',
+                "Descanso": 'Descanso',
+                "Particular": 'Particular',
+                "Feedback": 'Feedback',
+                "Sistema": 'Sistema',
+                "Padrão": 'Padrão',
+                "Laboral": 'Laboral',
+                "Treinamento": 'Treinamento',
+                "Saúde": 'Saúde',
+                "Suporte": 'Suporte',
+                "Reunião": 'Reunião',
+                "Outros": 'Outros',
 
             };
         
@@ -120,6 +139,8 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Atendidas": 'Atendidas',
                 "TMA": 'TMA',
                 "TMT": 'TMT',
+                "TMT Callback": 'TMT Callback',
+                "Callback": 'Callback',
                 "Absenteísmo": 'Absenteísmo',
                 "Aderência": 'Aderência',
                 "Tempo Logado": 'Tempo Logado',
@@ -130,6 +151,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Rechamadas 72h": 'Rechamadas 72h',
                 "Rechamadas 168h": 'Rechamadas 168h',
                 "Transferidas": 'Transferidas',
+                "Shortcall 10s": 'Shortcall 10s',
                 "Shortcall 30s": 'Shortcall 30s',
                 "Shortcall 60s": 'Shortcall 60s',
                 "Desconexão": 'Desconexão',
@@ -137,9 +159,10 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Nota de Qualidade": 'Nota de Qualidade',
                 "Monitorias": 'Monitorias',
                 "Tempo Silêncio": 'Tempo Silêncio',
+               
+                "Escala": 'Escala',
                 "Falta": 'Falta',
                 "Pausa": 'Pausa',
-                "Escala": 'Escala',
                 "NPS": 'NPS',
                 "CSAT": 'CSAT',
                 "Vendas": 'Vendas',
@@ -153,6 +176,19 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
                 "Valor Recuperado": 'Valor Recuperado',
                 "Retorno": 'Retorno',
                 "Eficiência": 'Eficiência',
+
+                "Alimentação": 'Alimentação',
+                "Descanso": 'Descanso',
+                "Particular": 'Particular',
+                "Feedback": 'Feedback',
+                "Sistema": 'Sistema',
+                "Padrão": 'Padrão',
+                "Laboral": 'Laboral',
+                "Treinamento": 'Treinamento',
+                "Saúde": 'Saúde',
+                "Suporte": 'Suporte',
+                "Reunião": 'Reunião',
+                "Outros": 'Outros',
             };
         
             return tabela.map(item => {
