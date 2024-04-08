@@ -50,28 +50,6 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
 
         res.json(retorno)
 
-        // const transformarResposta = (retorno) => {
-        //     const primeiroItem = retorno.Dispersao[0];
-        //     const grafico = {
-        //         indicador: {
-        //             nome: primeiroItem.indicador
-        //         },
-        //         field: retorno.Dispersao.map(item => ({
-        //             operador: item.operador,
-        //             Y: item.Y,
-        //             ValorX: item.ValorX,
-        //             LegendaX: item.LegendaX,
-        //             legendaQuartil: item.legendaQuartil,
-        //             corThr: item.corThr
-        //         }))
-        //     };
-
-        //     return grafico;
-        // };
-
-        // // Utiliza a função transformarResposta
-        // const respostaTransformada = transformarResposta(retorno);
-        // res.json(respostaTransformada);
 
     } catch (error) {
         res.status(500).json(error);
