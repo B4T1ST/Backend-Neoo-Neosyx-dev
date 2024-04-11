@@ -51,36 +51,35 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             const transformarResposta = (retorno) => {
                 const grafico = {
                     field: [...new Set(retorno.field.map(item => JSON.stringify({ nome: item.nome, color: item.corThr })))].map(JSON.parse),
-            
                     valores: retorno.field.reduce((acc, item) => {
                         const data = item.periodo;
                         if (!acc[data]) {
                             acc[data] = {};
                         }
-                        acc[data][item.nome] = parseFloat(item.valor.replace('%', ''));
+                        // Manter o valor como string, sem conversão
+                        acc[data][item.nome] = item.valor; // Atribuir diretamente o valor
                         return acc;
                     }, {}),
-            
                     periodo: [...new Set(retorno.field.map(item => item.periodo))] // Obter datas únicas
                 };
             
-                // Transformar valores em um array de objetos
+                // Transformar valores em um array de objetos com os valores originais
                 grafico.valores = grafico.periodo.map(data => {
                     const valoresPorData = grafico.valores[data];
                     const objetoValores = {};
                     grafico.field.forEach(indicador => {
                         const nome = indicador.nome;
-                        objetoValores[nome] = valoresPorData ? valoresPorData[nome] || 0 : 0;
+                        objetoValores[nome] = valoresPorData ? valoresPorData[nome] || '0' : '0'; // Utilizar '0' como padrão
                     });
                     return objetoValores;
                 });
             
                 return grafico;
             };
-    
-        
+            
             const respostaTransformada = transformarResposta(retorno);
             res.json(respostaTransformada);
+            
 
     } catch (error) {
         console.log(error);
