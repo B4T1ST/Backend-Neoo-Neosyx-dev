@@ -1,5 +1,6 @@
 {    
     "banco" : "connection.json",
+    "login" : "connection-login.json",
     "executiva" : "connection-executiva.json",
     "sancoes": "connection-sancoes.json",
     "monitoriaAgentes": "connection-agentes.json"

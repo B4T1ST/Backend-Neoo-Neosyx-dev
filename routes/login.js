@@ -4,7 +4,7 @@ const passport          = require('passport');
 const router            = express.Router();
 const sql               = require('mssql');
 const config            = require('../config/config.json');
-const connection        = require('../config/' + config.banco);
+const connection        = require('../config/' + config.login);
 const authJWT           = require('../lib/authJWT.js');
 const ActiveDirectory   = require('activedirectory');
 
@@ -70,6 +70,23 @@ router.get('/verificaTokenApiChat', async (req, res) => {
     res.json(await authJWT.verificaTokenApiChat(token))    
 })
 
+
+router.get('/retornaLoginRede', async (req, res) => {
+
+    const { almope } = req.query
+    
+    console.log(almope)
+
+    global.conn.request()
+    //define os parametros
+    .input('almope',      sql.VarChar(200),  almope)   
+    //executa a procedure  
+    .execute('s_Retorna_Login_Rede')
+    .then(result => res.json(result?.recordset?.length <= 0 ? null : result.recordset[0].loginRede))            
+    .catch(err => res.json(err)) 
+})
+
+
 router.post('/redefinirSenha', function(req, res) {
 
     let loginUsuario = req.body.loginUsuario
@@ -79,6 +96,7 @@ router.post('/redefinirSenha', function(req, res) {
 })
 
 function verificaUsuario(loginUsuario, senha, res){
+
     global.conn.request()
         //defina os parametros
         .input('loginUsuario', sql.VarChar(200), loginUsuario)
@@ -87,10 +105,9 @@ function verificaUsuario(loginUsuario, senha, res){
             try{
                 const cLogin = result.recordset[0]
                 const usuario = result.recordset[1]
-                const retornoLDAP = await autenticaUsuarioLDAP(loginUsuario, senha)
-                
-
-                console.log(retornoLDAP)
+                // ALTERAR LDAP ABAIXO!!!
+                const retornoLDAP = false
+                //await autenticaUsuarioLDAP(loginUsuario, senha)
 
                 if(retornoLDAP){
                     const retornoToken = await geraToken(loginUsuario, cLogin, res)
@@ -105,8 +122,8 @@ function verificaUsuario(loginUsuario, senha, res){
                     console.log(retornoBanco)
 
                     if(!retornoBanco){
-                        res.status(500).json(null)
-                        return
+                        res.json(null)
+                        return;
                     }
 
                     res.json({
@@ -132,17 +149,24 @@ async function autenticaUsuario(loginUsuario, senha, res){
     .input('loginUsuario'     , sql.VarChar(200), loginUsuario)
     .input('senha'            , sql.VarChar(200), senha)
     //executa a procedure  
-    .execute('s_NSX_Verifica_Login')
+    .execute('s_NSX_Verifica_Login_AD')
     try{
         const usuario = result.recordset[0]
-        const retornoToken = await geraToken(loginUsuario, usuario.codigo, res)
+    
+        if (usuario) {
+            console.log(usuario)
+            
+            const retornoToken = await geraToken(loginUsuario, usuario.codigo, res)
         
-        console.log(usuario)
-        console.log(retornoToken)
-        return {                            
-            usuario,
-            token: retornoToken.recordset[0].token
-        };                  
+            console.log(retornoToken)
+            return {                            
+                usuario,
+                token: retornoToken.recordset[0].token
+            };
+        } else {
+            return null
+        }
+                          
 
     }catch(error) {
         console.error("Error :" + error);
@@ -180,11 +204,11 @@ function desconectaUsuario(loginUsuario, token, res){
 
 function autenticaUsuarioLDAP(loginUsuario, senha){
     var config = {
-        url: 'ldap://172.16.254.18',
-        baseDN: 'dc=almavivadobrasil,dc=com, dc=br'
+        url: 'ldap://domain-svr.neosyxadm.corp',
+        baseDN: 'dc=neosyxadm,dc=corp'
     };
     var ad = new ActiveDirectory(config);
-    var username = loginUsuario.trim() + '@almavivadobrasil.com.br';
+    var username = loginUsuario.trim() + '@neosyxadm.corp';
     var password = senha;
     // Authenticate
     return new Promise((resolve, reject) => {

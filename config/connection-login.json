@@ -1,0 +1,14 @@
+{
+  "port"       : 1433,
+  "server"    : "192.168.200.19",
+  "user"      : "app_neosyx",
+  "password"  : "N43psw399dF", 
+  "database"  : "BDNeooWeb",
+  "stream"    : false,
+  "options": {
+    "trustedConnection"       : true,
+    "encrypt"                 : true,
+    "enableArithAbort"        : true,
+    "trustServerCertificate"  : true    
+  }
+} 

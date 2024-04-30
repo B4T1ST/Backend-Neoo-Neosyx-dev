@@ -42,17 +42,21 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('cIndicador', sql.VarChar, cIndicador)
             .execute('s_Gestao_Executiva_Retorna_Dispersao_Indicadores')
 
- 
+    // Filtra os resultados para remover aqueles que contêm '-'
+    let resultadosFiltrados = resultDispersao.recordset.filter(item => {
+        // Verifica se algum dos valores do objeto contém '-'
+        return Object.values(item).every(value => value !== '-');
+    });
 
-        let retorno = {
-            Dispersao: resultDispersao?.recordset,
-        };
+    let retorno = {
+        Dispersao: resultadosFiltrados,
+    };
 
-        res.json(retorno)
-
-
+    res.json(retorno)
     } catch (error) {
-        res.status(500).json(error);
-    }
+res.status(500).json(error);
 }
+}
+
+ 
 module.exports = router
