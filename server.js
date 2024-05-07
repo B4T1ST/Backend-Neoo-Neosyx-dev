@@ -65,6 +65,7 @@ const executivaHierarquiaRouter = require ('./routes/gestaoExecutiva/hierarquia/
 const executivaCorrelacaoRouter = require ('./routes/gestaoExecutiva/correlacao/');
 const executivaUsuarioRouter = require ('./routes/gestaoExecutiva/usuario/');
 const executivaDispersaoRouter = require ('./routes/gestaoExecutiva/dispersao/');
+const executivaDispersaoOperadorRouter = require ('./routes/gestaoExecutiva/dispersaoOperador/');
 const executivaFiltroRouter = require ('./routes/gestaoExecutiva/filtro/');
 const executivaMicroGestaoRouter = require ('./routes/gestaoExecutiva/microGestao/');
 const executivaExtracaoRouter = require ('./routes/gestaoExecutiva/extracao/');
@@ -174,6 +175,9 @@ app.use(`${nginsxTag}/gestaoExecutiva/usuario`, executivaUsuarioRouter)
 //rota para Dispersao Indicadores gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/dispersao`, executivaDispersaoRouter)
 
+//rota para Dispersao Operador Indicadores gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/dispersaoOperador`, executivaDispersaoOperadorRouter)
+
 //rota para filtro gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/filtro`, executivaFiltroRouter)
 
@@ -191,7 +195,6 @@ app.use(`${nginsxTag}/gestaoExecutiva/dataAtualizacao`, executivaDataAtualizacao
 
 //rota para grafico Dia Gestao Executiva
 app.use(`${nginsxTag}/gestaoExecutiva/graficoDia`, executivaGraficoDiaRouter)
-
 
 
 //carrega as rotas
