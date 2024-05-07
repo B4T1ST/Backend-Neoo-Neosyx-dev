@@ -19,12 +19,13 @@ router.get('/', function (req, res) {
         idSupervisor= "-1",
         idOperador = "-1",
         cIndicador,
+        cComparativo = 0
     } = req.query
 
-    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, res);
+    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, cComparativo, res);
 });
 
-async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador,  res) {
+async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, cComparativo,  res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
@@ -40,12 +41,13 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)
             .input('cIndicador', sql.VarChar, cIndicador)
+            .input('cComparativo', sql.Bit, cComparativo)
             .execute('s_Gestao_Executiva_Retorna_Dispersao_Indicadores')
 
     // Filtra os resultados para remover aqueles que contêm '-'
     let resultadosFiltrados = resultDispersao.recordset.filter(item => {
         // Verifica se algum dos valores do objeto contém '-'
-        return Object.values(item).every(value => value !== '-');
+        return Object.values(item).every(value => value !== '-' && value !== null);
     });
 
     let retorno = {
