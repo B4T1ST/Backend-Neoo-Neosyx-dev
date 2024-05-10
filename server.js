@@ -61,6 +61,9 @@ const extratoRouter = require('./routes/gestaoPerformace/extrato');
 const executivaIndicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
 const executivaCardsRouter = require ('./routes/gestaoExecutiva/cards/index.js');
 const executivaVisaoGeralRouter = require ('./routes/gestaoExecutiva/visaoGeral/');
+const executivaGraficoSenioridadeRouter = require ('./routes/gestaoExecutiva/graficoSenioridade/');
+const executivaGraficoTurnoRouter = require ('./routes/gestaoExecutiva/graficoTurno/');
+const executivaGraficoModalidadeRouter = require ('./routes/gestaoExecutiva/graficoModalidade/');
 const executivaHierarquiaRouter = require ('./routes/gestaoExecutiva/hierarquia/');
 const executivaCorrelacaoRouter = require ('./routes/gestaoExecutiva/correlacao/');
 const executivaUsuarioRouter = require ('./routes/gestaoExecutiva/usuario/');
@@ -162,6 +165,15 @@ app.use(`${nginsxTag}/gestaoExecutiva/cards`, executivaCardsRouter)
 
 //rota para Visao Geral gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/visaoGeral`, executivaVisaoGeralRouter)
+
+//rota para Grafico Senioridade gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/graficoSenioridade`, executivaGraficoSenioridadeRouter)
+
+//rota para Grafico Turno gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/graficoTurno`, executivaGraficoTurnoRouter)
+
+//rota para Grafico Modalidade gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/graficoModalidade`, executivaGraficoModalidadeRouter)
 
 //rota para Hierarquia gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/hierarquia`, executivaHierarquiaRouter)
