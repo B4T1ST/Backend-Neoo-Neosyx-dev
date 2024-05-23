@@ -7,15 +7,15 @@
 // const fs = require('fs');
 // const tls = require('tls')
 // const authJWT = require('./lib/authJWT.js');
-const express           = require('express');
-const session           = require('express-session');
-const cors              = require('cors');
-const path              = require('path');
-const https             = require('https');
-const fs                = require('fs');
-const tls               = require('tls')
-const authJWT           = require('./lib/authJWT.js');
-const helmet            = require("helmet");
+const express = require('express');
+const session = require('express-session');
+const cors = require('cors');
+const path = require('path');
+const https = require('https');
+const fs = require('fs');
+const tls = require('tls')
+const authJWT = require('./lib/authJWT.js');
+const helmet = require("helmet");
 
 //carregando as rotas
 const loginRouter = require('./routes/login.js');
@@ -32,11 +32,11 @@ const categoriasArtigoRouter = require('./routes/wiki/categoriasArtigo.js');
 // const linkRouter            = require('./routes/monitoria/retornaLinks');
 // const categoriasFormRouter  = require('./routes/monitoria/categoriasFormulario');
 // const listFormRouter        = require('./routes/monitoria/retornaFormsVisaoGeral');
-const consultasRouter       = require('./routes/consultas.js');
-const administracaoRouter   = require('./routes/administracao.js');
-const relatoriosRouter      = require('./routes/relatorios/index.js');
-const MVPRouter      = require('./routes/MVP/index.js');
-const sidebarRouter         = require('./routes/sidebar.js');
+const consultasRouter = require('./routes/consultas.js');
+const administracaoRouter = require('./routes/administracao.js');
+const relatoriosRouter = require('./routes/relatorios/index.js');
+const MVPRouter = require('./routes/MVP/index.js');
+const sidebarRouter = require('./routes/sidebar.js');
 // const sancoesRouter         = require('./routes/sancoes');
 
 //gestao performance
@@ -54,28 +54,45 @@ const rocoinsRouter = require('./routes/gestaoPerformace/rocoins/');
 const usuarioRouter = require('./routes/gestaoPerformace/usuario/');
 const kpiRouter = require('./routes/gestaoPerformace/KPI/');
 const fileView = require('./routes/fileView/index.js');
-const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.js');
+const avatarRouter = require('./routes/gestaoPerformace/avatar/index.js');
 const extratoRouter = require('./routes/gestaoPerformace/extrato');
 
 //gestao executiva
+const executivaAbsRouter = require("./routes/gestaoExecutiva/ABS/index.js")
 const executivaIndicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
-const executivaCardsRouter = require ('./routes/gestaoExecutiva/cards/index.js');
-const executivaVisaoGeralRouter = require ('./routes/gestaoExecutiva/visaoGeral/');
-const executivaGraficoSenioridadeRouter = require ('./routes/gestaoExecutiva/graficoSenioridade/');
-const executivaGraficoTurnoRouter = require ('./routes/gestaoExecutiva/graficoTurno/');
-const executivaGraficoModalidadeRouter = require ('./routes/gestaoExecutiva/graficoModalidade/');
-const executivaHierarquiaRouter = require ('./routes/gestaoExecutiva/hierarquia/');
-const executivaCorrelacaoRouter = require ('./routes/gestaoExecutiva/correlacao/');
-const executivaUsuarioRouter = require ('./routes/gestaoExecutiva/usuario/');
-const executivaDispersaoRouter = require ('./routes/gestaoExecutiva/dispersao/');
-const executivaDispersaoOperadorRouter = require ('./routes/gestaoExecutiva/dispersaoOperador/');
-const executivaFiltroRouter = require ('./routes/gestaoExecutiva/filtro/');
-const executivaMicroGestaoRouter = require ('./routes/gestaoExecutiva/microGestao/');
-const executivaExtracaoRouter = require ('./routes/gestaoExecutiva/extracao/');
-const executivaExtracaoMicroGestaoRouter = require ('./routes/gestaoExecutiva/extracaoMicroGestao/');
-const executivaDataAtualizacaoRouter = require ('./routes/gestaoExecutiva/dataAtualizacao/');
-const executivaGraficoDiaRouter = require ('./routes/gestaoExecutiva/GraficoDia/');
-const executivaDadosFiltroRouter = require ('./routes/gestaoExecutiva/dadosFiltro/');
+const executivaCardsRouter = require('./routes/gestaoExecutiva/cards/index.js');
+const executivaVisaoGeralRouter = require('./routes/gestaoExecutiva/visaoGeral/');
+const executivaGraficoSenioridadeRouter = require('./routes/gestaoExecutiva/graficoSenioridade/');
+const executivaGraficoTurnoRouter = require('./routes/gestaoExecutiva/graficoTurno/');
+const executivaGraficoModalidadeRouter = require('./routes/gestaoExecutiva/graficoModalidade/');
+const executivaHierarquiaRouter = require('./routes/gestaoExecutiva/hierarquia/');
+const executivaCorrelacaoRouter = require('./routes/gestaoExecutiva/correlacao/');
+const executivaUsuarioRouter = require('./routes/gestaoExecutiva/usuario/');
+const executivaDispersaoRouter = require('./routes/gestaoExecutiva/dispersao/');
+const executivaDispersaoOperadorRouter = require('./routes/gestaoExecutiva/dispersaoOperador/');
+const executivaFiltroRouter = require('./routes/gestaoExecutiva/filtro/');
+const executivaMicroGestaoRouter = require('./routes/gestaoExecutiva/microGestao/');
+const executivaExtracaoRouter = require('./routes/gestaoExecutiva/extracao/');
+const executivaExtracaoMicroGestaoRouter = require('./routes/gestaoExecutiva/extracaoMicroGestao/');
+const executivaDataAtualizacaoRouter = require('./routes/gestaoExecutiva/dataAtualizacao/');
+const executivaGraficoDiaRouter = require('./routes/gestaoExecutiva/GraficoDia/');
+const executivaCardsRouter = require('./routes/gestaoExecutiva/cards/index.js');
+const executivaVisaoGeralRouter = require('./routes/gestaoExecutiva/visaoGeral/');
+const executivaGraficoSenioridadeRouter = require('./routes/gestaoExecutiva/graficoSenioridade/');
+const executivaGraficoTurnoRouter = require('./routes/gestaoExecutiva/graficoTurno/');
+const executivaGraficoModalidadeRouter = require('./routes/gestaoExecutiva/graficoModalidade/');
+const executivaHierarquiaRouter = require('./routes/gestaoExecutiva/hierarquia/');
+const executivaCorrelacaoRouter = require('./routes/gestaoExecutiva/correlacao/');
+const executivaUsuarioRouter = require('./routes/gestaoExecutiva/usuario/');
+const executivaDispersaoRouter = require('./routes/gestaoExecutiva/dispersao/');
+const executivaDispersaoOperadorRouter = require('./routes/gestaoExecutiva/dispersaoOperador/');
+const executivaFiltroRouter = require('./routes/gestaoExecutiva/filtro/');
+const executivaMicroGestaoRouter = require('./routes/gestaoExecutiva/microGestao/');
+const executivaExtracaoRouter = require('./routes/gestaoExecutiva/extracao/');
+const executivaExtracaoMicroGestaoRouter = require('./routes/gestaoExecutiva/extracaoMicroGestao/');
+const executivaDataAtualizacaoRouter = require('./routes/gestaoExecutiva/dataAtualizacao/');
+const executivaGraficoDiaRouter = require('./routes/gestaoExecutiva/GraficoDia/');
+const executivaDadosFiltroRouter = require('./routes/gestaoExecutiva/dadosFiltro/');
 // const port = 4000;
 // const port = 8443;
 
@@ -161,6 +178,9 @@ app.use(`${nginsxTag}/gestaoPerformace/extrato`, extratoRouter)
 //rota para indicadores gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, executivaIndicadoresRouter)
 
+//rota para modulo abs gestao executiva 
+app.use(`${nginsxTag}/gestaoExecutiva/abs`, executivaAbsRouter)
+
 //rota para cards gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/cards`, executivaCardsRouter)
 
@@ -217,10 +237,10 @@ app.use(`${nginsxTag}/gestaoExecutiva/dadosFiltro`, executivaDadosFiltroRouter)
 // app.get(`${nginsxTag}/lagin`, (req, res) => res.send('Hallo World!'));
 app.get(`${nginsxTag}/basicStatus`, (req, res) => res.status(200).send({ status: 'Online' }));
 app.use(`${nginsxTag}/login`, loginRouter);
-app.use(`${nginsxTag}/MVP`                               , (req, res, next) => {  
-  if(req.originalUrl.startsWith('/api/MVP')){
+app.use(`${nginsxTag}/MVP`, (req, res, next) => {
+  if (req.originalUrl.startsWith('/api/MVP')) {
     next();
-  } 
+  }
   // else{
   //   authJWT.verificaToken(req,res,next) 
   // } 
@@ -263,14 +283,14 @@ app.use(`${nginsxTag}/sidebar`, authJWT.verificaToken, sidebarRouter);
 // app.use(`${nginsxTag}/sancoes`                                  , sancoesRouter)
 
 // Ativar futuramente verificação do token
-app.use(`${nginsxTag}/relatorios`                               , (req, res, next) => {  
-  if(req.originalUrl.startsWith('/api/relatorios/monitoriaAgentes')){
+app.use(`${nginsxTag}/relatorios`, (req, res, next) => {
+  if (req.originalUrl.startsWith('/api/relatorios/monitoriaAgentes')) {
     next();
-  } else if (req.originalUrl.startsWith('/api/relatorios/monitoriaLideranca')){
-    next(); 
+  } else if (req.originalUrl.startsWith('/api/relatorios/monitoriaLideranca')) {
+    next();
   } else if (req.originalUrl.startsWith('/api/relatorios/auditoriaDeInteracoes')) {
     next();
-  }else if (req.originalUrl.startsWith('/api/relatorios/')) {
+  } else if (req.originalUrl.startsWith('/api/relatorios/')) {
     next();
   }
   // else if(req.originalUrl.startsWith('/api/relatorios/acompanhamentoDeAcessos')) {
@@ -319,12 +339,12 @@ app.use(`${nginsxTag}/relatorios`                               , (req, res, nex
 //         return res.status(500).send('Erro ao baixar o arquivo');
 //       }
 //     }
-  
+
 //     if(!nomeArquivo){
 //       res.status(400).send('Essa requisição precisa do nome do Arquivo para funcionar')
 //       return
 //     }
-  
+
 //     // https://webservice.neosyx.com
 //     // https://dashboardmobile.atento.com.br
 //     // urlArquivo = urlArquivo.replace('https://webservice.neosyx.com', 'C:/inetpub/wwwroot');
@@ -384,7 +404,7 @@ app.use(`${nginsxTag}/relatorios`                               , (req, res, nex
 // var privateKey  = fs.readFileSync('./certificates/server.key', 'utf8');
 // var certificate = fs.readFileSync('./certificates/server.crt', 'utf8');
 const context = tls.createSecureContext({
-  pfx :  fs.readFileSync(path.join(__dirname, 'certificates', 'cert_alm_22.pfx')),
+  pfx: fs.readFileSync(path.join(__dirname, 'certificates', 'cert_alm_22.pfx')),
   passphrase: "JKSL23#OIL%",
 });
 
@@ -419,34 +439,34 @@ const context = tls.createSecureContext({
 //       "!CAMELLIA"
 //   ].join(':'),
 // }
-var options =   {
-  ca: fs.readFileSync(path.join(__dirname, 'certificates', 'CEPO220929444255.cer')),    
+var options = {
+  ca: fs.readFileSync(path.join(__dirname, 'certificates', 'CEPO220929444255.cer')),
   // pfx :  fs.readFileSync(path.join(__dirname, 'certs', 'cert_alm_22.pfx')),
-  SNICallback: function (domain, cb) {        
-      if ((domain === 'monitoramento.almavivadobrasil.com.br')) {
-          cb(null, context);
-      }
-  },    
+  SNICallback: function (domain, cb) {
+    if ((domain === 'monitoramento.almavivadobrasil.com.br')) {
+      cb(null, context);
+    }
+  },
   secureProtocol: "TLSv1_2_method",
-  ciphers: [        
-      "ECDHE-RSA-AES256-SHA384",
-      "DHE-RSA-AES256-SHA384",
-      "ECDHE-RSA-AES256-SHA256",
-      "DHE-RSA-AES256-SHA256",
-      "ECDHE-RSA-AES128-SHA256",
-      "DHE-RSA-AES128-SHA256",
-      "HIGH",
-      "!AES128",
-      "!ARIA128",
-      "!aNULL",
-      "!eNULL",
-      "!EXPORT",
-      "!DES",
-      "!RC4",
-      "!MD5",
-      "!PSK",
-      "!SRP",
-      "!CAMELLIA"
+  ciphers: [
+    "ECDHE-RSA-AES256-SHA384",
+    "DHE-RSA-AES256-SHA384",
+    "ECDHE-RSA-AES256-SHA256",
+    "DHE-RSA-AES256-SHA256",
+    "ECDHE-RSA-AES128-SHA256",
+    "DHE-RSA-AES128-SHA256",
+    "HIGH",
+    "!AES128",
+    "!ARIA128",
+    "!aNULL",
+    "!eNULL",
+    "!EXPORT",
+    "!DES",
+    "!RC4",
+    "!MD5",
+    "!PSK",
+    "!SRP",
+    "!CAMELLIA"
   ].join(':'),
 }
 
