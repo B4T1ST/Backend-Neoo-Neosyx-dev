@@ -76,6 +76,23 @@ const executivaExtracaoRouter = require('./routes/gestaoExecutiva/extracao/');
 const executivaExtracaoMicroGestaoRouter = require('./routes/gestaoExecutiva/extracaoMicroGestao/');
 const executivaDataAtualizacaoRouter = require('./routes/gestaoExecutiva/dataAtualizacao/');
 const executivaGraficoDiaRouter = require('./routes/gestaoExecutiva/GraficoDia/');
+const executivaCardsRouter = require('./routes/gestaoExecutiva/cards/index.js');
+const executivaVisaoGeralRouter = require('./routes/gestaoExecutiva/visaoGeral/');
+const executivaGraficoSenioridadeRouter = require('./routes/gestaoExecutiva/graficoSenioridade/');
+const executivaGraficoTurnoRouter = require('./routes/gestaoExecutiva/graficoTurno/');
+const executivaGraficoModalidadeRouter = require('./routes/gestaoExecutiva/graficoModalidade/');
+const executivaHierarquiaRouter = require('./routes/gestaoExecutiva/hierarquia/');
+const executivaCorrelacaoRouter = require('./routes/gestaoExecutiva/correlacao/');
+const executivaUsuarioRouter = require('./routes/gestaoExecutiva/usuario/');
+const executivaDispersaoRouter = require('./routes/gestaoExecutiva/dispersao/');
+const executivaDispersaoOperadorRouter = require('./routes/gestaoExecutiva/dispersaoOperador/');
+const executivaFiltroRouter = require('./routes/gestaoExecutiva/filtro/');
+const executivaMicroGestaoRouter = require('./routes/gestaoExecutiva/microGestao/');
+const executivaExtracaoRouter = require('./routes/gestaoExecutiva/extracao/');
+const executivaExtracaoMicroGestaoRouter = require('./routes/gestaoExecutiva/extracaoMicroGestao/');
+const executivaDataAtualizacaoRouter = require('./routes/gestaoExecutiva/dataAtualizacao/');
+const executivaGraficoDiaRouter = require('./routes/gestaoExecutiva/GraficoDia/');
+const executivaDadosFiltroRouter = require('./routes/gestaoExecutiva/dadosFiltro/');
 // const port = 4000;
 // const port = 8443;
 
@@ -211,6 +228,9 @@ app.use(`${nginsxTag}/gestaoExecutiva/dataAtualizacao`, executivaDataAtualizacao
 
 //rota para grafico Dia Gestao Executiva
 app.use(`${nginsxTag}/gestaoExecutiva/graficoDia`, executivaGraficoDiaRouter)
+
+//rota para dados do filtro Gestao Executiva
+app.use(`${nginsxTag}/gestaoExecutiva/dadosFiltro`, executivaDadosFiltroRouter)
 
 
 //carrega as rotas
