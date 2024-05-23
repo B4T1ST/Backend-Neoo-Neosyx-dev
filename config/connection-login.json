@@ -3,8 +3,9 @@
   "server"    : "172.16.201.130",
   "user"      : "usr_coletores",
   "password"  : "Neosyx@2023",
-  "database"  : "BDRechamadasGeral",
+  "database"  : "BDNeooWeb",
   "stream"    : false,
+  "requestTimeout"          : 100000,
   "options": {
     "trustedConnection"       : true,
     "encrypt"                 : true,
@@ -12,3 +13,5 @@
     "trustServerCertificate"  : true    
   }
 } 
+
+

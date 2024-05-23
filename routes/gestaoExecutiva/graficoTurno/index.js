@@ -2,9 +2,9 @@
 const sql = require('mssql');
 const express = require('express');
 const router = express.Router();
-const config = require('../../../config/config.json');
 const { get } = require('../../../lib/poolManager')
-const connection = require('../../../config/' + config.banco);
+const config = require('../../../config/config.json');
+const connection = require('../../../config/' + config.executiva);
 
 router.get('/', function (req, res) {
 
@@ -18,17 +18,18 @@ router.get('/', function (req, res) {
         idCoordenador= "-1",
         idSupervisor= "-1",
         idOperador = "-1",
+        cIndicador,
     } = req.query
 
-    retornaDadosRocoins(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador,  res);
+    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, res);
 });
-async function retornaDadosRocoins(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador,  res) {
+
+async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador,  res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
 
-
-        let resultRocoins = await pool.request()
+        let resultTurno = await pool.request()
             .input('dataInicial', sql.DateTime, dataInicial)
             .input('dataFinal', sql.DateTime, dataFinal)
             .input('idCliente', sql.VarChar, idCliente)
@@ -38,18 +39,17 @@ async function retornaDadosRocoins(dataInicial, dataFinal, idCliente, idOperacao
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Gestao_Performance_Retorna_Dados_Rocoins')
-
+            .execute('s_Gestao_Executiva_Retorna_Grafico_Turno')
 
         let retorno = {
-            rocoins:resultRocoins?.recordset
+            graficoTurno: resultTurno?.recordset,
         };
 
         res.json(retorno);
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error);
+        res.status(500).json(error)
     }
-};
+}
+
 module.exports = router

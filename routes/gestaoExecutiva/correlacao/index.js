@@ -25,13 +25,27 @@ router.get('/', function (req, res) {
 
     retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, cCategoria,  res);
 });
+
+// Função auxiliar para formatar a data
+function formatarData(data) {
+    if (data.includes(' ')) {
+        // Extrai a data e a hora da string
+        const [datePart, timePart] = data.split(' ');
+        // Formata a data e a hora no formato desejado
+        return `${datePart}T${timePart}.000Z`;
+    }
+    return data;
+}
 async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, cCategoria, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
+        const dataInicialFormatada = formatarData(dataInicial);
+        const dataFinalFormatada = formatarData(dataFinal);
+        
         let resultCorrelacao = await pool.request()
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
+            .input('dataInicial', sql.DateTime, dataInicialFormatada)
+            .input('dataFinal', sql.DateTime, dataFinalFormatada)
             .input('idCliente', sql.VarChar, idCliente)
             .input('idOperacao', sql.VarChar, idOperacao)
             .input('idDiretor', sql.VarChar, idDiretor)
@@ -51,34 +65,32 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             const transformarResposta = (retorno) => {
                 const grafico = {
                     field: [...new Set(retorno.field.map(item => JSON.stringify({ nome: item.nome, color: item.corThr })))].map(JSON.parse),
-            
                     valores: retorno.field.reduce((acc, item) => {
                         const data = item.periodo;
                         if (!acc[data]) {
                             acc[data] = {};
                         }
-                        acc[data][item.nome] = parseFloat(item.valor.replace('%', ''));
+                        // Manter o valor como string, sem conversão
+                        acc[data][item.nome] = item.valor; // Atribuir diretamente o valor
                         return acc;
                     }, {}),
-            
                     periodo: [...new Set(retorno.field.map(item => item.periodo))] // Obter datas únicas
                 };
             
-                // Transformar valores em um array de objetos
+                // Transformar valores em um array de objetos com os valores originais
                 grafico.valores = grafico.periodo.map(data => {
                     const valoresPorData = grafico.valores[data];
                     const objetoValores = {};
                     grafico.field.forEach(indicador => {
                         const nome = indicador.nome;
-                        objetoValores[nome] = valoresPorData ? valoresPorData[nome] || 0 : 0;
+                        objetoValores[nome] = valoresPorData ? valoresPorData[nome] || '0' : '0'; // Utilizar '0' como padrão
                     });
                     return objetoValores;
                 });
             
                 return grafico;
             };
-    
-        
+            
             const respostaTransformada = transformarResposta(retorno);
             res.json(respostaTransformada);
 

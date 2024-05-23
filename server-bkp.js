@@ -18,26 +18,29 @@ const authJWT           = require('./lib/authJWT.js');
 const helmet            = require("helmet");
 
 //carregando as rotas
-const loginRouter = require('./routes/login');
-const uploaderRouter = require('./routes/uploader');
-const colecoesRouter = require('./routes/wiki/colecoes');
-const iconesRouter = require('./routes/wiki/icones');
-const artigosRouter = require('./routes/wiki/artigos');
-const categoriasRouter = require('./routes/wiki/categorias');
-const perfisRouter = require('./routes/wiki/perfis');
-const artigoAbertoRouter = require('./routes/wiki/artigoAberto');
-const avaliacoesRouter = require('./routes/wiki/avaliacoes');
-const artigosRelacionadosRouter = require('./routes/wiki/artigosRelacionados');
-const categoriasArtigoRouter = require('./routes/wiki/categoriasArtigo');
+const loginRouter = require('./routes/login.js');
+const tokenNice = require('./routes/tokenNice.js');
+const uploaderRouter = require('./routes/uploader.js');
+const colecoesRouter = require('./routes/wiki/colecoes.js');
+const iconesRouter = require('./routes/wiki/icones.js');
+const artigosRouter = require('./routes/wiki/artigos.js');
+const categoriasRouter = require('./routes/wiki/categorias.js');
+const perfisRouter = require('./routes/wiki/perfis.js');
+const artigoAbertoRouter = require('./routes/wiki/artigoAberto.js');
+const avaliacoesRouter = require('./routes/wiki/avaliacoes.js');
+const artigosRelacionadosRouter = require('./routes/wiki/artigosRelacionados.js');
+const categoriasArtigoRouter = require('./routes/wiki/categoriasArtigo.js');
 // const linkRouter            = require('./routes/monitoria/retornaLinks');
 // const categoriasFormRouter  = require('./routes/monitoria/categoriasFormulario');
 // const listFormRouter        = require('./routes/monitoria/retornaFormsVisaoGeral');
-const consultasRouter       = require('./routes/consultas');
-const administracaoRouter   = require('./routes/administracao');
-const relatoriosRouter      = require('./routes/relatorios');
-const sidebarRouter         = require('./routes/sidebar');
-const MVPRouter      = require('./routes/MVP');
+const consultasRouter       = require('./routes/consultas.js');
+const administracaoRouter   = require('./routes/administracao.js');
+const relatoriosRouter      = require('./routes/relatorios/index.js');
+const MVPRouter      = require('./routes/MVP/index.js');
+const sidebarRouter         = require('./routes/sidebar.js');
+// const sancoesRouter         = require('./routes/sancoes');
 
+//gestao performance
 const feedbackHistoricoRouter = require('./routes/gestaoPerformace/feedbackHistorico/');
 const feedbackRouter = require('./routes/gestaoPerformace/feedback/');
 const tortaRouter = require('./routes/gestaoPerformace/torta');
@@ -53,29 +56,27 @@ const usuarioRouter = require('./routes/gestaoPerformace/usuario/');
 const kpiRouter = require('./routes/gestaoPerformace/KPI/');
 const fileView = require('./routes/fileView/index.js');
 const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.js');
-// const sancoesRouter         = require('./routes/sancoes');
 
 //gestao executiva
 const executivaIndicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
-const executivaTortaRouter = require ('./routes/gestaoExecutiva/torta/');
-const executivaUniversoRouter = require ('./routes/gestaoExecutiva/universo/');
+const executivaCardsRouter = require ('./routes/gestaoExecutiva/cards/index.js');
 const executivaVisaoGeralRouter = require ('./routes/gestaoExecutiva/visaoGeral/');
 const executivaHierarquiaRouter = require ('./routes/gestaoExecutiva/hierarquia/');
 const executivaCorrelacaoRouter = require ('./routes/gestaoExecutiva/correlacao/');
-const executivaGraficoIndicadoresRouter = require ('./routes/gestaoExecutiva/graficoIndicadores/');
 const executivaUsuarioRouter = require ('./routes/gestaoExecutiva/usuario/');
 const executivaDispersaoRouter = require ('./routes/gestaoExecutiva/dispersao/');
 const executivaFiltroRouter = require ('./routes/gestaoExecutiva/filtro/');
 const executivaMicroGestaoRouter = require ('./routes/gestaoExecutiva/microGestao/');
 const executivaExtracaoRouter = require ('./routes/gestaoExecutiva/extracao/');
 const executivaExtracaoMicroGestaoRouter = require ('./routes/gestaoExecutiva/extracaoMicroGestao/');
+const executivaDataAtualizacaoRouter = require ('./routes/gestaoExecutiva/dataAtualizacao/');
 // const port = 4000;
 // const port = 8443;
 
 const nginsxTag = '/api'
 
 const app = express();
-const port = 3001;
+const port = 2500;
 
 //carrega os demais middlewares
 app.use(cors(
@@ -87,8 +88,6 @@ app.use(express.urlencoded({ limit: '50mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
-
-
 
 //desabilitar o poweredby
 app.disable('x-powered-by');
@@ -146,15 +145,11 @@ app.use(`${nginsxTag}/gestaoPerformace/feedbackHistorico`, feedbackHistoricoRout
 //rota para pop-up feedbackHistorico
 app.use(`${nginsxTag}/gestaoPerformace/feedback`, feedbackRouter)
 
-
 //rota para indicadores gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, executivaIndicadoresRouter)
 
-//rota para torta gestao executiva
-app.use(`${nginsxTag}/gestaoExecutiva/torta`, executivaTortaRouter)
-
-//rota para universo gestao executiva
-app.use(`${nginsxTag}/gestaoExecutiva/universo`, executivaUniversoRouter)
+//rota para cards gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/cards`, executivaCardsRouter)
 
 //rota para Visao Geral gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/visaoGeral`, executivaVisaoGeralRouter)
@@ -164,9 +159,6 @@ app.use(`${nginsxTag}/gestaoExecutiva/hierarquia`, executivaHierarquiaRouter)
 
 //rota para Correlacao gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/correlacao`, executivaCorrelacaoRouter)
-
-//rota para Grafico Indicadores gestao executiva
-app.use(`${nginsxTag}/gestaoExecutiva/graficoIndicadores`, executivaGraficoIndicadoresRouter)
 
 //rota para dados Colaborador gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/usuario`, executivaUsuarioRouter)
@@ -186,11 +178,23 @@ app.use(`${nginsxTag}/gestaoExecutiva/extracao`, executivaExtracaoRouter)
 //rota para extracao executiva micro gestao
 app.use(`${nginsxTag}/gestaoExecutiva/extracaoMicroGestao`, executivaExtracaoMicroGestaoRouter)
 
+//rota para data atualizacao micro gestao
+app.use(`${nginsxTag}/gestaoExecutiva/dataAtualizacao`, executivaDataAtualizacaoRouter)
+
 
 //carrega as rotas
 // app.get(`${nginsxTag}/lagin`, (req, res) => res.send('Hallo World!'));
 app.get(`${nginsxTag}/basicStatus`, (req, res) => res.status(200).send({ status: 'Online' }));
 app.use(`${nginsxTag}/login`, loginRouter);
+app.use(`${nginsxTag}/tokenNice`, tokenNice);
+app.use(`${nginsxTag}/MVP`                               , (req, res, next) => {  
+  if(req.originalUrl.startsWith('/api/MVP')){
+    next();
+  } 
+  // else{
+  //   authJWT.verificaToken(req,res,next) 
+  // } 
+}, MVPRouter);
 // app.use(`${nginsxTag}/wiki/colecoes`, colecoesRouter);
 // app.use(`${nginsxTag}/wiki/icones`, iconesRouter);
 // app.use(`${nginsxTag}/wiki/artigos`, artigosRouter);
@@ -229,27 +233,19 @@ app.use(`${nginsxTag}/sidebar`, authJWT.verificaToken, sidebarRouter);
 // app.use(`${nginsxTag}/sancoes`                                  , sancoesRouter)
 
 // Ativar futuramente verificação do token
-app.use(`${nginsxTag}/MVP`                               , (req, res, next) => {  
-  if(req.originalUrl.startsWith('/api/MVP')){
-    next();
-  } 
-  // else{
-  //   authJWT.verificaToken(req,res,next) 
-  // } 
-}, MVPRouter);
-
 app.use(`${nginsxTag}/relatorios`                               , (req, res, next) => {  
   if(req.originalUrl.startsWith('/api/relatorios/monitoriaAgentes')){
     next();
   } else if (req.originalUrl.startsWith('/api/relatorios/monitoriaLideranca')){
     next(); 
-  }else if (req.originalUrl.startsWith('/api/relatorios/acompanhamentoDeAcessos')){
-    next(); 
-  }else if (req.originalUrl.startsWith('/api/relatorios/auditoriaDeInteracoes')) {
+  } else if (req.originalUrl.startsWith('/api/relatorios/auditoriaDeInteracoes')) {
     next();
   }else if (req.originalUrl.startsWith('/api/relatorios/')) {
     next();
   }
+  // else if(req.originalUrl.startsWith('/api/relatorios/acompanhamentoDeAcessos')) {
+  //   next();
+  // }
   // else{
   //   authJWT.verificaToken(req,res,next) 
   // } 
@@ -424,12 +420,12 @@ var options =   {
   ].join(':'),
 }
 
-var httpsServer = https.createServer(options, app);
+// var httpsServer = https.createServer(options, app);
 
 // var httpsServer = https.createServer(app);
 // ativa a escuta na porta
-httpsServer.listen(port);
-// app.listen(port);
+//httpsServer.listen(port);
+app.listen(port);
 
 //exibe memsangem
 console.log('Servidor iniciado.');

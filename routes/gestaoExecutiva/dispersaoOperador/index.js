@@ -19,7 +19,7 @@ router.get('/', function (req, res) {
         idSupervisor= "-1",
         idOperador = "-1",
         cIndicador,
-        cComparativo = 0,
+        cComparativo = 1,
     } = req.query
 
     retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, cComparativo, res);
@@ -64,7 +64,7 @@ let resultadosFiltrados = resultDispersao.recordset.filter(item => {
 });
 
 let retorno = {
-    Dispersao: resultadosFiltrados,
+    DispersaoOperador: resultadosFiltrados,
 };
 
 res.json(retorno)

@@ -39,7 +39,7 @@ async function retornaDadosDataAtualizacao(dataInicial, dataFinal, idCliente, id
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
             .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Sup_Digital_Retorna_Data_Atualizacao')
+            .execute('s_Gestao_Performance_Retorna_Data_Atualizacao')
 
         let retorno = {
             dataAtualizacao: resultDataAtualizacao.recordset,

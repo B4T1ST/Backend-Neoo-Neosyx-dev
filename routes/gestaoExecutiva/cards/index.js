@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('../../../config/config.json');
 const { get } = require('../../../lib/poolManager')
-const connection = require('../../../config/' + config.executiva);
+const connection = require('../../../config/' + config.monitoriaAgentes);
 
 //Rota principal
 router.get('/', function (req, res) {
@@ -25,13 +25,27 @@ router.get('/', function (req, res) {
 
     retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, cCategoria, res);
 });
+
+    // Função auxiliar para formatar a data
+function formatarData(data) {
+    if (data.includes(' ')) {
+        // Extrai a data e a hora da string
+        const [datePart, timePart] = data.split(' ');
+        // Formata a data e a hora no formato desejado
+        return `${datePart}T${timePart}.000Z`;
+    }
+    return data;
+}
 async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, cCategoria, res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
+        const dataInicialFormatada = formatarData(dataInicial);
+        const dataFinalFormatada = formatarData(dataFinal);
+
         let resultCards = await pool.request()
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
+            .input('dataInicial', sql.DateTime, dataInicialFormatada)
+            .input('dataFinal', sql.DateTime, dataFinalFormatada)
             .input('idCliente', sql.VarChar, idCliente)
             .input('idOperacao', sql.VarChar, idOperacao)
             .input('idDiretor', sql.VarChar, idDiretor)
@@ -41,7 +55,7 @@ async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDir
             .input('idOperador', sql.VarChar, idOperador)
             .input('indicadorCategoria', sql.VarChar, cCategoria)
             .input('codigoIndicador', sql.VarChar, cIndicador)
-            .execute('s_Gestao_Execuitiva_Retorna_Indicador')
+            .execute('s_Gestao_Executiva_Retorna_Indicador')
         
 
         let retorno = {

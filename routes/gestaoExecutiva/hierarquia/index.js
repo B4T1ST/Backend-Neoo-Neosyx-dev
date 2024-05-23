@@ -23,14 +23,28 @@ router.get('/', function (req, res) {
     retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, cIndicador, res);
 });
 
+// Função auxiliar para formatar a data
+function formatarData(data) {
+    if (data.includes(' ')) {
+        // Extrai a data e a hora da string
+        const [datePart, timePart] = data.split(' ');
+        // Formata a data e a hora no formato desejado
+        return `${datePart}T${timePart}.000Z`;
+    }
+    return data;
+}
+
 async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, cIndicador,  res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
 
+        const dataInicialFormatada = formatarData(dataInicial);
+        const dataFinalFormatada = formatarData(dataFinal);
+
         let resultHierarquia = await pool.request()
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
+            .input('dataInicial', sql.DateTime, dataInicialFormatada)
+            .input('dataFinal', sql.DateTime, dataFinalFormatada)
             .input('idCliente', sql.VarChar, idCliente)
             .input('idOperacao', sql.VarChar, idOperacao)
             .input('idDiretor', sql.VarChar, idDiretor)

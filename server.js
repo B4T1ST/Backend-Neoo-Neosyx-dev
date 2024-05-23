@@ -45,6 +45,7 @@ const feedbackRouter = require('./routes/gestaoPerformace/feedback/');
 const tortaRouter = require('./routes/gestaoPerformace/torta');
 const graficoBarraRouter = require('./routes/gestaoPerformace/graficoBarra/');
 const tabelasRouter = require('./routes/gestaoPerformace/tabelas/');
+const tabela_sRouter = require('./routes/gestaoPerformace/tabela_s/')
 const filtroRouter = require('./routes/gestaoPerformace/filtro/');
 const dataAtualizacaoRouter = require('./routes/gestaoPerformace/dataAtualizacao/');
 const feedbackPainelRouter = require('./routes/gestaoPerformace/feedbackPainel/');
@@ -55,20 +56,29 @@ const usuarioRouter = require('./routes/gestaoPerformace/usuario/');
 const kpiRouter = require('./routes/gestaoPerformace/KPI/');
 const fileView = require('./routes/fileView/index.js');
 const avatarRouter           = require('./routes/gestaoPerformace/avatar/index.js');
+const extratoRouter = require('./routes/gestaoPerformace/extrato');
 
 //gestao executiva
+const executivaAbsRouter = require("./routes/gestaoExecutiva/abs/index.js")
 const executivaIndicadoresRouter = require('./routes/gestaoExecutiva/indicador/');
 const executivaCardsRouter = require ('./routes/gestaoExecutiva/cards/index.js');
 const executivaVisaoGeralRouter = require ('./routes/gestaoExecutiva/visaoGeral/');
+const executivaGraficoSenioridadeRouter = require ('./routes/gestaoExecutiva/graficoSenioridade/');
+const executivaGraficoTurnoRouter = require ('./routes/gestaoExecutiva/graficoTurno/');
+const executivaGraficoModalidadeRouter = require ('./routes/gestaoExecutiva/graficoModalidade/');
 const executivaHierarquiaRouter = require ('./routes/gestaoExecutiva/hierarquia/');
 const executivaCorrelacaoRouter = require ('./routes/gestaoExecutiva/correlacao/');
 const executivaUsuarioRouter = require ('./routes/gestaoExecutiva/usuario/');
 const executivaDispersaoRouter = require ('./routes/gestaoExecutiva/dispersao/');
+const executivaDispersaoOperadorRouter = require ('./routes/gestaoExecutiva/dispersaoOperador/');
 const executivaFiltroRouter = require ('./routes/gestaoExecutiva/filtro/');
 const executivaMicroGestaoRouter = require ('./routes/gestaoExecutiva/microGestao/');
 const executivaExtracaoRouter = require ('./routes/gestaoExecutiva/extracao/');
 const executivaExtracaoMicroGestaoRouter = require ('./routes/gestaoExecutiva/extracaoMicroGestao/');
 const executivaDataAtualizacaoRouter = require ('./routes/gestaoExecutiva/dataAtualizacao/');
+const executivaGraficoDiaRouter = require ('./routes/gestaoExecutiva/GraficoDia/');
+const executivaLoginClienteRouter = require ('./routes/gestaoExecutiva/loginCliente/');
+const executivaDadosFiltroRouter = require ('./routes/gestaoExecutiva/dadosFiltro/');
 // const port = 4000;
 // const port = 8443;
 
@@ -91,6 +101,7 @@ app.use(express.text());
 //desabilitar o poweredby
 app.disable('x-powered-by');
 app.use(helmet())
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 //define as configurações da sessão. (máximo 30 min)
 app.use(session({
@@ -135,6 +146,9 @@ app.use(`${nginsxTag}/gestaoPerformace/filtro`, filtroRouter);
 //rota para tabelas dos graficos + extracao
 app.use(`${nginsxTag}/gestaoPerformace/tabela`, tabelasRouter);
 
+// rota para tabela_S
+app.use(`${nginsxTag}/gestaoPerformace/tabelas`, tabela_sRouter);
+
 //rota para KPI
 app.use(`${nginsxTag}/gestaoPerformace/kpi`, kpiRouter);
 
@@ -144,6 +158,13 @@ app.use(`${nginsxTag}/gestaoPerformace/feedbackHistorico`, feedbackHistoricoRout
 //rota para pop-up feedbackHistorico
 app.use(`${nginsxTag}/gestaoPerformace/feedback`, feedbackRouter)
 
+// rota de extrato
+app.use(`${nginsxTag}/gestaoPerformace/extrato`, extratoRouter)
+
+
+//rota para modulo abs gestao executiva 
+app.use(`${nginsxTag}/gestaoExecutiva/abs`, executivaAbsRouter)
+
 //rota para indicadores gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/indicadores`, executivaIndicadoresRouter)
 
@@ -152,6 +173,15 @@ app.use(`${nginsxTag}/gestaoExecutiva/cards`, executivaCardsRouter)
 
 //rota para Visao Geral gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/visaoGeral`, executivaVisaoGeralRouter)
+
+//rota para Grafico Senioridade gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/graficoSenioridade`, executivaGraficoSenioridadeRouter)
+
+//rota para Grafico Turno gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/graficoTurno`, executivaGraficoTurnoRouter)
+
+//rota para Grafico Modalidade gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/graficoModalidade`, executivaGraficoModalidadeRouter)
 
 //rota para Hierarquia gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/hierarquia`, executivaHierarquiaRouter)
@@ -164,6 +194,9 @@ app.use(`${nginsxTag}/gestaoExecutiva/usuario`, executivaUsuarioRouter)
 
 //rota para Dispersao Indicadores gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/dispersao`, executivaDispersaoRouter)
+
+//rota para Dispersao Operador Indicadores gestao executiva
+app.use(`${nginsxTag}/gestaoExecutiva/dispersaoOperador`, executivaDispersaoOperadorRouter)
 
 //rota para filtro gestao executiva
 app.use(`${nginsxTag}/gestaoExecutiva/filtro`, executivaFiltroRouter)
@@ -179,6 +212,15 @@ app.use(`${nginsxTag}/gestaoExecutiva/extracaoMicroGestao`, executivaExtracaoMic
 
 //rota para data atualizacao micro gestao
 app.use(`${nginsxTag}/gestaoExecutiva/dataAtualizacao`, executivaDataAtualizacaoRouter)
+
+//rota para grafico Dia Gestao Executiva
+app.use(`${nginsxTag}/gestaoExecutiva/graficoDia`, executivaGraficoDiaRouter)
+
+//rota para Login Cliente Gestao Executiva
+app.use(`${nginsxTag}/gestaoExecutiva/loginCliente`, executivaLoginClienteRouter)
+
+//rota para Dados Filtro Gestao Executiva
+app.use(`${nginsxTag}/gestaoExecutiva/dadosFiltros`, executivaDadosFiltroRouter)
 
 
 //carrega as rotas

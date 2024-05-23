@@ -17,32 +17,41 @@ router.get('/', function (req, res) {
         idGerente= "-1",
         idCoordenador= "-1",
         idSupervisor= "-1",
-        idOperador = "-1",
         cIndicador,
     } = req.query
 
-    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador, res);
+    retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, cIndicador, res);
 });
-
-async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, idOperador, cIndicador,  res) {
+// Função auxiliar para formatar a data
+function formatarData(data) {
+    if (data.includes(' ')) {
+        // Extrai a data e a hora da string
+        const [datePart, timePart] = data.split(' ');
+        // Formata a data e a hora no formato desejado
+        return `${datePart}T${timePart}.000Z`;
+    }
+    return data;
+  }
+async function retornaDados(dataInicial, dataFinal, idCliente, idOperacao, idDiretor, idGerente, idCoordenador, idSupervisor, cIndicador,  res) {
     try {
 
         let pool = await get('BDRechamadasGeral', connection)
-
-        let resultVisaoGeral = await pool.request()
-            .input('dataInicial', sql.DateTime, dataInicial)
-            .input('dataFinal', sql.DateTime, dataFinal)
+        const dataInicialFormatada = formatarData(dataInicial);
+        const dataFinalFormatada = formatarData(dataFinal);
+        let resultGraficoDia = await pool.request()
+            .input('dataInicial', sql.DateTime, dataInicialFormatada)
+            .input('dataFinal', sql.DateTime, dataFinalFormatada)
             .input('idCliente', sql.VarChar, idCliente)
             .input('idOperacao', sql.VarChar, idOperacao)
             .input('idDiretor', sql.VarChar, idDiretor)
             .input('idGerente', sql.VarChar, idGerente)
             .input('idCoordenador', sql.VarChar, idCoordenador)
             .input('idSupervisor', sql.VarChar, idSupervisor)
-            .input('idOperador', sql.VarChar, idOperador)
-            .execute('s_Gestao_Executiva_Retorna_Visao_Geral_v2')
+            .input('cIndicador', sql.VarChar, cIndicador)
+            .execute('s_Gestao_Executiva_Retorna_Grafico_Dia')
 
         let retorno = {
-            visaoGeral: resultVisaoGeral?.recordset,
+            GraficoDia: resultGraficoDia?.recordset,
         };
 
         res.json(retorno);

@@ -1,11 +1,11 @@
 {
   "port"       : 1433,
-  "server"    : "35.247.231.34",
-  "user"      : "neosyx",
-  "password"  : "@g0r@0ununc@",
+  "server"    : "172.16.201.130",
+  "user"      : "usr_coletores",
+  "password"  : "Neosyx@2023",
   "database"  : "BDRechamadasGeral",
   "stream"    : false,
-  "requestTimeout"          : 60000,
+  "requestTimeout"          : 200000,
   "options": {
     "trustedConnection"       : true,
     "encrypt"                 : true,
